@@ -262,6 +262,24 @@
                 url: "https://jebin2.github.io/Text-Reader",
                 image: "https://jebin2.github.io/Text-Reader/image.png"
             },
+            {
+                title: "Python Custom Logger",
+                url: "https://github.com/jebin2/custom_logger",
+                image: "https://raw.githubusercontent.com/jebin2/custom_logger/e9fe0f8aedeaff8209fcfd3ca12b01da816fcb05/image.png",
+                no_page: true
+            },
+            {
+                title: "X Automation with AI",
+                url: "https://github.com/jebin2/XPal",
+                image: "https://raw.githubusercontent.com/jebin2/XPal/f0fdd42ea2e709e403a6985909c0e1a4c5564613/image.png",
+                no_page: true
+            },
+            {
+                title: "Gemini Wrapper",
+                url: "https://github.com/jebin2/gemiwrap",
+                image: "https://raw.githubusercontent.com/jebin2/gemiwrap/3b8e2c1c2922a62519f223bfb8eeb74f2ca64456/image.png",
+                no_page: true
+            },
             // Add new projects here...
         ];
 
@@ -272,7 +290,11 @@
             projects.forEach(project => {
                 const card = document.createElement('div');
                 card.className = 'card';
-                card.setAttribute('onclick', `openIframe('${project.url}')`);
+                if (project.no_page) {
+                    card.setAttribute('onclick', `window.open('${project.url}', '_blank')`);
+                } else {
+                    card.setAttribute('onclick', `openIframe('${project.url}')`);
+                }
 
                 card.innerHTML = `
             <img src="${project.image}" alt="${project.title} Preview">
