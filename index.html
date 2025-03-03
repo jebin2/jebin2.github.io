@@ -10,7 +10,7 @@
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            font-family: 'Courier New', monospace;
         }
 
         html,
@@ -19,7 +19,7 @@
         }
 
         body {
-            background: #000;
+            background: #222;
             color: #fff;
             line-height: 1.6;
             overflow-x: hidden;
@@ -42,179 +42,215 @@
             width: 100%;
             text-align: center;
             margin-bottom: 2rem;
-            border-bottom: 1px solid #333;
+            border-bottom: 4px solid #3fe0c5;
             padding-bottom: 1rem;
+            position: relative;
+        }
+
+        header::after {
+            content: "";
+            position: absolute;
+            bottom: -14px;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background-color: #5438dc;
         }
 
         header h1 {
             font-size: 3rem;
             letter-spacing: -0.05em;
             margin: 1rem 0;
+            text-transform: uppercase;
+            font-weight: 900;
         }
 
         header nav {
             display: flex;
             justify-content: center;
-            gap: 1.5rem;
+            gap: 2rem;
             margin-top: 1rem;
         }
 
         header nav a {
             color: #fff;
             text-decoration: none;
-            border-bottom: 1px solid #666;
-            transition: border-color 0.2s;
-            cursor: pointer;
+            border: 3px solid #5438dc;
+            padding: 0.5rem 1rem;
+            text-transform: uppercase;
+            font-weight: bold;
+            transition: all 0.2s;
+            position: relative;
+            box-shadow: 5px 5px 0 #3fe0c5;
         }
 
         header nav a:hover {
-            border-color: #fff;
+            transform: translate(5px, 5px);
+            box-shadow: 0 0 10px #3fe0c5, 0 0 20px #3fe0c5, 0 0 30px #3fe0c5;
         }
 
         .search-bar {
             width: 100%;
             max-width: 500px;
             margin: 2rem 0;
-            padding: 0.5rem;
-            font-size: 1rem;
-            border: 1px solid #fff;
-            border-radius: 5px;
-            background: transparent;
+            padding: 1rem;
+            font-size: 1.2rem;
+            font-weight: bold;
+            border: 4px solid #5438dc;
+            background: #333;
             color: #fff;
+            box-shadow: 7px 7px 0 #3fe0c5;
+            transition: all 0.2s;
+        }
+
+        .search-bar:focus {
+            outline: none;
+            transform: translate(8px, 8px);
+            box-shadow: 0 0 10px #3fe0c5, 0 0 20px #3fe0c5, 0 0 30px #3fe0c5;
         }
 
         .search-bar::placeholder {
-            color: #ccc;
+            color: #999;
+            text-transform: uppercase;
         }
 
         .card-container {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 1.5rem;
-            justify-content: center;
-            margin-top: 1rem;
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+            gap: 2.5rem;
+            width: 100%;
+            max-width: 1400px;
+            margin-top: 2rem;
         }
 
         .card {
-            width: 300px;
-            border: 1px solid #333;
-            border-radius: 8px;
+            border: 4px solid #5438dc;
             overflow: hidden;
             cursor: pointer;
-            transition: transform 0.2s, border-color 0.2s;
+            transition: all 0.3s;
+            background: #333;
+            position: relative;
+            box-shadow: 10px 10px 0 #3fe0c5;
         }
 
         .card:hover {
-            transform: scale(1.05);
-            border-color: #fff;
+            transform: translate(10px, 10px);
+            box-shadow: 0 0 10px #3fe0c5, 0 0 20px #3fe0c5, 0 0 30px #3fe0c5;
         }
 
         .card img {
             width: 100%;
-            height: 150px;
+            height: 180px;
             object-fit: cover;
+            border-bottom: 4px solid #5438dc;
         }
 
-        .card h3 {
-            white-space: nowrap;
-            text-overflow: ellipsis;
-            overflow: hidden;
+        .card-footer {
             padding: 1rem;
-            text-align: center;
-            font-size: 1.2rem;
-            background: #111;
-            margin: 0;
+            background: #333;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .card-footer h3 {
+            font-size: 1.4rem;
+            text-transform: uppercase;
+            font-weight: 900;
+            letter-spacing: -0.03em;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .card-footer a {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: #5438dc;
+            width: 45px;
+            height: 45px;
+            border: 3px solid #fff;
+            transition: all 0.2s;
+        }
+
+        .card-footer a:hover {
+            transform: rotate(10deg);
+            background: #3fe0c5;
+        }
+
+        .card-footer svg {
+            width: 24px;
+            height: 24px;
+            stroke: #fff;
+            stroke-width: 3;
         }
 
         .iframe-modal {
             display: none;
             position: fixed;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            width: 90%;
-            height: 90%;
-            background: rgba(0, 0, 0, 0.9);
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(34, 34, 34, 0.95);
             z-index: 1000;
             padding: 2rem;
-            align-items: center;
-            justify-content: center;
+        }
+
+        .modal-content {
+            position: relative;
+            width: 90%;
+            height: 90%;
+            max-width: 1200px;
+            margin: 2% auto;
+            border: 6px solid #5438dc;
+            box-shadow: 15px 15px 0 #3fe0c5;
+            background: #222;
         }
 
         .iframe-modal iframe {
             border: none;
             width: 100%;
             height: 100%;
-            border-radius: 8px;
-            box-shadow:
-                0 0 10px rgba(255, 255, 255, 0.3),
-                0 0 20px rgba(255, 255, 255, 0.2),
-                0 0 30px rgba(255, 255, 255, 0.1);
         }
 
         .close-btn {
             position: absolute;
-            top: 1rem;
-            right: 1rem;
-            font-size: 1.5rem;
+            top: -25px;
+            right: -25px;
+            font-size: 2rem;
             cursor: pointer;
-            padding: 0 0.5rem;
-            background: #000;
-            border-radius: 50%;
-            width: 40px;
-            height: 40px;
+            background: #5438dc;
+            color: #fff;
+            width: 50px;
+            height: 50px;
             display: flex;
             align-items: center;
             justify-content: center;
-            border: none;
-            box-shadow:
-                0 0 5px rgba(255, 255, 255, 0.3),
-                0 0 10px rgba(255, 255, 255, 0.2),
-                0 0 15px rgba(255, 255, 255, 0.1);
-            transition: box-shadow 0.3s ease;
+            border: 4px solid #fff;
+            transition: all 0.2s;
+            font-weight: bold;
+            z-index: 1001;
         }
 
         .close-btn:hover {
-            background: #333;
-            box-shadow:
-                0 0 8px rgba(255, 255, 255, 0.4),
-                0 0 15px rgba(255, 255, 255, 0.3),
-                0 0 20px rgba(255, 255, 255, 0.2);
+            background: #3fe0c5;
+            transform: rotate(10deg);
         }
 
-        .card-footer {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            background: #111;
-            border-top: 1px solid #333;
-        }
+        @media (max-width: 768px) {
+            .card-container {
+                grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            }
 
-        .card-footer h3 {
-            flex: 0 0 70%;
-            margin: 0;
-            text-align: left;
-            font-size: 1.2rem;
-            padding-right: 1rem;
-        }
-
-        .card-footer a {
-            flex: 0 0 30%;
-            display: flex;
-            justify-content: flex-end;
-            color: #fff;
-            text-decoration: none;
-            transition: opacity 0.2s;
-            padding-right: 1rem;
-        }
-
-        .card-footer a:hover {
-            opacity: 0.7;
-        }
-
-        .card-footer svg {
-            width: 24px;
-            height: 24px;
+            .close-btn {
+                top: -20px;
+                right: -10px;
+                width: 40px;
+                height: 40px;
+                font-size: 1.5rem;
+            }
         }
     </style>
 </head>
@@ -238,8 +274,10 @@
 
     <!-- Iframe Modal -->
     <div id="iframeModal" class="iframe-modal">
-        <span class="close-btn" onclick="closeIframe()">&times;</span>
-        <iframe id="iframeContent" src=""></iframe>
+        <div class="modal-content">
+            <span class="close-btn" onclick="closeIframe()">&times;</span>
+            <iframe id="iframeContent" src=""></iframe>
+        </div>
     </div>
 
     <script>
@@ -284,7 +322,7 @@
                 no_page: true
             },
             {
-                title: "DateTime COnverter",
+                title: "DateTime Converter",
                 url: "https://jebin2.github.io/datetimeconverter",
                 image: "https://jebin2.github.io/datetimeconverter/image.png"
             },
@@ -305,32 +343,35 @@
                 }
 
                 card.innerHTML = `
-            <img src="${project.image}" alt="${project.title} Preview">
-            <div class="card-footer">
-                <h3 title="${project.title}">${project.title}</h3>
-                <a href="${project.url}" target="_blank" onclick="event.stopPropagation()">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
-                        stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
-                        class="feather feather-external-link">
-                        <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
-                        <polyline points="15 3 21 3 21 9"></polyline>
-                        <line x1="10" y1="14" x2="21" y2="3"></line>
-                    </svg>
-                </a>
-            </div>
-        `;
+                    <img src="${project.image}" alt="${project.title} Preview">
+                    <div class="card-footer">
+                        <h3 title="${project.title}">${project.title}</h3>
+                        <a href="${project.url}" target="_blank" onclick="event.stopPropagation()">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none"
+                                stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
+                                class="feather feather-external-link">
+                                <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
+                                <polyline points="15 3 21 3 21 9"></polyline>
+                                <line x1="10" y1="14" x2="21" y2="3"></line>
+                            </svg>
+                        </a>
+                    </div>
+                `;
 
                 cardContainer.appendChild(card);
             });
         }
+
         // Initialize cards when DOM is loaded
         document.addEventListener('DOMContentLoaded', createCards);
+
         // Open iframe modal
         function openIframe(url) {
             const iframeModal = document.getElementById('iframeModal');
             const iframeContent = document.getElementById('iframeContent');
             iframeContent.src = url;
             iframeModal.style.display = 'block';
+            document.body.style.overflow = 'hidden';
         }
 
         // Close iframe modal
@@ -339,6 +380,7 @@
             const iframeContent = document.getElementById('iframeContent');
             iframeContent.src = '';
             iframeModal.style.display = 'none';
+            document.body.style.overflow = 'auto';
         }
 
         // Close modal when clicking outside
