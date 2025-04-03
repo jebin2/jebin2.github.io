@@ -4,7 +4,7 @@
 <head>
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<title>Jebin's Portfolio - Storybook Style</title>
+	<title>Jebin2 Book View</title>
 	<style>
 		@import url('https://fonts.googleapis.com/css2?family=Nunito:wght@400;700;800&display=swap');
 
@@ -270,6 +270,7 @@
 			justify-content: center;
 			gap: 25px;
 			z-index: 1000;
+			display: none;
 		}
 
 		.navigation button {
@@ -528,7 +529,7 @@
 				</g>
 			</svg>
 		</div>
-		<h2 style="color: white; margin-top: 20px; font-weight: 700;">Loading Portfolio...</h2>
+		<h2 style="color: white; margin-top: 20px; font-weight: 700;">Loading Creativity...</h2>
 	</div>
 
 	<a href="https://github.com/jebin2" target="_blank" class="profile-link">GitHub</a>
@@ -617,7 +618,7 @@
 			const pageNumHTML = `<div class="page-number left-align">Page ${pageNumber}</div>`;
 			return `
                 <h2>Thank You</h2>
-                <p>Thanks for exploring my project portfolio!</p>
+                <p>Thanks for exploring my projects!</p>
                 <p>Feel free to reach out or check my GitHub.</p>
 				<button id="closeBtn" class="visit-btn" onclick="closeBook()">Close</button>
             `;
@@ -636,8 +637,8 @@
 			const coverFront = document.createElement('div');
 			coverFront.className = 'page-face page-front cover-face-front';
 			coverFront.innerHTML = `
-                <h1>My Portfolio</h1>
-                <p>Welcome to my project showcase</p>
+                <h1>My Overthinking</h1>
+                <p>Welcome to my chaos</p>
                 <button class="visit-btn" onclick="openBook()">Open</button>
                 <!-- No page number on cover front -->
             `;
