@@ -170,7 +170,7 @@ with monospace font and background.
 
 ## Images
 
-![Sample Image](https://via.placeholder.com/600x300/4c51bf/ffffff?text=Sample+Blog+Image)
+![Sample Image](index.png)
 
 *Caption: This is a sample image with a caption below it.*
 
