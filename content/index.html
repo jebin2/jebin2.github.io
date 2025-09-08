@@ -28,7 +28,9 @@
                 })
                 .then(md => {
                     document.getElementById('content').innerHTML = marked.parse(md);
-                    create_progressbar()
+                    setTimeout(() => {
+                        create_progressbar()
+                    }, 500);
                 })
                 .catch(err => {
                     document.getElementById('content').innerHTML = `<p style="color:red;">Error: ${err.message}</p>`;
