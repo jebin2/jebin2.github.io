@@ -12,32 +12,48 @@
         #themeSwitcher {
             position: fixed;
             top: 20px;
-            /* distance from top */
             right: 20px;
-            /* distance from right */
             z-index: 1001;
-            /* above other elements */
             padding: 0.5rem 0.75rem;
-            font-size: 1rem;
+            font-size: 0.95rem;
+            font-weight: 500;
             border-radius: 8px;
             border: 1px solid var(--border-color);
             background-color: var(--white);
             color: var(--text-primary);
+            font-family: inherit;
             cursor: pointer;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
             transition: all 0.2s ease;
+            appearance: none;
+            /* removes default OS arrow */
+            background-image: linear-gradient(to bottom, var(--white), #f0f0f0);
         }
 
-        /* Hover effect */
-        #themeSwitcher:hover {
+        /* Hover + Focus */
+        #themeSwitcher:hover,
+        #themeSwitcher:focus {
             box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
-            transform: translateY(-2px);
             border-color: var(--accent-primary);
+            outline: none;
+            transform: translateY(-2px);
         }
 
-        /* Style options */
+        /* Dropdown Options */
         #themeSwitcher option {
+            background-color: var(--white);
+            color: var(--text-primary);
             padding: 0.5rem;
+            font-size: 0.95rem;
+            font-family: inherit;
+            border: none;
+        }
+
+        /* Hover effect inside dropdown (works on most browsers) */
+        #themeSwitcher option:checked,
+        #themeSwitcher option:hover {
+            background-color: var(--accent-primary);
+            color: var(--white);
         }
     </style>
 </head>
