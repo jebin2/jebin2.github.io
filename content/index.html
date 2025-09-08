@@ -5,7 +5,41 @@
     <meta charset="UTF-8">
     <title>Dynamic Markdown Blog</title>
     <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
-    <link rel="stylesheet" href="style.css"> <!-- your custom CSS -->
+    <link id="theme1" rel="stylesheet" href="style.css">
+    <link id="theme2" rel="stylesheet" href="style1.css" disabled>
+    <style>
+        /* Theme Switcher Floating Button */
+        #themeSwitcher {
+            position: fixed;
+            top: 20px;
+            /* distance from top */
+            right: 20px;
+            /* distance from right */
+            z-index: 1001;
+            /* above other elements */
+            padding: 0.5rem 0.75rem;
+            font-size: 1rem;
+            border-radius: 8px;
+            border: 1px solid var(--border-color);
+            background-color: var(--white);
+            color: var(--text-primary);
+            cursor: pointer;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            transition: all 0.2s ease;
+        }
+
+        /* Hover effect */
+        #themeSwitcher:hover {
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+            transform: translateY(-2px);
+            border-color: var(--accent-primary);
+        }
+
+        /* Style options */
+        #themeSwitcher option {
+            padding: 0.5rem;
+        }
+    </style>
 </head>
 
 <body>
@@ -13,7 +47,11 @@
         Loading...
     </div>
     <div class="scroll-progress"></div>
-    
+    <select id="themeSwitcher">
+        <option value="theme1">Theme 1</option>
+        <option value="theme2">Theme 2</option>
+    </select>
+
     <!-- Image Modal -->
     <div id="imageModal" class="image-modal">
         <div class="modal-content">
@@ -62,13 +100,22 @@
                 progressBar.style.width = scrolled + '%';
             });
         };
+        const themeSwitcher = document.getElementById('themeSwitcher');
+        themeSwitcher.addEventListener('change', (e) => {
+            const selected = e.target.value;
+
+            // Enable the selected theme and disable the other
+            document.getElementById('theme1').disabled = (selected !== 'theme1');
+            document.getElementById('theme2').disabled = (selected !== 'theme2');
+        });
+
 
         // Image popup functionality
         function setupImagePopups() {
             const images = document.querySelectorAll('.container img');
-            
+
             images.forEach(img => {
-                img.addEventListener('click', function() {
+                img.addEventListener('click', function () {
                     openImageModal(this.src, this.alt || '');
                 });
             });
@@ -77,24 +124,24 @@
         function openImageModal(imageSrc, altText) {
             const modal = document.getElementById('imageModal');
             const modalContainer = document.getElementById('modalImageContainer');
-            
+
             // Show modal
             modal.classList.add('show');
             document.body.style.overflow = 'hidden';
-            
+
             // Show loading spinner
             modalContainer.innerHTML = '<div class="modal-spinner"></div>';
-            
+
             // Create new image element
             const modalImg = document.createElement('img');
             modalImg.className = 'modal-image';
             modalImg.alt = altText;
-            
+
             // Handle image load
-            modalImg.onload = function() {
+            modalImg.onload = function () {
                 modalContainer.innerHTML = '';
                 modalContainer.appendChild(modalImg);
-                
+
                 // Add caption if alt text exists
                 if (altText) {
                     const caption = document.createElement('div');
@@ -103,12 +150,12 @@
                     modalContainer.appendChild(caption);
                 }
             };
-            
+
             // Handle image error
-            modalImg.onerror = function() {
+            modalImg.onerror = function () {
                 modalContainer.innerHTML = '<div style="color: white; text-align: center; padding: 20px;">Failed to load image</div>';
             };
-            
+
             // Set image source (this triggers loading)
             modalImg.src = imageSrc;
         }
@@ -120,21 +167,21 @@
         }
 
         // Close modal when clicking outside the image
-        document.getElementById('imageModal').addEventListener('click', function(e) {
+        document.getElementById('imageModal').addEventListener('click', function (e) {
             if (e.target === this) {
                 closeImageModal();
             }
         });
 
         // Close modal with Escape key
-        document.addEventListener('keydown', function(e) {
+        document.addEventListener('keydown', function (e) {
             if (e.key === 'Escape') {
                 closeImageModal();
             }
         });
 
         // Prevent modal from closing when clicking on the modal content
-        document.querySelector('.modal-content').addEventListener('click', function(e) {
+        document.querySelector('.modal-content').addEventListener('click', function (e) {
             e.stopPropagation();
         });
     </script>
