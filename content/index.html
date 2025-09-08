@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Dynamic Markdown Blog</title>
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+    <link rel="stylesheet" href="style.css"> <!-- your custom CSS -->
+</head>
+
+<body>
+    <div class="container" id="content">
+        Loading...
+    </div>
+
+    <script>
+        const params = new URLSearchParams(window.location.search);
+        const page = params.get('page');
+
+        if (page) {
+            // Construct full URL to the Markdown file on GitHub Pages
+            const url = `https://jebin2.github.io/blog/${page}`;
+
+            fetch(url)
+                .then(response => {
+                    if (!response.ok) throw new Error('Markdown file not found');
+                    return response.text();
+                })
+                .then(md => {
+                    document.getElementById('content').innerHTML = marked.parse(md);
+                })
+                .catch(err => {
+                    document.getElementById('content').innerHTML = `<p style="color:red;">Error: ${err.message}</p>`;
+                });
+        } else {
+            document.getElementById('content').innerHTML = '<p>No page specified</p>';
+        }
+
+
+    </script>
+</body>
+
+</html>
