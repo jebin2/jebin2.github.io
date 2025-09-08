@@ -2,205 +2,184 @@
 <html lang="en">
 
 <head>
-    <meta charset="UTF-8">
-    <title>Dynamic Markdown Blog</title>
-    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
-    <link id="theme1" rel="stylesheet" href="style.css" disabled>
-    <link id="theme2" rel="stylesheet" href="style1.css">
-    <style>
-        /* Theme Switcher Floating Button */
-        #themeSwitcher {
-            position: fixed;
-            top: 20px;
-            right: 20px;
-            z-index: 1001;
-            padding: 0.5rem 0.75rem;
-            font-size: 0.95rem;
-            font-weight: 500;
-            border-radius: 8px;
-            border: 1px solid var(--border-color);
-            background-color: var(--white);
-            color: var(--text-primary);
-            font-family: inherit;
-            cursor: pointer;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-            transition: all 0.2s ease;
-            appearance: none;
-            /* removes default OS arrow */
-            background-image: linear-gradient(to bottom, var(--white), #f0f0f0);
-        }
+  <meta charset="UTF-8">
+  <title>Dynamic Markdown Blog</title>
+  <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
 
-        /* Hover + Focus */
-        #themeSwitcher:hover,
-        #themeSwitcher:focus {
-            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
-            border-color: var(--accent-primary);
-            outline: none;
-            transform: translateY(-2px);
-        }
+  <!-- Themes -->
+  <link class="theme" id="theme1" rel="stylesheet" href="style1.css" disabled>
+  <link class="theme" id="theme2" rel="stylesheet" href="style2.css">
+  <link class="theme" id="theme3" rel="stylesheet" href="style3.css" disabled>
+  <link class="theme" id="theme4" rel="stylesheet" href="style4.css" disabled>
 
-        /* Dropdown Options */
-        #themeSwitcher option {
-            background-color: var(--white);
-            color: var(--text-primary);
-            padding: 0.5rem;
-            font-size: 0.95rem;
-            font-family: inherit;
-            border: none;
-        }
+  <style>
+    /* Theme Switcher Floating Dropdown */
+    #themeSwitcher {
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      z-index: 1001;
+      padding: 0.5rem 0.75rem;
+      font-size: 0.95rem;
+      font-weight: 500;
+      border-radius: 8px;
+      border: 1px solid var(--border-color, #ccc);
+      background-color: var(--white, #fff);
+      color: var(--text-primary, #333);
+      font-family: inherit;
+      cursor: pointer;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      transition: all 0.2s ease;
+      appearance: none;
+      background-image: linear-gradient(to bottom, var(--white, #fff), #f0f0f0);
+    }
 
-        /* Hover effect inside dropdown (works on most browsers) */
-        #themeSwitcher option:checked,
-        #themeSwitcher option:hover {
-            background-color: var(--accent-primary);
-            color: var(--white);
-        }
-    </style>
+    #themeSwitcher:hover,
+    #themeSwitcher:focus {
+      box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+      border-color: var(--accent-primary, #007bff);
+      outline: none;
+      transform: translateY(-2px);
+    }
+
+    /* Dropdown Options (inheriting theme vars) */
+    #themeSwitcher option {
+      background-color: var(--white, #fff);
+      color: var(--text-primary, #333);
+      padding: 0.5rem;
+      font-size: 0.95rem;
+      font-family: inherit;
+      border: none;
+    }
+
+    #themeSwitcher option:checked,
+    #themeSwitcher option:hover {
+      background-color: var(--accent-primary, #007bff);
+      color: var(--white, #fff);
+    }
+  </style>
 </head>
 
 <body>
-    <div class="container" id="content">
-        Loading...
+  <div class="container" id="content">Loading...</div>
+  <div class="scroll-progress"></div>
+
+  <select id="themeSwitcher"></select>
+
+  <!-- Image Modal -->
+  <div id="imageModal" class="image-modal">
+    <div class="modal-content">
+      <button class="close-btn" onclick="closeImageModal()">&times;</button>
+      <div id="modalImageContainer">
+        <div class="modal-spinner"></div>
+      </div>
     </div>
-    <div class="scroll-progress"></div>
-    <select id="themeSwitcher">
-        <option value="theme2">Theme 2</option>
-        <option value="theme1">Theme 1</option>
-    </select>
+  </div>
 
-    <!-- Image Modal -->
-    <div id="imageModal" class="image-modal">
-        <div class="modal-content">
-            <button class="close-btn" onclick="closeImageModal()">&times;</button>
-            <div id="modalImageContainer">
-                <div class="modal-spinner"></div>
-            </div>
-        </div>
-    </div>
+  <script>
+    const params = new URLSearchParams(window.location.search);
+    const page = params.get('page');
 
-    <script>
-        const params = new URLSearchParams(window.location.search);
-        const page = params.get('page');
-
-        if (page) {
-            // Construct full URL to the Markdown file on GitHub Pages
-            const url = `https://jebin2.github.io/blog/${page}`;
-
-            fetch(url)
-                .then(response => {
-                    if (!response.ok) throw new Error('Markdown file not found');
-                    return response.text();
-                })
-                .then(md => {
-                    document.getElementById('content').innerHTML = marked.parse(md);
-                    setTimeout(() => {
-                        create_progressbar();
-                        setupImagePopups();
-                    }, 500);
-                })
-                .catch(err => {
-                    document.getElementById('content').innerHTML = `<p style="color:red;">Error: ${err.message}</p>`;
-                });
-        } else {
-            document.getElementById('content').innerHTML = '<p>No page specified</p>';
-        }
-
-        create_progressbar = () => {
-            const progressBar = document.querySelector('.scroll-progress');
-
-            window.addEventListener('scroll', () => {
-                const winScroll = document.body.scrollTop || document.documentElement.scrollTop;
-                const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
-                const scrolled = (winScroll / height) * 100;
-
-                progressBar.style.width = scrolled + '%';
-            });
-        };
-        const themeSwitcher = document.getElementById('themeSwitcher');
-        themeSwitcher.addEventListener('change', (e) => {
-            const selected = e.target.value;
-
-            // Enable the selected theme and disable the other
-            document.getElementById('theme1').disabled = (selected !== 'theme1');
-            document.getElementById('theme2').disabled = (selected !== 'theme2');
+    if (page) {
+      const url = `https://jebin2.github.io/blog/${page}`;
+      fetch(url)
+        .then(r => {
+          if (!r.ok) throw new Error('Markdown file not found');
+          return r.text();
+        })
+        .then(md => {
+          document.getElementById('content').innerHTML = marked.parse(md);
+          setTimeout(() => {
+            create_progressbar();
+            setupImagePopups();
+          }, 500);
+        })
+        .catch(err => {
+          document.getElementById('content').innerHTML = `<p style="color:red;">Error: ${err.message}</p>`;
         });
+    } else {
+      document.getElementById('content').innerHTML = '<p>No page specified</p>';
+    }
 
+    function create_progressbar() {
+      const progressBar = document.querySelector('.scroll-progress');
+      window.addEventListener('scroll', () => {
+        const winScroll = document.body.scrollTop || document.documentElement.scrollTop;
+        const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+        const scrolled = (winScroll / height) * 100;
+        progressBar.style.width = scrolled + '%';
+      });
+    }
 
-        // Image popup functionality
-        function setupImagePopups() {
-            const images = document.querySelectorAll('.container img');
+    /* THEME SWITCHER - Dynamic */
+    const themeLinks = document.querySelectorAll('.theme');
+    const themeSwitcher = document.getElementById('themeSwitcher');
 
-            images.forEach(img => {
-                img.addEventListener('click', function () {
-                    openImageModal(this.src, this.alt || '');
-                });
-            });
+    // Populate dropdown
+    themeLinks.forEach(link => {
+      const option = document.createElement('option');
+      option.value = link.id;
+      option.textContent = link.id.replace('theme', 'Theme ');
+      option.selected = !link.disabled;
+      themeSwitcher.appendChild(option);
+    });
+
+    // Handle theme change
+    themeSwitcher.addEventListener('change', e => {
+      const selected = e.target.value;
+      themeLinks.forEach(link => {
+        link.disabled = (link.id !== selected);
+      });
+    });
+
+    /* IMAGE MODAL */
+    function setupImagePopups() {
+      const images = document.querySelectorAll('.container img');
+      images.forEach(img => {
+        img.addEventListener('click', () => openImageModal(img.src, img.alt || ''));
+      });
+    }
+
+    function openImageModal(src, altText) {
+      const modal = document.getElementById('imageModal');
+      const modalContainer = document.getElementById('modalImageContainer');
+      modal.classList.add('show');
+      document.body.style.overflow = 'hidden';
+      modalContainer.innerHTML = '<div class="modal-spinner"></div>';
+
+      const modalImg = document.createElement('img');
+      modalImg.className = 'modal-image';
+      modalImg.alt = altText;
+
+      modalImg.onload = () => {
+        modalContainer.innerHTML = '';
+        modalContainer.appendChild(modalImg);
+        if (altText) {
+          const caption = document.createElement('div');
+          caption.className = 'image-caption';
+          caption.textContent = altText;
+          modalContainer.appendChild(caption);
         }
+      };
+      modalImg.onerror = () => {
+        modalContainer.innerHTML = '<div style="color: white; text-align: center; padding: 20px;">Failed to load image</div>';
+      };
+      modalImg.src = src;
+    }
 
-        function openImageModal(imageSrc, altText) {
-            const modal = document.getElementById('imageModal');
-            const modalContainer = document.getElementById('modalImageContainer');
+    function closeImageModal() {
+      document.getElementById('imageModal').classList.remove('show');
+      document.body.style.overflow = 'auto';
+    }
 
-            // Show modal
-            modal.classList.add('show');
-            document.body.style.overflow = 'hidden';
-
-            // Show loading spinner
-            modalContainer.innerHTML = '<div class="modal-spinner"></div>';
-
-            // Create new image element
-            const modalImg = document.createElement('img');
-            modalImg.className = 'modal-image';
-            modalImg.alt = altText;
-
-            // Handle image load
-            modalImg.onload = function () {
-                modalContainer.innerHTML = '';
-                modalContainer.appendChild(modalImg);
-
-                // Add caption if alt text exists
-                if (altText) {
-                    const caption = document.createElement('div');
-                    caption.className = 'image-caption';
-                    caption.textContent = altText;
-                    modalContainer.appendChild(caption);
-                }
-            };
-
-            // Handle image error
-            modalImg.onerror = function () {
-                modalContainer.innerHTML = '<div style="color: white; text-align: center; padding: 20px;">Failed to load image</div>';
-            };
-
-            // Set image source (this triggers loading)
-            modalImg.src = imageSrc;
-        }
-
-        function closeImageModal() {
-            const modal = document.getElementById('imageModal');
-            modal.classList.remove('show');
-            document.body.style.overflow = 'auto';
-        }
-
-        // Close modal when clicking outside the image
-        document.getElementById('imageModal').addEventListener('click', function (e) {
-            if (e.target === this) {
-                closeImageModal();
-            }
-        });
-
-        // Close modal with Escape key
-        document.addEventListener('keydown', function (e) {
-            if (e.key === 'Escape') {
-                closeImageModal();
-            }
-        });
-
-        // Prevent modal from closing when clicking on the modal content
-        document.querySelector('.modal-content').addEventListener('click', function (e) {
-            e.stopPropagation();
-        });
-    </script>
+    document.getElementById('imageModal').addEventListener('click', e => {
+      if (e.target === e.currentTarget) closeImageModal();
+    });
+    document.addEventListener('keydown', e => {
+      if (e.key === 'Escape') closeImageModal();
+    });
+    document.querySelector('.modal-content').addEventListener('click', e => e.stopPropagation());
+  </script>
 </body>
 
 </html>
