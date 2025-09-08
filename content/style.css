@@ -125,3 +125,66 @@ th {
     padding: 1rem;
   }
 }
+
+
+
+/* Pure CSS Scroll Progress Bar */
+body {
+    scroll-timeline: --page-scroll y;
+}
+
+@keyframes progress {
+    from {
+        transform: scaleX(0);
+    }
+    to {
+        transform: scaleX(1);
+    }
+}
+
+.scroll-progress {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 4px;
+    background: transparent;
+    z-index: 1000;
+}
+
+.scroll-progress::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(to right, var(--accent-primary), var(--accent-secondary));
+    transform-origin: left;
+    animation: progress linear;
+    animation-timeline: --page-scroll;
+}
+
+/* Fallback for browsers that don't support scroll timeline */
+@supports not (animation-timeline: --page-scroll) {
+    .scroll-progress::before {
+        display: none;
+    }
+}
+
+/* Mobile Responsiveness */
+@media (max-width: 768px) {
+    .scroll-progress {
+        height: 3px;
+    }
+}
+.scroll-progress {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 0;
+    height: 4px;
+    background: linear-gradient(to right, var(--accent-primary), var(--accent-secondary));
+    z-index: 1000;
+    transition: width 0.2s ease;
+}
