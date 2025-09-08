@@ -13,6 +13,17 @@
         Loading...
     </div>
     <div class="scroll-progress"></div>
+    
+    <!-- Image Modal -->
+    <div id="imageModal" class="image-modal">
+        <div class="modal-content">
+            <button class="close-btn" onclick="closeImageModal()">&times;</button>
+            <div id="modalImageContainer">
+                <div class="modal-spinner"></div>
+            </div>
+        </div>
+    </div>
+
     <script>
         const params = new URLSearchParams(window.location.search);
         const page = params.get('page');
@@ -29,7 +40,8 @@
                 .then(md => {
                     document.getElementById('content').innerHTML = marked.parse(md);
                     setTimeout(() => {
-                        create_progressbar()
+                        create_progressbar();
+                        setupImagePopups();
                     }, 500);
                 })
                 .catch(err => {
@@ -38,7 +50,6 @@
         } else {
             document.getElementById('content').innerHTML = '<p>No page specified</p>';
         }
-
 
         create_progressbar = () => {
             const progressBar = document.querySelector('.scroll-progress');
@@ -51,6 +62,81 @@
                 progressBar.style.width = scrolled + '%';
             });
         };
+
+        // Image popup functionality
+        function setupImagePopups() {
+            const images = document.querySelectorAll('.container img');
+            
+            images.forEach(img => {
+                img.addEventListener('click', function() {
+                    openImageModal(this.src, this.alt || '');
+                });
+            });
+        }
+
+        function openImageModal(imageSrc, altText) {
+            const modal = document.getElementById('imageModal');
+            const modalContainer = document.getElementById('modalImageContainer');
+            
+            // Show modal
+            modal.classList.add('show');
+            document.body.style.overflow = 'hidden';
+            
+            // Show loading spinner
+            modalContainer.innerHTML = '<div class="modal-spinner"></div>';
+            
+            // Create new image element
+            const modalImg = document.createElement('img');
+            modalImg.className = 'modal-image';
+            modalImg.alt = altText;
+            
+            // Handle image load
+            modalImg.onload = function() {
+                modalContainer.innerHTML = '';
+                modalContainer.appendChild(modalImg);
+                
+                // Add caption if alt text exists
+                if (altText) {
+                    const caption = document.createElement('div');
+                    caption.className = 'image-caption';
+                    caption.textContent = altText;
+                    modalContainer.appendChild(caption);
+                }
+            };
+            
+            // Handle image error
+            modalImg.onerror = function() {
+                modalContainer.innerHTML = '<div style="color: white; text-align: center; padding: 20px;">Failed to load image</div>';
+            };
+            
+            // Set image source (this triggers loading)
+            modalImg.src = imageSrc;
+        }
+
+        function closeImageModal() {
+            const modal = document.getElementById('imageModal');
+            modal.classList.remove('show');
+            document.body.style.overflow = 'auto';
+        }
+
+        // Close modal when clicking outside the image
+        document.getElementById('imageModal').addEventListener('click', function(e) {
+            if (e.target === this) {
+                closeImageModal();
+            }
+        });
+
+        // Close modal with Escape key
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape') {
+                closeImageModal();
+            }
+        });
+
+        // Prevent modal from closing when clicking on the modal content
+        document.querySelector('.modal-content').addEventListener('click', function(e) {
+            e.stopPropagation();
+        });
     </script>
 </body>
 
