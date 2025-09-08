@@ -12,7 +12,7 @@
     <div class="container" id="content">
         Loading...
     </div>
-
+    <div class="scroll-progress"></div>
     <script>
         const params = new URLSearchParams(window.location.search);
         const page = params.get('page');
@@ -37,6 +37,17 @@
         }
 
 
+        document.addEventListener('DOMContentLoaded', () => {
+            const progressBar = document.querySelector('.scroll-progress');
+
+            window.addEventListener('scroll', () => {
+                const winScroll = document.body.scrollTop || document.documentElement.scrollTop;
+                const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+                const scrolled = (winScroll / height) * 100;
+
+                progressBar.style.width = scrolled + '%';
+            });
+        });
     </script>
 </body>
 
