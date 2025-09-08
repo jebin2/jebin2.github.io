@@ -28,6 +28,7 @@
                 })
                 .then(md => {
                     document.getElementById('content').innerHTML = marked.parse(md);
+                    create_progressbar()
                 })
                 .catch(err => {
                     document.getElementById('content').innerHTML = `<p style="color:red;">Error: ${err.message}</p>`;
@@ -37,7 +38,7 @@
         }
 
 
-        document.addEventListener('DOMContentLoaded', () => {
+        create_progressbar = () => {
             const progressBar = document.querySelector('.scroll-progress');
 
             window.addEventListener('scroll', () => {
@@ -47,7 +48,7 @@
 
                 progressBar.style.width = scrolled + '%';
             });
-        });
+        };
     </script>
 </body>
 
