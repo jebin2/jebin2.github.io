@@ -23,48 +23,207 @@
       font-size: 0.95rem;
       font-weight: 500;
       border-radius: 8px;
-      border: 1px solid var(--border-color, #ccc);
-      background-color: var(--white, #fff);
+      border: 1px solid #ddd;
+      background-color: #fff;
       color: #333;
-      font-family: inherit;
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
       cursor: pointer;
-      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-      transition: all 0.2s ease;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+      transition: all 0.3s ease;
       appearance: none;
-      background-image: linear-gradient(to bottom, var(--white, #fff), #f0f0f0);
+      background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3e%3cpath stroke='%236b7280' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='m6 8 4 4 4-4'/%3e%3c/svg%3e");
+      background-position: right 0.5rem center;
+      background-repeat: no-repeat;
+      background-size: 1.5em 1.5em;
+      padding-right: 2.5rem;
+      min-width: 120px;
     }
 
-    #themeSwitcher:hover,
-    #themeSwitcher:focus {
-      box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
-      border-color: var(--accent-primary, #007bff);
-      outline: none;
+    #themeSwitcher:hover {
+      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2);
+      border-color: #007bff;
       transform: translateY(-2px);
+      background-color: #f8f9fa;
     }
 
-    /* Dropdown Options (inheriting theme vars) */
+    #themeSwitcher:focus {
+      outline: 2px solid #007bff;
+      outline-offset: 2px;
+      border-color: #007bff;
+    }
+
+    #themeSwitcher:active {
+      transform: translateY(0);
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+    }
+
+    /* Dropdown Options Styling */
     #themeSwitcher option {
-      background-color: var(--white, #fff);
-      color: var(--text-primary, #333);
-      padding: 0.5rem;
+      background-color: #fff;
+      color: #333;
+      padding: 8px 12px;
       font-size: 0.95rem;
       font-family: inherit;
       border: none;
+      cursor: pointer;
     }
 
-    #themeSwitcher option:checked,
     #themeSwitcher option:hover {
-      background-color: var(--accent-primary, #007bff);
-      color: var(--white, #fff);
+      background-color: #f0f7ff;
+      color: #007bff;
+    }
+
+    #themeSwitcher option:checked {
+      background-color: #007bff;
+      color: #fff;
+      font-weight: 600;
+    }
+
+    /* Dark theme support for dropdown */
+    @media (prefers-color-scheme: dark) {
+      #themeSwitcher {
+        background-color: #2d2d2d;
+        color: #fff;
+        border-color: #555;
+        background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3e%3cpath stroke='%23fff' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='m6 8 4 4 4-4'/%3e%3c/svg%3e");
+      }
+
+      #themeSwitcher:hover {
+        background-color: #3d3d3d;
+        border-color: #007bff;
+      }
+
+      #themeSwitcher option {
+        background-color: #2d2d2d;
+        color: #fff;
+      }
+
+      #themeSwitcher option:hover {
+        background-color: #1a365d;
+        color: #63b3ed;
+      }
+    }
+
+    /* Loading and error styles */
+    .loading {
+      text-align: center;
+      padding: 2rem;
+      color: #666;
+      font-style: italic;
+    }
+
+    .error {
+      color: #dc3545;
+      background-color: #f8d7da;
+      border: 1px solid #f5c6cb;
+      border-radius: 4px;
+      padding: 1rem;
+      margin: 1rem 0;
+    }
+
+    /* Scroll progress bar */
+    .scroll-progress {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 0%;
+      height: 3px;
+      background: linear-gradient(90deg, #007bff, #0056b3);
+      z-index: 1000;
+      transition: width 0.1s ease;
+    }
+
+    /* Image modal styles */
+    .image-modal {
+      display: none;
+      position: fixed;
+      z-index: 2000;
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0, 0, 0, 0.9);
+      opacity: 0;
+      transition: opacity 0.3s ease;
+    }
+
+    .image-modal.show {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      opacity: 1;
+    }
+
+    .modal-content {
+      position: relative;
+      max-width: 90%;
+      max-height: 90%;
+    }
+
+    .modal-image {
+      max-width: 100%;
+      max-height: 100%;
+      object-fit: contain;
+      border-radius: 8px;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
+    }
+
+    .close-btn {
+      position: absolute;
+      top: -40px;
+      right: 0;
+      background: none;
+      border: none;
+      color: #fff;
+      font-size: 2rem;
+      cursor: pointer;
+      padding: 0;
+      line-height: 1;
+      width: 30px;
+      height: 30px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .close-btn:hover {
+      color: #ccc;
+    }
+
+    .modal-spinner {
+      border: 4px solid #f3f3f3;
+      border-top: 4px solid #007bff;
+      border-radius: 50%;
+      width: 40px;
+      height: 40px;
+      animation: spin 1s linear infinite;
+      margin: auto;
+    }
+
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+
+    .image-caption {
+      color: #fff;
+      text-align: center;
+      margin-top: 10px;
+      font-size: 0.9rem;
+      font-style: italic;
     }
   </style>
 </head>
 
 <body>
-  <div class="container" id="content">Loading...</div>
+  <div class="container" id="content">
+    <div class="loading">Loading...</div>
+  </div>
   <div class="scroll-progress"></div>
 
-  <select id="themeSwitcher"></select>
+  <select id="themeSwitcher">
+    <option value="">Select Theme</option>
+  </select>
 
   <!-- Image Modal -->
   <div id="imageModal" class="image-modal">
@@ -95,10 +254,10 @@
           }, 500);
         })
         .catch(err => {
-          document.getElementById('content').innerHTML = `<p style="color:red;">Error: ${err.message}</p>`;
+          document.getElementById('content').innerHTML = `<div class="error">Error: ${err.message}</div>`;
         });
     } else {
-      document.getElementById('content').innerHTML = '<p>No page specified</p>';
+      document.getElementById('content').innerHTML = '<div class="error">No page specified in URL parameters</div>';
     }
 
     function create_progressbar() {
@@ -115,27 +274,38 @@
     const themeLinks = document.querySelectorAll('.theme');
     const themeSwitcher = document.getElementById('themeSwitcher');
 
-    // Populate dropdown
-    themeLinks.forEach(link => {
+    // Clear the default option and populate dropdown
+    themeSwitcher.innerHTML = '<option value="">Select Theme</option>';
+    themeLinks.forEach((link, index) => {
       const option = document.createElement('option');
       option.value = link.id;
-      option.textContent = link.id.replace('theme', 'Theme ');
-      option.selected = !link.disabled;
+      option.textContent = `Theme ${index + 1}`;
+      if (!link.disabled) {
+        option.selected = true;
+        themeSwitcher.querySelector('option[value=""]').textContent = `Theme ${index + 1} (Current)`;
+      }
       themeSwitcher.appendChild(option);
     });
 
     // Handle theme change
     themeSwitcher.addEventListener('change', e => {
       const selected = e.target.value;
-      themeLinks.forEach(link => {
-        link.disabled = (link.id !== selected);
-      });
+      if (selected) {
+        themeLinks.forEach(link => {
+          link.disabled = (link.id !== selected);
+        });
+        
+        // Update the placeholder option text
+        const selectedIndex = Array.from(themeLinks).findIndex(link => link.id === selected);
+        themeSwitcher.querySelector('option[value=""]').textContent = `Theme ${selectedIndex + 1} (Current)`;
+      }
     });
 
     /* IMAGE MODAL */
     function setupImagePopups() {
       const images = document.querySelectorAll('.container img');
       images.forEach(img => {
+        img.style.cursor = 'pointer';
         img.addEventListener('click', () => openImageModal(img.src, img.alt || ''));
       });
     }
@@ -172,12 +342,15 @@
       document.body.style.overflow = 'auto';
     }
 
+    // Modal event listeners
     document.getElementById('imageModal').addEventListener('click', e => {
       if (e.target === e.currentTarget) closeImageModal();
     });
+    
     document.addEventListener('keydown', e => {
       if (e.key === 'Escape') closeImageModal();
     });
+    
     document.querySelector('.modal-content').addEventListener('click', e => e.stopPropagation());
   </script>
 </body>
