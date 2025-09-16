@@ -13,106 +13,72 @@
   <link class="theme" id="theme4" rel="stylesheet" href="style4.css" disabled>
 
   <style>
-    /* Theme Switcher Floating Dropdown */
+    /* Simple Theme Switcher */
     #themeSwitcher {
       position: fixed;
       top: 20px;
       right: 20px;
       z-index: 1001;
-      padding: 0.5rem 0.75rem;
-      font-size: 0.95rem;
-      font-weight: 500;
-      border-radius: 8px;
-      border: 2px solid transparent;
-      background-color: #fff;
+    }
+
+    .dropdown {
+      position: relative;
+      display: inline-block;
+      padding: 8px 12px;
+      font-size: 14px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      background: white;
       color: #333;
-      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
       cursor: pointer;
-      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-      transition: all 0.2s ease;
-      appearance: none;
-      -webkit-appearance: none;
-      -moz-appearance: none;
-      background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3e%3cpath stroke='%236b7280' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='m6 8 4 4 4-4'/%3e%3c/svg%3e");
-      background-position: right 0.5rem center;
-      background-repeat: no-repeat;
-      background-size: 1.5em 1.5em;
-      padding-right: 2.5rem;
-      min-width: 120px;
-      outline: none;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    }
+
+    .dropdown-content {
+      display: none;
+      position: absolute;
+      background-color: #f9f9f9;
+      min-width: 130px;
+      box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+      padding: 12px 16px;
+      z-index: 1;
+      right: 0;
+    }
+    
+    .theme-option {
+        padding: 5px;
+        cursor: pointer;
+    }
+
+    .theme-option:hover {
+        color: black;
+        background-color: #ddd;
+    }
+
+    .dropdown:hover .dropdown-content {
+      display: block;
     }
 
     #themeSwitcher:hover {
-      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2);
       border-color: #007bff;
-      transform: translateY(-2px);
-      background-color: #f8f9fa;
     }
 
     #themeSwitcher:focus {
-      border-color: #007bff;
-      box-shadow: 0 6px 20px rgba(0, 123, 255, 0.25);
-      outline: none;
-      transform: translateY(-2px);
-    }
-
-    #themeSwitcher:active {
-      transform: translateY(-1px);
-      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-      border-color: #0056b3;
-    }
-
-    /* Remove any lingering focus styles */
-    #themeSwitcher:focus-visible {
-      border-color: #007bff;
-      box-shadow: 0 6px 20px rgba(0, 123, 255, 0.25);
-      outline: none;
-    }
-
-    /* Dropdown Options Styling */
-    #themeSwitcher option {
-      background-color: #fff;
-      color: #333;
-      padding: 8px 12px;
-      font-size: 0.95rem;
-      font-family: inherit;
-      border: none;
-      cursor: pointer;
-    }
-
-    #themeSwitcher option:hover {
-      background-color: #f0f7ff;
-      color: #007bff;
-    }
-
-    #themeSwitcher option:checked {
-      background-color: #007bff;
-      color: #fff;
-      font-weight: 600;
+      outline: 2px solid #007bff;
+      outline-offset: 1px;
     }
 
     /* Dark theme support for dropdown */
     @media (prefers-color-scheme: dark) {
       #themeSwitcher {
-        background-color: #2d2d2d;
-        color: #fff;
+        background: #333;
+        color: white;
         border-color: #555;
-        background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3e%3cpath stroke='%23fff' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='m6 8 4 4 4-4'/%3e%3c/svg%3e");
       }
-
-      #themeSwitcher:hover {
-        background-color: #3d3d3d;
-        border-color: #007bff;
-      }
-
-      #themeSwitcher option {
-        background-color: #2d2d2d;
-        color: #fff;
-      }
-
-      #themeSwitcher option:hover {
-        background-color: #1a365d;
-        color: #63b3ed;
+      .dropdown-content {
+        background: #333;
+        color: white;
+        border-color: #555;
       }
     }
 
@@ -477,9 +443,17 @@
   </div>
   <div class="scroll-progress"></div>
 
-  <select id="themeSwitcher">
-    <option value="">Select Theme</option>
-  </select>
+  <div id="themeSwitcher">
+    <div class="dropdown">
+        <span>Select Theme</span>
+        <div class="dropdown-content">
+            <div class="theme-option" data-theme="theme1">Theme 1</div>
+            <div class="theme-option" data-theme="theme2">Theme 2</div>
+            <div class="theme-option" data-theme="theme3">Theme 3</div>
+            <div class="theme-option" data-theme="theme4">Theme 4</div>
+        </div>
+    </div>
+  </div>
 
   <!-- Image Modal -->
   <div id="imageModal" class="image-modal">
@@ -685,62 +659,26 @@
       });
     }
 
-    /* THEME SWITCHER - Dynamic */
-    const themeLinks = document.querySelectorAll('.theme');
-    const themeSwitcher = document.getElementById('themeSwitcher');
-
-    // Clear the default option and populate dropdown
-    themeSwitcher.innerHTML = '<option value="">Select Theme</option>';
-    themeLinks.forEach((link, index) => {
-      const option = document.createElement('option');
-      option.value = link.id;
-      option.textContent = `Theme ${index + 1}`;
-      if (!link.disabled) {
-        option.selected = true;
-        themeSwitcher.querySelector('option[value=""]').textContent = `Theme ${index + 1} (Current)`;
-      }
-      themeSwitcher.appendChild(option);
-    });
-
+    /* SIMPLE THEME SWITCHER */
+    const themeOptions = document.querySelectorAll('.theme-option');
+    
     // Handle theme change
-    themeSwitcher.addEventListener('change', e => {
-      const selected = e.target.value;
-      if (selected) {
-        themeLinks.forEach(link => {
-          link.disabled = (link.id !== selected);
+    themeOptions.forEach(option => {
+        option.addEventListener('click', function() {
+            const selectedTheme = this.getAttribute('data-theme');
+            const themeLinks = document.querySelectorAll('.theme');
+            
+            // Disable all themes first
+            themeLinks.forEach(link => {
+                link.disabled = true;
+            });
+            
+            // Enable the selected theme
+            const selectedLink = document.getElementById(selectedTheme);
+            if (selectedLink) {
+                selectedLink.disabled = false;
+            }
         });
-        
-        // Update the placeholder option text
-        const selectedIndex = Array.from(themeLinks).findIndex(link => link.id === selected);
-        themeSwitcher.querySelector('option[value=""]').textContent = `Theme ${selectedIndex + 1} (Current)`;
-      }
-      
-      // Force blur to remove any lingering focus effects
-      setTimeout(() => {
-        e.target.blur();
-      }, 100);
-    });
-
-    // Add blur handler to clean up any visual artifacts
-    themeSwitcher.addEventListener('blur', e => {
-      // Reset any transform or border effects
-      e.target.style.transform = '';
-      e.target.style.borderColor = '';
-      e.target.style.boxShadow = '';
-      
-      // Force a repaint to clear any visual artifacts
-      e.target.style.display = 'none';
-      e.target.offsetHeight; // Trigger reflow
-      e.target.style.display = '';
-    });
-
-    // Clean up after mouse leave
-    themeSwitcher.addEventListener('mouseleave', e => {
-      if (document.activeElement !== e.target) {
-        e.target.style.transform = '';
-        e.target.style.borderColor = '';
-        e.target.style.boxShadow = '';
-      }
     });
 
     /* IMAGE MODAL */
