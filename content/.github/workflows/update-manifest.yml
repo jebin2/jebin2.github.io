@@ -1,0 +1,55 @@
+name: Update manifest.json
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  update-manifest:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write   # allow pushing back to repo
+
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.x'
+
+      - name: Generate manifest.json
+        run: |
+          import os, json, datetime
+
+          posts = []
+          for root, dirs, files in os.walk("."):
+              for f in files:
+                  if f.endswith(".md") and f != "README.md" and f != "manifest.json":
+                      path = os.path.relpath(os.path.join(root, f), ".")
+                      # Use file modified time as date
+                      mtime = datetime.datetime.fromtimestamp(os.path.getmtime(path))
+                      posts.append({
+                          "title": os.path.splitext(os.path.basename(f))[0],
+                          "path": path.replace("\\", "/"),
+                          "date": mtime.strftime("%Y-%m-%d")
+                      })
+
+          posts.sort(key=lambda x: x["date"], reverse=True)
+
+          manifest = {"posts": posts}
+
+          with open("manifest.json", "w") as f:
+              json.dump(manifest, f, indent=2)
+
+        shell: python
+
+      - name: Commit and push manifest.json
+        run: |
+          git config --global user.name "github-actions[bot]"
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+          git add manifest.json
+          git commit -m "Update manifest.json [skip ci]" || echo "No changes to commit"
+          git push
