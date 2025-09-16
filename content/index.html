@@ -23,20 +23,23 @@
       font-size: 0.95rem;
       font-weight: 500;
       border-radius: 8px;
-      border: 1px solid #ddd;
+      border: 2px solid transparent;
       background-color: #fff;
       color: #333;
       font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
       cursor: pointer;
       box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-      transition: all 0.3s ease;
+      transition: all 0.2s ease;
       appearance: none;
+      -webkit-appearance: none;
+      -moz-appearance: none;
       background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3e%3cpath stroke='%236b7280' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='m6 8 4 4 4-4'/%3e%3c/svg%3e");
       background-position: right 0.5rem center;
       background-repeat: no-repeat;
       background-size: 1.5em 1.5em;
       padding-right: 2.5rem;
       min-width: 120px;
+      outline: none;
     }
 
     #themeSwitcher:hover {
@@ -47,14 +50,23 @@
     }
 
     #themeSwitcher:focus {
-      outline: 2px solid #007bff;
-      outline-offset: 2px;
       border-color: #007bff;
+      box-shadow: 0 6px 20px rgba(0, 123, 255, 0.25);
+      outline: none;
+      transform: translateY(-2px);
     }
 
     #themeSwitcher:active {
-      transform: translateY(0);
-      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+      transform: translateY(-1px);
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+      border-color: #0056b3;
+    }
+
+    /* Remove any lingering focus styles */
+    #themeSwitcher:focus-visible {
+      border-color: #007bff;
+      box-shadow: 0 6px 20px rgba(0, 123, 255, 0.25);
+      outline: none;
     }
 
     /* Dropdown Options Styling */
@@ -212,6 +224,250 @@
       font-size: 0.9rem;
       font-style: italic;
     }
+
+    /* Main Page Styles */
+    .main-page {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 2rem;
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    }
+
+    .blog-header {
+      text-align: center;
+      margin-bottom: 3rem;
+      padding-bottom: 2rem;
+      border-bottom: 2px solid #e9ecef;
+    }
+
+    .blog-header h1 {
+      font-size: 3rem;
+      margin-bottom: 1rem;
+      background: linear-gradient(135deg, #007bff, #0056b3);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      font-weight: bold;
+    }
+
+    .blog-subtitle {
+      font-size: 1.2rem;
+      color: #6c757d;
+      margin: 0;
+    }
+
+    .blog-stats {
+      display: flex;
+      justify-content: center;
+      gap: 2rem;
+      margin-bottom: 3rem;
+      padding: 1rem;
+      background: #f8f9fa;
+      border-radius: 12px;
+      border: 1px solid #e9ecef;
+    }
+
+    .stat-item {
+      font-size: 1.1rem;
+      font-weight: 600;
+      color: #495057;
+    }
+
+    .blog-category {
+      margin-bottom: 3rem;
+    }
+
+    .category-title {
+      font-size: 1.8rem;
+      margin-bottom: 1.5rem;
+      color: #212529;
+      padding-bottom: 0.5rem;
+      border-bottom: 3px solid #007bff;
+      display: inline-block;
+    }
+
+    .blog-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+      gap: 1.5rem;
+      margin-bottom: 2rem;
+    }
+
+    .blog-card {
+      background: #fff;
+      border: 1px solid #e9ecef;
+      border-radius: 12px;
+      padding: 1.5rem;
+      transition: all 0.3s ease;
+      cursor: pointer;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .blog-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 4px;
+      background: linear-gradient(90deg, #007bff, #0056b3);
+      transform: scaleX(0);
+      transition: transform 0.3s ease;
+    }
+
+    .blog-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 8px 25px rgba(0, 123, 255, 0.15);
+      border-color: #007bff;
+    }
+
+    .blog-card:hover::before {
+      transform: scaleX(1);
+    }
+
+    .card-header {
+      margin-bottom: 1rem;
+    }
+
+    .post-title {
+      font-size: 1.3rem;
+      font-weight: 600;
+      color: #212529;
+      margin: 0 0 0.5rem 0;
+      line-height: 1.3;
+    }
+
+    .post-path {
+      font-size: 0.85rem;
+      color: #6c757d;
+      font-family: 'Courier New', monospace;
+      background: #f8f9fa;
+      padding: 0.25rem 0.5rem;
+      border-radius: 4px;
+      border: 1px solid #e9ecef;
+    }
+
+    .card-footer {
+      display: flex;
+      justify-content: flex-end;
+      margin-top: 1rem;
+    }
+
+    .read-btn {
+      background: linear-gradient(135deg, #007bff, #0056b3);
+      color: white;
+      border: none;
+      padding: 0.75rem 1.5rem;
+      border-radius: 8px;
+      font-size: 0.9rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      box-shadow: 0 2px 8px rgba(0, 123, 255, 0.3);
+    }
+
+    .read-btn:hover {
+      background: linear-gradient(135deg, #0056b3, #004085);
+      transform: translateY(-2px);
+      box-shadow: 0 4px 15px rgba(0, 123, 255, 0.4);
+    }
+
+    .read-btn:active {
+      transform: translateY(0);
+      box-shadow: 0 2px 8px rgba(0, 123, 255, 0.3);
+    }
+
+    .blog-footer {
+      text-align: center;
+      margin-top: 4rem;
+      padding: 2rem;
+      background: #f8f9fa;
+      border-radius: 12px;
+      border: 1px solid #e9ecef;
+    }
+
+    .blog-footer p {
+      margin: 0;
+      color: #6c757d;
+      font-style: italic;
+    }
+
+    /* Responsive Design */
+    @media (max-width: 768px) {
+      .main-page {
+        padding: 1rem;
+      }
+
+      .blog-header h1 {
+        font-size: 2.5rem;
+      }
+
+      .blog-stats {
+        flex-direction: column;
+        gap: 1rem;
+        text-align: center;
+      }
+
+      .blog-grid {
+        grid-template-columns: 1fr;
+        gap: 1rem;
+      }
+
+      .category-title {
+        font-size: 1.5rem;
+      }
+    }
+
+    /* Dark theme support for main page */
+    @media (prefers-color-scheme: dark) {
+      .main-page {
+        color: #fff;
+      }
+
+      .blog-header {
+        border-bottom-color: #495057;
+      }
+
+      .blog-stats {
+        background: #343a40;
+        border-color: #495057;
+      }
+
+      .stat-item {
+        color: #adb5bd;
+      }
+
+      .category-title {
+        color: #fff;
+      }
+
+      .blog-card {
+        background: #343a40;
+        border-color: #495057;
+        color: #fff;
+      }
+
+      .post-title {
+        color: #fff;
+      }
+
+      .post-path {
+        background: #495057;
+        border-color: #6c757d;
+        color: #adb5bd;
+      }
+
+      .blog-footer {
+        background: #343a40;
+        border-color: #495057;
+      }
+
+      .blog-footer p {
+        color: #adb5bd;
+      }
+    }
   </style>
 </head>
 
@@ -240,6 +496,12 @@
     const page = params.get('page');
 
     if (page) {
+      loadMarkdownPage(page);
+    } else {
+      loadMainPage();
+    }
+
+    function loadMarkdownPage(page) {
       const url = `https://jebin2.github.io/blog/${page}`;
       fetch(url)
         .then(r => {
@@ -256,8 +518,161 @@
         .catch(err => {
           document.getElementById('content').innerHTML = `<div class="error">Error: ${err.message}</div>`;
         });
-    } else {
-      document.getElementById('content').innerHTML = '<div class="error">No page specified in URL parameters</div>';
+    }
+
+    async function loadMainPage() {
+      document.getElementById('content').innerHTML = '<div class="loading">Loading blog posts...</div>';
+      
+      try {
+        const files = await fetchRepoFiles('jebin2', 'blog');
+        const markdownFiles = files.filter(file => file.name.endsWith('.md'));
+        
+        if (markdownFiles.length === 0) {
+          document.getElementById('content').innerHTML = '<div class="error">No markdown files found in the repository</div>';
+          return;
+        }
+
+        const mainPageHTML = generateMainPage(markdownFiles);
+        document.getElementById('content').innerHTML = mainPageHTML;
+        
+        // Setup click handlers for the blog links
+        setupBlogLinks();
+        
+      } catch (error) {
+        console.error('Error loading main page:', error);
+        document.getElementById('content').innerHTML = `<div class="error">Error loading blog posts: ${error.message}</div>`;
+      }
+    }
+
+    async function fetchRepoFiles(owner, repo, path = '') {
+      const apiUrl = `https://api.github.com/repos/${owner}/${repo}/contents/${path}`;
+      const response = await fetch(apiUrl);
+      
+      if (!response.ok) {
+        throw new Error(`Failed to fetch repository contents: ${response.statusText}`);
+      }
+      
+      const data = await response.json();
+      let allFiles = [];
+      
+      for (const item of data) {
+        if (item.type === 'file' && item.name.endsWith('.md')) {
+          allFiles.push({
+            name: item.name,
+            path: item.path,
+            download_url: item.download_url
+          });
+        } else if (item.type === 'dir') {
+          // Recursively fetch files from subdirectories
+          try {
+            const subFiles = await fetchRepoFiles(owner, repo, item.path);
+            allFiles = allFiles.concat(subFiles);
+          } catch (error) {
+            console.warn(`Could not fetch files from directory ${item.path}:`, error);
+          }
+        }
+      }
+      
+      return allFiles;
+    }
+
+    function generateMainPage(markdownFiles) {
+      // Group files by directory
+      const groupedFiles = groupFilesByDirectory(markdownFiles);
+      
+      let html = `
+        <div class="main-page">
+          <header class="blog-header">
+            <h1>📚 My Blog</h1>
+            <p class="blog-subtitle">Welcome to my markdown blog. Choose a post to read:</p>
+          </header>
+          
+          <div class="blog-stats">
+            <span class="stat-item">📄 ${markdownFiles.length} Posts</span>
+            <span class="stat-item">📁 ${Object.keys(groupedFiles).length} Categories</span>
+          </div>
+      `;
+      
+      // Generate grouped content
+      for (const [directory, files] of Object.entries(groupedFiles)) {
+        html += `
+          <section class="blog-category">
+            <h2 class="category-title">${directory === 'root' ? '📝 General Posts' : `📁 ${directory}`}</h2>
+            <div class="blog-grid">
+        `;
+        
+        files.forEach(file => {
+          const fileName = file.name.replace('.md', '');
+          const cleanName = fileName.replace(/[-_]/g, ' ').replace(/\b\w/g, l => l.toUpperCase());
+          
+          html += `
+            <article class="blog-card" data-path="${file.path}">
+              <div class="card-header">
+                <h3 class="post-title">${cleanName}</h3>
+                <span class="post-path">${file.path}</span>
+              </div>
+              <div class="card-footer">
+                <button class="read-btn" data-path="${file.path}">Read Post →</button>
+              </div>
+            </article>
+          `;
+        });
+        
+        html += `
+            </div>
+          </section>
+        `;
+      }
+      
+      html += `
+          <footer class="blog-footer">
+            <p>💡 Click on any post to start reading, or use the theme switcher in the top right to customize your experience.</p>
+          </footer>
+        </div>
+      `;
+      
+      return html;
+    }
+
+    function groupFilesByDirectory(files) {
+      const grouped = {};
+      
+      files.forEach(file => {
+        const pathParts = file.path.split('/');
+        const directory = pathParts.length > 1 ? pathParts.slice(0, -1).join('/') : 'root';
+        
+        if (!grouped[directory]) {
+          grouped[directory] = [];
+        }
+        grouped[directory].push(file);
+      });
+      
+      // Sort files within each directory
+      Object.keys(grouped).forEach(dir => {
+        grouped[dir].sort((a, b) => a.name.localeCompare(b.name));
+      });
+      
+      return grouped;
+    }
+
+    function setupBlogLinks() {
+      const readButtons = document.querySelectorAll('.read-btn');
+      readButtons.forEach(button => {
+        button.addEventListener('click', () => {
+          const path = button.getAttribute('data-path');
+          window.location.href = `${window.location.pathname}?page=${path}`;
+        });
+      });
+      
+      const blogCards = document.querySelectorAll('.blog-card');
+      blogCards.forEach(card => {
+        card.addEventListener('click', (e) => {
+          if (!e.target.classList.contains('read-btn')) {
+            const path = card.getAttribute('data-path');
+            window.location.href = `${window.location.pathname}?page=${path}`;
+          }
+        });
+      });
     }
 
     function create_progressbar() {
@@ -298,6 +713,33 @@
         // Update the placeholder option text
         const selectedIndex = Array.from(themeLinks).findIndex(link => link.id === selected);
         themeSwitcher.querySelector('option[value=""]').textContent = `Theme ${selectedIndex + 1} (Current)`;
+      }
+      
+      // Force blur to remove any lingering focus effects
+      setTimeout(() => {
+        e.target.blur();
+      }, 100);
+    });
+
+    // Add blur handler to clean up any visual artifacts
+    themeSwitcher.addEventListener('blur', e => {
+      // Reset any transform or border effects
+      e.target.style.transform = '';
+      e.target.style.borderColor = '';
+      e.target.style.boxShadow = '';
+      
+      // Force a repaint to clear any visual artifacts
+      e.target.style.display = 'none';
+      e.target.offsetHeight; // Trigger reflow
+      e.target.style.display = '';
+    });
+
+    // Clean up after mouse leave
+    themeSwitcher.addEventListener('mouseleave', e => {
+      if (document.activeElement !== e.target) {
+        e.target.style.transform = '';
+        e.target.style.borderColor = '';
+        e.target.style.boxShadow = '';
       }
     });
 
