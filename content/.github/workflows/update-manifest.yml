@@ -27,7 +27,7 @@ jobs:
           posts = []
           for root, dirs, files in os.walk("."):
               for f in files:
-                  if f.endswith(".md") and f != "README.md" and f != "manifest.json":
+                  if f.endswith(".md") and f != "README.md" and f != "index.md" and f != "manifest.json":
                       path = os.path.relpath(os.path.join(root, f), ".")
                       # Use file modified time as date
                       mtime = datetime.datetime.fromtimestamp(os.path.getmtime(path))
