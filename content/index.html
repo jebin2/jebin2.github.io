@@ -2,737 +2,689 @@
 <html lang="en">
 
 <head>
-  <meta charset="UTF-8">
-  <title>Dynamic Markdown Blog</title>
-  <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+	<meta charset="UTF-8">
+	<title>Dynamic Markdown Blog</title>
+	<script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
 
-  <!-- Themes -->
-  <link class="theme" id="theme1" rel="stylesheet" href="style1.css" disabled>
-  <link class="theme" id="theme2" rel="stylesheet" href="style2.css">
-  <link class="theme" id="theme3" rel="stylesheet" href="style3.css" disabled>
-  <link class="theme" id="theme4" rel="stylesheet" href="style4.css" disabled>
+	<!-- Themes -->
+	<link class="theme" id="theme1" rel="stylesheet" href="style1.css" disabled>
+	<link class="theme" id="theme2" rel="stylesheet" href="style2.css">
+	<link class="theme" id="theme3" rel="stylesheet" href="style3.css" disabled>
+	<link class="theme" id="theme4" rel="stylesheet" href="style4.css" disabled>
 
-  <style>
-    /* Simple Theme Switcher */
-    #themeSwitcher {
-      position: fixed;
-      top: 20px;
-      right: 20px;
-      z-index: 1001;
-    }
+	<style>
+		/* Simple Theme Switcher */
+		#themeSwitcher {
+			position: fixed;
+			top: 20px;
+			right: 20px;
+			z-index: 1001;
+		}
 
-    .dropdown {
-      position: relative;
-      display: inline-block;
-      padding: 8px 12px;
-      font-size: 14px;
-      border: 1px solid #ccc;
-      border-radius: 4px;
-      background: white;
-      color: #333;
-      cursor: pointer;
-      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-    }
+		.dropdown {
+			position: relative;
+			display: inline-block;
+			padding: 8px 12px;
+			font-size: 14px;
+			border: 1px solid #ccc;
+			border-radius: 4px;
+			background: white;
+			color: #333;
+			cursor: pointer;
+			box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+		}
 
-    .dropdown-content {
-      display: none;
-      position: absolute;
-      background-color: #f9f9f9;
-      min-width: 130px;
-      box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
-      padding: 12px 16px;
-      z-index: 1;
-      right: 0;
-    }
-    
-    .theme-option {
-        padding: 5px;
-        cursor: pointer;
-    }
+		.dropdown-content {
+			display: none;
+			position: absolute;
+			background-color: #f9f9f9;
+			min-width: 130px;
+			box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+			padding: 12px 16px;
+			z-index: 1;
+			right: 0;
+		}
 
-    .theme-option:hover {
-        color: black;
-        background-color: #ddd;
-    }
+		.theme-option {
+			padding: 5px;
+			cursor: pointer;
+		}
 
-    .dropdown:hover .dropdown-content {
-      display: block;
-    }
+		.theme-option:hover {
+			color: black;
+			background-color: #ddd;
+		}
 
-    #themeSwitcher:hover {
-      border-color: #007bff;
-    }
+		.dropdown:hover .dropdown-content {
+			display: block;
+		}
 
-    #themeSwitcher:focus {
-      outline: 2px solid #007bff;
-      outline-offset: 1px;
-    }
+		#themeSwitcher:hover {
+			border-color: #007bff;
+		}
 
-    /* Dark theme support for dropdown */
-    @media (prefers-color-scheme: dark) {
-      #themeSwitcher {
-        background: #333;
-        color: white;
-        border-color: #555;
-      }
-      .dropdown-content {
-        background: #333;
-        color: white;
-        border-color: #555;
-      }
-    }
+		#themeSwitcher:focus {
+			outline: 2px solid #007bff;
+			outline-offset: 1px;
+		}
 
-    /* Loading and error styles */
-    .loading {
-      text-align: center;
-      padding: 2rem;
-      color: #666;
-      font-style: italic;
-    }
+		/* Dark theme support for dropdown */
+		@media (prefers-color-scheme: dark) {
+			#themeSwitcher {
+				background: #333;
+				color: white;
+				border-color: #555;
+			}
 
-    .error {
-      color: #dc3545;
-      background-color: #f8d7da;
-      border: 1px solid #f5c6cb;
-      border-radius: 4px;
-      padding: 1rem;
-      margin: 1rem 0;
-    }
+			.dropdown-content {
+				background: #333;
+				color: white;
+				border-color: #555;
+			}
+		}
 
-    /* Scroll progress bar */
-    .scroll-progress {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 0%;
-      height: 3px;
-      background: linear-gradient(90deg, #007bff, #0056b3);
-      z-index: 1000;
-      transition: width 0.1s ease;
-    }
+		/* Loading and error styles */
+		.loading {
+			text-align: center;
+			padding: 2rem;
+			color: #666;
+			font-style: italic;
+		}
 
-    /* Image modal styles */
-    .image-modal {
-      display: none;
-      position: fixed;
-      z-index: 2000;
-      left: 0;
-      top: 0;
-      width: 100%;
-      height: 100%;
-      background-color: rgba(0, 0, 0, 0.9);
-      opacity: 0;
-      transition: opacity 0.3s ease;
-    }
+		.error {
+			color: #dc3545;
+			background-color: #f8d7da;
+			border: 1px solid #f5c6cb;
+			border-radius: 4px;
+			padding: 1rem;
+			margin: 1rem 0;
+		}
 
-    .image-modal.show {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      opacity: 1;
-    }
+		/* Scroll progress bar */
+		.scroll-progress {
+			position: fixed;
+			top: 0;
+			left: 0;
+			width: 0%;
+			height: 3px;
+			background: linear-gradient(90deg, #007bff, #0056b3);
+			z-index: 1000;
+			transition: width 0.1s ease;
+		}
 
-    .modal-content {
-      position: relative;
-      max-width: 90%;
-      max-height: 90%;
-    }
+		/* Image modal styles */
+		.image-modal {
+			display: none;
+			position: fixed;
+			z-index: 2000;
+			left: 0;
+			top: 0;
+			width: 100%;
+			height: 100%;
+			background-color: rgba(0, 0, 0, 0.9);
+			opacity: 0;
+			transition: opacity 0.3s ease;
+		}
 
-    .modal-image {
-      max-width: 100%;
-      max-height: 100%;
-      object-fit: contain;
-      border-radius: 8px;
-      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
-    }
+		.image-modal.show {
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			opacity: 1;
+		}
 
-    .close-btn {
-      position: absolute;
-      top: -40px;
-      right: 0;
-      background: none;
-      border: none;
-      color: #fff;
-      font-size: 2rem;
-      cursor: pointer;
-      padding: 0;
-      line-height: 1;
-      width: 30px;
-      height: 30px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
+		.modal-content {
+			position: relative;
+			max-width: 90%;
+			max-height: 90%;
+		}
 
-    .close-btn:hover {
-      color: #ccc;
-    }
+		.modal-image {
+			max-width: 100%;
+			max-height: 100%;
+			object-fit: contain;
+			border-radius: 8px;
+			box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
+		}
 
-    .modal-spinner {
-      border: 4px solid #f3f3f3;
-      border-top: 4px solid #007bff;
-      border-radius: 50%;
-      width: 40px;
-      height: 40px;
-      animation: spin 1s linear infinite;
-      margin: auto;
-    }
+		.close-btn {
+			position: absolute;
+			top: -40px;
+			right: 0;
+			background: none;
+			border: none;
+			color: #fff;
+			font-size: 2rem;
+			cursor: pointer;
+			padding: 0;
+			line-height: 1;
+			width: 30px;
+			height: 30px;
+			display: flex;
+			align-items: center;
+			justify-content: center;
+		}
 
-    @keyframes spin {
-      0% { transform: rotate(0deg); }
-      100% { transform: rotate(360deg); }
-    }
+		.close-btn:hover {
+			color: #ccc;
+		}
 
-    .image-caption {
-      color: #fff;
-      text-align: center;
-      margin-top: 10px;
-      font-size: 0.9rem;
-      font-style: italic;
-    }
+		.modal-spinner {
+			border: 4px solid #f3f3f3;
+			border-top: 4px solid #007bff;
+			border-radius: 50%;
+			width: 40px;
+			height: 40px;
+			animation: spin 1s linear infinite;
+			margin: auto;
+		}
 
-    /* Main Page Styles */
-    .main-page {
-      max-width: 1200px;
-      margin: 0 auto;
-      padding: 2rem;
-      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-    }
+		@keyframes spin {
+			0% {
+				transform: rotate(0deg);
+			}
 
-    .blog-header {
-      text-align: center;
-      margin-bottom: 3rem;
-      padding-bottom: 2rem;
-      border-bottom: 2px solid #e9ecef;
-    }
+			100% {
+				transform: rotate(360deg);
+			}
+		}
 
-    .blog-header h1 {
-      font-size: 3rem;
-      margin-bottom: 1rem;
-      background: linear-gradient(135deg, #007bff, #0056b3);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      background-clip: text;
-      font-weight: bold;
-    }
+		.image-caption {
+			color: #fff;
+			text-align: center;
+			margin-top: 10px;
+			font-size: 0.9rem;
+			font-style: italic;
+		}
 
-    .blog-subtitle {
-      font-size: 1.2rem;
-      color: #6c757d;
-      margin: 0;
-    }
+		/* Main Page Styles */
+		.main-page {
+			max-width: 1200px;
+			margin: 0 auto;
+			padding: 2rem;
+			font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+		}
 
-    .blog-stats {
-      display: flex;
-      justify-content: center;
-      gap: 2rem;
-      margin-bottom: 3rem;
-      padding: 1rem;
-      background: #f8f9fa;
-      border-radius: 12px;
-      border: 1px solid #e9ecef;
-    }
+		.blog-header {
+			text-align: center;
+			margin-bottom: 3rem;
+			padding-bottom: 2rem;
+			border-bottom: 2px solid #e9ecef;
+		}
 
-    .stat-item {
-      font-size: 1.1rem;
-      font-weight: 600;
-      color: #495057;
-    }
+		.blog-header h1 {
+			font-size: 3rem;
+			margin-bottom: 1rem;
+			background: linear-gradient(135deg, #007bff, #0056b3);
+			-webkit-background-clip: text;
+			-webkit-text-fill-color: transparent;
+			background-clip: text;
+			font-weight: bold;
+		}
 
-    .blog-category {
-      margin-bottom: 3rem;
-    }
+		.blog-subtitle {
+			font-size: 1.2rem;
+			color: #6c757d;
+			margin: 0;
+		}
 
-    .category-title {
-      font-size: 1.8rem;
-      margin-bottom: 1.5rem;
-      color: #212529;
-      padding-bottom: 0.5rem;
-      border-bottom: 3px solid #007bff;
-      display: inline-block;
-    }
+		.blog-stats {
+			display: flex;
+			justify-content: center;
+			gap: 2rem;
+			margin-bottom: 3rem;
+			padding: 1rem;
+			background: #f8f9fa;
+			border-radius: 12px;
+			border: 1px solid #e9ecef;
+		}
 
-    .blog-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
-      gap: 1.5rem;
-      margin-bottom: 2rem;
-    }
+		.stat-item {
+			font-size: 1.1rem;
+			font-weight: 600;
+			color: #495057;
+		}
 
-    .blog-card {
-      background: #fff;
-      border: 1px solid #e9ecef;
-      border-radius: 12px;
-      padding: 1.5rem;
-      transition: all 0.3s ease;
-      cursor: pointer;
-      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-      position: relative;
-      overflow: hidden;
-    }
+		.blog-category {
+			margin-bottom: 3rem;
+		}
 
-    .blog-card::before {
-      content: '';
-      position: absolute;
-      top: 0;
-      left: 0;
-      right: 0;
-      height: 4px;
-      background: linear-gradient(90deg, #007bff, #0056b3);
-      transform: scaleX(0);
-      transition: transform 0.3s ease;
-    }
+		.category-title {
+			font-size: 1.8rem;
+			margin-bottom: 1.5rem;
+			color: #212529;
+			padding-bottom: 0.5rem;
+			border-bottom: 3px solid #007bff;
+			display: inline-block;
+		}
 
-    .blog-card:hover {
-      transform: translateY(-4px);
-      box-shadow: 0 8px 25px rgba(0, 123, 255, 0.15);
-      border-color: #007bff;
-    }
+		.blog-grid {
+			display: grid;
+			grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+			gap: 1.5rem;
+			margin-bottom: 2rem;
+		}
 
-    .blog-card:hover::before {
-      transform: scaleX(1);
-    }
+		.blog-card {
+			background: #fff;
+			border: 1px solid #e9ecef;
+			border-radius: 12px;
+			padding: 1.5rem;
+			transition: all 0.3s ease;
+			cursor: pointer;
+			box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+			position: relative;
+			overflow: hidden;
+		}
 
-    .card-header {
-      margin-bottom: 1rem;
-    }
+		.blog-card::before {
+			content: '';
+			position: absolute;
+			top: 0;
+			left: 0;
+			right: 0;
+			height: 4px;
+			background: linear-gradient(90deg, #007bff, #0056b3);
+			transform: scaleX(0);
+			transition: transform 0.3s ease;
+		}
 
-    .post-title {
-      font-size: 1.3rem;
-      font-weight: 600;
-      color: #212529;
-      margin: 0 0 0.5rem 0;
-      line-height: 1.3;
-    }
+		.blog-card:hover {
+			transform: translateY(-4px);
+			box-shadow: 0 8px 25px rgba(0, 123, 255, 0.15);
+			border-color: #007bff;
+		}
 
-    .post-path {
-      font-size: 0.85rem;
-      color: #6c757d;
-      font-family: 'Courier New', monospace;
-      background: #f8f9fa;
-      padding: 0.25rem 0.5rem;
-      border-radius: 4px;
-      border: 1px solid #e9ecef;
-    }
+		.blog-card:hover::before {
+			transform: scaleX(1);
+		}
 
-    .card-footer {
-      display: flex;
-      justify-content: flex-end;
-      margin-top: 1rem;
-    }
+		.card-header {
+			margin-bottom: 1rem;
+		}
 
-    .read-btn {
-      background: linear-gradient(135deg, #007bff, #0056b3);
-      color: white;
-      border: none;
-      padding: 0.75rem 1.5rem;
-      border-radius: 8px;
-      font-size: 0.9rem;
-      font-weight: 600;
-      cursor: pointer;
-      transition: all 0.3s ease;
-      box-shadow: 0 2px 8px rgba(0, 123, 255, 0.3);
-    }
+		.post-title {
+			font-size: 1.3rem;
+			font-weight: 600;
+			color: #212529;
+			margin: 0 0 0.5rem 0;
+			line-height: 1.3;
+		}
 
-    .read-btn:hover {
-      background: linear-gradient(135deg, #0056b3, #004085);
-      transform: translateY(-2px);
-      box-shadow: 0 4px 15px rgba(0, 123, 255, 0.4);
-    }
+		.post-path {
+			font-size: 0.85rem;
+			color: #6c757d;
+			font-family: 'Courier New', monospace;
+			background: #f8f9fa;
+			padding: 0.25rem 0.5rem;
+			border-radius: 4px;
+			border: 1px solid #e9ecef;
+		}
 
-    .read-btn:active {
-      transform: translateY(0);
-      box-shadow: 0 2px 8px rgba(0, 123, 255, 0.3);
-    }
+		.card-footer {
+			display: flex;
+			justify-content: flex-end;
+			margin-top: 1rem;
+		}
 
-    .blog-footer {
-      text-align: center;
-      margin-top: 4rem;
-      padding: 2rem;
-      background: #f8f9fa;
-      border-radius: 12px;
-      border: 1px solid #e9ecef;
-    }
+		.read-btn {
+			background: linear-gradient(135deg, #007bff, #0056b3);
+			color: white;
+			border: none;
+			padding: 0.75rem 1.5rem;
+			border-radius: 8px;
+			font-size: 0.9rem;
+			font-weight: 600;
+			cursor: pointer;
+			transition: all 0.3s ease;
+			box-shadow: 0 2px 8px rgba(0, 123, 255, 0.3);
+		}
 
-    .blog-footer p {
-      margin: 0;
-      color: #6c757d;
-      font-style: italic;
-    }
+		.read-btn:hover {
+			background: linear-gradient(135deg, #0056b3, #004085);
+			transform: translateY(-2px);
+			box-shadow: 0 4px 15px rgba(0, 123, 255, 0.4);
+		}
 
-    /* Responsive Design */
-    @media (max-width: 768px) {
-      .main-page {
-        padding: 1rem;
-      }
+		.read-btn:active {
+			transform: translateY(0);
+			box-shadow: 0 2px 8px rgba(0, 123, 255, 0.3);
+		}
 
-      .blog-header h1 {
-        font-size: 2.5rem;
-      }
+		.blog-footer {
+			text-align: center;
+			margin-top: 4rem;
+			padding: 2rem;
+			background: #f8f9fa;
+			border-radius: 12px;
+			border: 1px solid #e9ecef;
+		}
 
-      .blog-stats {
-        flex-direction: column;
-        gap: 1rem;
-        text-align: center;
-      }
+		.blog-footer p {
+			margin: 0;
+			color: #6c757d;
+			font-style: italic;
+		}
 
-      .blog-grid {
-        grid-template-columns: 1fr;
-        gap: 1rem;
-      }
+		/* Responsive Design */
+		@media (max-width: 768px) {
+			.main-page {
+				padding: 1rem;
+			}
 
-      .category-title {
-        font-size: 1.5rem;
-      }
-    }
+			.blog-header h1 {
+				font-size: 2.5rem;
+			}
 
-    /* Dark theme support for main page */
-    @media (prefers-color-scheme: dark) {
-      .main-page {
-        color: #fff;
-      }
+			.blog-stats {
+				flex-direction: column;
+				gap: 1rem;
+				text-align: center;
+			}
 
-      .blog-header {
-        border-bottom-color: #495057;
-      }
+			.blog-grid {
+				grid-template-columns: 1fr;
+				gap: 1rem;
+			}
 
-      .blog-stats {
-        background: #343a40;
-        border-color: #495057;
-      }
+			.category-title {
+				font-size: 1.5rem;
+			}
+		}
 
-      .stat-item {
-        color: #adb5bd;
-      }
+		/* Dark theme support for main page */
+		@media (prefers-color-scheme: dark) {
+			.main-page {
+				color: #fff;
+			}
 
-      .category-title {
-        color: #fff;
-      }
+			.blog-header {
+				border-bottom-color: #495057;
+			}
 
-      .blog-card {
-        background: #343a40;
-        border-color: #495057;
-        color: #fff;
-      }
+			.blog-stats {
+				background: #343a40;
+				border-color: #495057;
+			}
 
-      .post-title {
-        color: #fff;
-      }
+			.stat-item {
+				color: #adb5bd;
+			}
 
-      .post-path {
-        background: #495057;
-        border-color: #6c757d;
-        color: #adb5bd;
-      }
+			.category-title {
+				color: #fff;
+			}
 
-      .blog-footer {
-        background: #343a40;
-        border-color: #495057;
-      }
+			.blog-card {
+				background: #343a40;
+				border-color: #495057;
+				color: #fff;
+			}
 
-      .blog-footer p {
-        color: #adb5bd;
-      }
-    }
-  </style>
+			.post-title {
+				color: #fff;
+			}
+
+			.post-path {
+				background: #495057;
+				border-color: #6c757d;
+				color: #adb5bd;
+			}
+
+			.blog-footer {
+				background: #343a40;
+				border-color: #495057;
+			}
+
+			.blog-footer p {
+				color: #adb5bd;
+			}
+		}
+	</style>
 </head>
 
 <body>
-  <div class="container" id="content">
-    <div class="loading">Loading...</div>
-  </div>
-  <div class="scroll-progress"></div>
+	<div class="container" id="content">
+		<div class="loading">Loading...</div>
+	</div>
+	<div class="scroll-progress"></div>
 
-  <div id="themeSwitcher">
-    <div class="dropdown">
-        <span>Select Theme</span>
-        <div class="dropdown-content">
-            <div class="theme-option" data-theme="theme1">Theme 1</div>
-            <div class="theme-option" data-theme="theme2">Theme 2</div>
-            <div class="theme-option" data-theme="theme3">Theme 3</div>
-            <div class="theme-option" data-theme="theme4">Theme 4</div>
+	<div id="themeSwitcher">
+		<div class="dropdown">
+			<span>Select Theme</span>
+			<div class="dropdown-content">
+				<div class="theme-option" data-theme="theme1">Theme 1</div>
+				<div class="theme-option" data-theme="theme2">Theme 2</div>
+				<div class="theme-option" data-theme="theme3">Theme 3</div>
+				<div class="theme-option" data-theme="theme4">Theme 4</div>
+			</div>
+		</div>
+	</div>
+
+	<!-- Image Modal -->
+	<div id="imageModal" class="image-modal">
+		<div class="modal-content">
+			<button class="close-btn" onclick="closeImageModal()">&times;</button>
+			<div id="modalImageContainer">
+				<div class="modal-spinner"></div>
+			</div>
+		</div>
+	</div>
+
+	<script>
+		const params = new URLSearchParams(window.location.search);
+		const page = params.get('page');
+
+		if (page) {
+			loadMarkdownPage(page);
+		} else {
+			loadMainPage();
+		}
+
+		function loadMarkdownPage(page) {
+			const url = `https://raw.githubusercontent.com/jebin2/blog/main/${page}`;
+			fetch(url)
+				.then(r => {
+					if (!r.ok) throw new Error('Markdown file not found');
+					return r.text();
+				})
+				.then(md => {
+					document.getElementById('content').innerHTML = marked.parse(md);
+					setTimeout(() => {
+						create_progressbar();
+						setupImagePopups();
+					}, 500);
+				})
+				.catch(err => {
+					document.getElementById('content').innerHTML = `<div class="error">Error: ${err.message}</div>`;
+				});
+		}
+
+		async function loadMainPage() {
+			document.getElementById('content').innerHTML = '<div class="loading">Loading blog posts...</div>';
+
+			try {
+				// Fetch manifest
+				const manifest = await fetch('manifest.json').then(r => r.json());
+
+				if (!manifest.posts || manifest.posts.length === 0) {
+					document.getElementById('content').innerHTML = '<div class="error">No posts found in manifest.json</div>';
+					return;
+				}
+
+				// Sort posts by date (newest first)
+				const posts = manifest.posts.sort((a, b) => new Date(b.date) - new Date(a.date));
+
+				const mainPageHTML = generateMainPage(posts);
+				document.getElementById('content').innerHTML = mainPageHTML;
+
+				// Setup click handlers for the blog links
+				setupBlogLinks();
+
+			} catch (error) {
+				console.error('Error loading main page:', error);
+				document.getElementById('content').innerHTML = `<div class="error">Error loading blog posts: ${error.message}</div>`;
+			}
+		}
+
+		function generateMainPage(posts) {
+			let html = `
+      <div class="main-page">
+        <header class="blog-header">
+          <h1>📚 My Blog</h1>
+          <p class="blog-subtitle">Welcome to my markdown blog. Choose a post to read:</p>
+        </header>
+
+        <div class="blog-stats">
+          <span class="stat-item">📄 ${posts.length} Posts</span>
         </div>
-    </div>
-  </div>
+    `;
 
-  <!-- Image Modal -->
-  <div id="imageModal" class="image-modal">
-    <div class="modal-content">
-      <button class="close-btn" onclick="closeImageModal()">&times;</button>
-      <div id="modalImageContainer">
-        <div class="modal-spinner"></div>
-      </div>
-    </div>
-  </div>
+			html += `
+      <section class="blog-category">
+        <h2 class="category-title">🆕 Latest Posts</h2>
+        <div class="blog-grid">
+    `;
 
-  <script>
-    const params = new URLSearchParams(window.location.search);
-    const page = params.get('page');
+			posts.forEach(post => {
+				const cleanName = post.title || post.path.split('/').pop().replace('.md', '');
+				const date = new Date(post.date).toLocaleDateString();
 
-    if (page) {
-      loadMarkdownPage(page);
-    } else {
-      loadMainPage();
-    }
-
-    function loadMarkdownPage(page) {
-      const url = `https://jebin2.github.io/blog/${page}`;
-      fetch(url)
-        .then(r => {
-          if (!r.ok) throw new Error('Markdown file not found');
-          return r.text();
-        })
-        .then(md => {
-          document.getElementById('content').innerHTML = marked.parse(md);
-          setTimeout(() => {
-            create_progressbar();
-            setupImagePopups();
-          }, 500);
-        })
-        .catch(err => {
-          document.getElementById('content').innerHTML = `<div class="error">Error: ${err.message}</div>`;
-        });
-    }
-
-    async function loadMainPage() {
-      document.getElementById('content').innerHTML = '<div class="loading">Loading blog posts...</div>';
-      
-      try {
-        const files = await fetchRepoFiles('jebin2', 'blog');
-        const markdownFiles = files.filter(file => file.name.endsWith('.md'));
-        
-        if (markdownFiles.length === 0) {
-          document.getElementById('content').innerHTML = '<div class="error">No markdown files found in the repository</div>';
-          return;
-        }
-
-        const mainPageHTML = generateMainPage(markdownFiles);
-        document.getElementById('content').innerHTML = mainPageHTML;
-        
-        // Setup click handlers for the blog links
-        setupBlogLinks();
-        
-      } catch (error) {
-        console.error('Error loading main page:', error);
-        document.getElementById('content').innerHTML = `<div class="error">Error loading blog posts: ${error.message}</div>`;
-      }
-    }
-
-    async function fetchRepoFiles(owner, repo, path = '') {
-      const apiUrl = `https://api.github.com/repos/${owner}/${repo}/contents/${path}`;
-      const response = await fetch(apiUrl);
-      
-      if (!response.ok) {
-        throw new Error(`Failed to fetch repository contents: ${response.statusText}`);
-      }
-      
-      const data = await response.json();
-      let allFiles = [];
-      
-      for (const item of data) {
-        if (item.type === 'file' && item.name.endsWith('.md')) {
-          allFiles.push({
-            name: item.name,
-            path: item.path,
-            download_url: item.download_url
-          });
-        } else if (item.type === 'dir') {
-          // Recursively fetch files from subdirectories
-          try {
-            const subFiles = await fetchRepoFiles(owner, repo, item.path);
-            allFiles = allFiles.concat(subFiles);
-          } catch (error) {
-            console.warn(`Could not fetch files from directory ${item.path}:`, error);
-          }
-        }
-      }
-      
-      return allFiles;
-    }
-
-    function generateMainPage(markdownFiles) {
-      // Group files by directory
-      const groupedFiles = groupFilesByDirectory(markdownFiles);
-      
-      let html = `
-        <div class="main-page">
-          <header class="blog-header">
-            <h1>📚 My Blog</h1>
-            <p class="blog-subtitle">Welcome to my markdown blog. Choose a post to read:</p>
-          </header>
-          
-          <div class="blog-stats">
-            <span class="stat-item">📄 ${markdownFiles.length} Posts</span>
-            <span class="stat-item">📁 ${Object.keys(groupedFiles).length} Categories</span>
+				html += `
+        <article class="blog-card" data-path="${post.path}">
+          <div class="card-header">
+            <h3 class="post-title">${cleanName}</h3>
+            <span class="post-path">${post.path}</span><br>
+            <small>📅 ${date}</small>
           </div>
+          <div class="card-footer">
+            <button class="read-btn" data-path="${post.path}">Read Post →</button>
+          </div>
+        </article>
       `;
-      
-      // Generate grouped content
-      for (const [directory, files] of Object.entries(groupedFiles)) {
-        html += `
-          <section class="blog-category">
-            <h2 class="category-title">${directory === 'root' ? '📝 General Posts' : `📁 ${directory}`}</h2>
-            <div class="blog-grid">
-        `;
-        
-        files.forEach(file => {
-          const fileName = file.name.replace('.md', '');
-          const cleanName = fileName.replace(/[-_]/g, ' ').replace(/\b\w/g, l => l.toUpperCase());
-          
-          html += `
-            <article class="blog-card" data-path="${file.path}">
-              <div class="card-header">
-                <h3 class="post-title">${cleanName}</h3>
-                <span class="post-path">${file.path}</span>
-              </div>
-              <div class="card-footer">
-                <button class="read-btn" data-path="${file.path}">Read Post →</button>
-              </div>
-            </article>
-          `;
-        });
-        
-        html += `
-            </div>
-          </section>
-        `;
-      }
-      
-      html += `
-          <footer class="blog-footer">
-            <p>💡 Click on any post to start reading, or use the theme switcher in the top right to customize your experience.</p>
-          </footer>
+			});
+
+			html += `
         </div>
-      `;
-      
-      return html;
-    }
+      </section>
+      <footer class="blog-footer">
+        <p>💡 Sorted by newest first. Use the theme switcher in the top right to customize your experience.</p>
+      </footer>
+    </div>
+    `;
 
-    function groupFilesByDirectory(files) {
-      const grouped = {};
-      
-      files.forEach(file => {
-        const pathParts = file.path.split('/');
-        const directory = pathParts.length > 1 ? pathParts.slice(0, -1).join('/') : 'root';
-        
-        if (!grouped[directory]) {
-          grouped[directory] = [];
-        }
-        grouped[directory].push(file);
-      });
-      
-      // Sort files within each directory
-      Object.keys(grouped).forEach(dir => {
-        grouped[dir].sort((a, b) => a.name.localeCompare(b.name));
-      });
-      
-      return grouped;
-    }
+			return html;
+		}
 
-    function setupBlogLinks() {
-      const readButtons = document.querySelectorAll('.read-btn');
-      readButtons.forEach(button => {
-        button.addEventListener('click', () => {
-          const path = button.getAttribute('data-path');
-          window.location.href = `${window.location.pathname}?page=${path}`;
-        });
-      });
-      
-      const blogCards = document.querySelectorAll('.blog-card');
-      blogCards.forEach(card => {
-        card.addEventListener('click', (e) => {
-          if (!e.target.classList.contains('read-btn')) {
-            const path = card.getAttribute('data-path');
-            window.location.href = `${window.location.pathname}?page=${path}`;
-          }
-        });
-      });
-    }
+		function groupFilesByDirectory(posts) {
+			const grouped = {};
 
-    function create_progressbar() {
-      const progressBar = document.querySelector('.scroll-progress');
-      window.addEventListener('scroll', () => {
-        const winScroll = document.body.scrollTop || document.documentElement.scrollTop;
-        const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
-        const scrolled = (winScroll / height) * 100;
-        progressBar.style.width = scrolled + '%';
-      });
-    }
+			posts.forEach(file => {
+				const pathParts = file.path.split('/');
+				const directory = pathParts.length > 1 ? pathParts.slice(0, -1).join('/') : 'root';
 
-    /* SIMPLE THEME SWITCHER */
-    const themeOptions = document.querySelectorAll('.theme-option');
-    
-    // Handle theme change
-    themeOptions.forEach(option => {
-        option.addEventListener('click', function() {
-            const selectedTheme = this.getAttribute('data-theme');
-            const themeLinks = document.querySelectorAll('.theme');
-            
-            // Disable all themes first
-            themeLinks.forEach(link => {
-                link.disabled = true;
-            });
-            
-            // Enable the selected theme
-            const selectedLink = document.getElementById(selectedTheme);
-            if (selectedLink) {
-                selectedLink.disabled = false;
-            }
-        });
-    });
+				if (!grouped[directory]) {
+					grouped[directory] = [];
+				}
+				grouped[directory].push(file);
+			});
 
-    /* IMAGE MODAL */
-    function setupImagePopups() {
-      const images = document.querySelectorAll('.container img');
-      images.forEach(img => {
-        img.style.cursor = 'pointer';
-        img.addEventListener('click', () => openImageModal(img.src, img.alt || ''));
-      });
-    }
+			return grouped;
+		}
 
-    function openImageModal(src, altText) {
-      const modal = document.getElementById('imageModal');
-      const modalContainer = document.getElementById('modalImageContainer');
-      modal.classList.add('show');
-      document.body.style.overflow = 'hidden';
-      modalContainer.innerHTML = '<div class="modal-spinner"></div>';
+		function setupBlogLinks() {
+			const readButtons = document.querySelectorAll('.read-btn');
+			readButtons.forEach(button => {
+				button.addEventListener('click', () => {
+					const path = button.getAttribute('data-path');
+					window.location.href = `${window.location.pathname}?page=${path}`;
+				});
+			});
 
-      const modalImg = document.createElement('img');
-      modalImg.className = 'modal-image';
-      modalImg.alt = altText;
+			const blogCards = document.querySelectorAll('.blog-card');
+			blogCards.forEach(card => {
+				card.addEventListener('click', (e) => {
+					if (!e.target.classList.contains('read-btn')) {
+						const path = card.getAttribute('data-path');
+						window.location.href = `${window.location.pathname}?page=${path}`;
+					}
+				});
+			});
+		}
 
-      modalImg.onload = () => {
-        modalContainer.innerHTML = '';
-        modalContainer.appendChild(modalImg);
-        if (altText) {
-          const caption = document.createElement('div');
-          caption.className = 'image-caption';
-          caption.textContent = altText;
-          modalContainer.appendChild(caption);
-        }
-      };
-      modalImg.onerror = () => {
-        modalContainer.innerHTML = '<div style="color: white; text-align: center; padding: 20px;">Failed to load image</div>';
-      };
-      modalImg.src = src;
-    }
+		function create_progressbar() {
+			const progressBar = document.querySelector('.scroll-progress');
+			window.addEventListener('scroll', () => {
+				const winScroll = document.body.scrollTop || document.documentElement.scrollTop;
+				const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+				const scrolled = (winScroll / height) * 100;
+				progressBar.style.width = scrolled + '%';
+			});
+		}
 
-    function closeImageModal() {
-      document.getElementById('imageModal').classList.remove('show');
-      document.body.style.overflow = 'auto';
-    }
+		/* SIMPLE THEME SWITCHER */
+		const themeOptions = document.querySelectorAll('.theme-option');
+		themeOptions.forEach(option => {
+			option.addEventListener('click', function () {
+				const selectedTheme = this.getAttribute('data-theme');
+				const themeLinks = document.querySelectorAll('.theme');
+				themeLinks.forEach(link => link.disabled = true);
+				const selectedLink = document.getElementById(selectedTheme);
+				if (selectedLink) selectedLink.disabled = false;
+			});
+		});
 
-    // Modal event listeners
-    document.getElementById('imageModal').addEventListener('click', e => {
-      if (e.target === e.currentTarget) closeImageModal();
-    });
-    
-    document.addEventListener('keydown', e => {
-      if (e.key === 'Escape') closeImageModal();
-    });
-    
-    document.querySelector('.modal-content').addEventListener('click', e => e.stopPropagation());
-  </script>
+		/* IMAGE MODAL */
+		function setupImagePopups() {
+			const images = document.querySelectorAll('.container img');
+			images.forEach(img => {
+				img.style.cursor = 'pointer';
+				img.addEventListener('click', () => openImageModal(img.src, img.alt || ''));
+			});
+		}
+
+		function openImageModal(src, altText) {
+			const modal = document.getElementById('imageModal');
+			const modalContainer = document.getElementById('modalImageContainer');
+			modal.classList.add('show');
+			document.body.style.overflow = 'hidden';
+			modalContainer.innerHTML = '<div class="modal-spinner"></div>';
+
+			const modalImg = document.createElement('img');
+			modalImg.className = 'modal-image';
+			modalImg.alt = altText;
+
+			modalImg.onload = () => {
+				modalContainer.innerHTML = '';
+				modalContainer.appendChild(modalImg);
+				if (altText) {
+					const caption = document.createElement('div');
+					caption.className = 'image-caption';
+					caption.textContent = altText;
+					modalContainer.appendChild(caption);
+				}
+			};
+			modalImg.onerror = () => {
+				modalContainer.innerHTML = '<div style="color: white; text-align: center; padding: 20px;">Failed to load image</div>';
+			};
+			modalImg.src = src;
+		}
+
+		function closeImageModal() {
+			document.getElementById('imageModal').classList.remove('show');
+			document.body.style.overflow = 'auto';
+		}
+
+		document.getElementById('imageModal').addEventListener('click', e => {
+			if (e.target === e.currentTarget) closeImageModal();
+		});
+
+		document.addEventListener('keydown', e => {
+			if (e.key === 'Escape') closeImageModal();
+		});
+
+		document.querySelector('.modal-content').addEventListener('click', e => e.stopPropagation());
+	</script>
 </body>
 
 </html>
