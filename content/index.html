@@ -17,9 +17,7 @@
 		/* --- Base Structural Styles --- */
 		/* These styles define the layout and should not be overridden by themes. */
 
-		/* 1. Global & Layout */
-
-		/* 2. Page States */
+		/* 1. Page States */
 		.loading,
 		.error {
 			text-align: center;
@@ -35,7 +33,7 @@
 			border-radius: 8px;
 		}
 
-		/* 3. Navigation & Theme Switcher */
+		/* 2. Navigation & Theme Switcher */
 		.site-controls {
 			position: fixed;
 			top: 20px;
@@ -56,6 +54,8 @@
 			cursor: pointer;
 			transition: all 0.2s ease;
 			box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+			/* FIX: Added font-size for consistency */
+			font-size: 14px;
 		}
 
 		.dropdown {
@@ -87,7 +87,7 @@
 			display: block;
 		}
 
-		/* 4. Scroll Progress Bar */
+		/* 3. Scroll Progress Bar */
 		.scroll-progress {
 			position: fixed;
 			top: 0;
@@ -100,7 +100,7 @@
 			transition: width 0.1s ease;
 		}
 
-		/* 5. Main Page Structure */
+		/* 4. Main Page Structure */
 		.main-page header.blog-header {
 			text-align: center;
 			margin-bottom: 3rem;
@@ -149,7 +149,7 @@
 			gap: 1.5rem;
 		}
 
-		/* 6. Blog Card Structure */
+		/* 5. Blog Card Structure */
 		.blog-card {
 			border: 1px solid #e9ecef;
 			border-radius: 12px;
@@ -204,7 +204,7 @@
 			border: 1px solid #e9ecef;
 		}
 
-		/* 7. Image Modal */
+		/* 6. Image Modal */
 		.image-modal {
 			display: none;
 			position: fixed;
@@ -273,7 +273,7 @@
 			}
 		}
 
-		/* 8. Responsive Design */
+		/* 7. Responsive Design */
 		@media (max-width: 768px) {
 			.blog-header h1 {
 				font-size: 2.5rem;
