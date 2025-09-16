@@ -624,13 +624,39 @@
 
 		/* SIMPLE THEME SWITCHER */
 		const themeOptions = document.querySelectorAll('.theme-option');
+		const themeLinks = document.querySelectorAll('.theme');
+		const dropdownLabel = document.querySelector('#themeSwitcher span');
+
+		// Apply a theme by ID and update label
+		function applyTheme(themeId) {
+			themeLinks.forEach(link => link.disabled = true);
+			const selectedLink = document.getElementById(themeId);
+			if (selectedLink) selectedLink.disabled = false;
+
+			// Update dropdown label
+			const option = document.querySelector(`.theme-option[data-theme="${themeId}"]`);
+			if (option) {
+				dropdownLabel.textContent = option.textContent;
+			}
+
+			// Save to localStorage
+			localStorage.setItem('selectedTheme', themeId);
+		}
+
+		// Restore saved theme on load
+		const savedTheme = localStorage.getItem('selectedTheme');
+		if (savedTheme) {
+			applyTheme(savedTheme);
+		} else {
+			// Default to theme2 if nothing saved
+			applyTheme('theme2');
+		}
+
+		// Listen for user clicks
 		themeOptions.forEach(option => {
 			option.addEventListener('click', function () {
 				const selectedTheme = this.getAttribute('data-theme');
-				const themeLinks = document.querySelectorAll('.theme');
-				themeLinks.forEach(link => link.disabled = true);
-				const selectedLink = document.getElementById(selectedTheme);
-				if (selectedLink) selectedLink.disabled = false;
+				applyTheme(selectedTheme);
 			});
 		});
 
