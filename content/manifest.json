@@ -1,6 +1,11 @@
 {
   "posts": [
     {
+      "title": "Pointer Arithmetic",
+      "path": "C/Pointer Arithmetic.md",
+      "date": "2025-09-22 15:05:23 +0530"
+    },
+    {
       "title": "Pointer To Pointer",
       "path": "C/Pointer To Pointer.md",
       "date": "2025-09-22 14:38:00 +0530"
