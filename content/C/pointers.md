@@ -62,4 +62,4 @@ display(&nums[0], nums_size);
 12345
 ```
 
-So yeah, arrays and pointers are basically best friends in C. Passing an array to a function is just passing a pointer to its first element.
+So yeah, arrays and pointers are basically best friends in C. Passing an array to a function is just passing a pointer to its first element
