@@ -32,7 +32,7 @@ jobs:
 
                       # Get last commit date from git history
                       date_str = subprocess.check_output(
-                          ["git", "log", "--diff-filter=A", "--format=%cs", "--", path],
+                          ["git", "log", "--follow", "--format=%cs", "--", path],
                           text=True
                       ).strip()
 
