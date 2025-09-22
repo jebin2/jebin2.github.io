@@ -1,11 +1,6 @@
 {
   "posts": [
     {
-      "title": "hello",
-      "path": "C/hello.md",
-      "date": "2025-09-22"
-    },
-    {
       "title": "pointers",
       "path": "C/pointers.md",
       "date": "2025-09-22"
@@ -13,7 +8,12 @@
     {
       "title": "Floating Point Standard",
       "path": "C/Floating Point Standard.md",
-      "date": "2025-09-22"
+      "date": "2025-09-16"
+    },
+    {
+      "title": "hello",
+      "path": "C/hello.md",
+      "date": "2025-09-08"
     }
   ]
 }
