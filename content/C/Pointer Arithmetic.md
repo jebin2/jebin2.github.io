@@ -58,6 +58,24 @@ Now:
 * `(&temp_mat[0] + 1)` → points to index **1**
 * `*(&temp_mat[0] + 1)` → gives value at index **1** → `1123`
 
+### The Magic Formula
+```
+Final_Address = Base_Address + (Index * sizeof(DataType))
+
+Operation       Backend Calculation              Result
+arr + 0      →  0x1008 + (0 * 4) = 0x1008 + 0x0  = 0x1008
+arr + 1      →  0x1008 + (1 * 4) = 0x1008 + 0x4  = 0x100C  
+arr + 2      →  0x1008 + (2 * 4) = 0x1008 + 0x8  = 0x1010
+arr + 5      →  0x1008 + (5 * 4) = 0x1008 + 0x14 = 0x101C
+
+
+Base address:    0x1008
+Offset (3*4):   +0x0004
+                -------
+Result:          0x100C
+8 + 4 = 12 which is `C` in Hex
+```
+
 ---
 
 That’s basically **pointer arithmetic** — we can do math on pointers to move around memory, and then dereference to get the value.
