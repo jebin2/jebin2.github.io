@@ -28,7 +28,7 @@ it splits the 32 bits into:
 
 computer only understands 0s and 1s.  
 
-with 32 bits, an `int` can store from `0` to `2^32 - 1 = 4294967295`.  
+with 32 bits, an `unsigned int` can store from `0` to `2^32 - 1 = 4294967295`.  
 
 but floats are trickier — between 1 and 10 alone, there are *infinite* decimal numbers.  
 we can’t just shove them into int slots.  
