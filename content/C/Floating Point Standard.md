@@ -20,11 +20,11 @@ it splits the 32 bits into:
 - 8 bits for exponent  
 - 23 bits for fraction (mantissa)  
 
-more info on [how?](https://larrylu.dev/why-01-02-03-a-deep-dive-into-ieee-754-and-floating-point-arithmetic)
+[Detailed IEEE 754 Explaination](https://larrylu.dev/why-01-02-03-a-deep-dive-into-ieee-754-and-floating-point-arithmetic)
 
 ---
 
-## why not just int?
+## why not just follow int way?
 
 computer only understands 0s and 1s.  
 
