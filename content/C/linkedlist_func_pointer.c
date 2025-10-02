@@ -6,9 +6,15 @@ typedef struct linked_list_node {
     struct linked_list_node *next; // 8 byte
 } linked_list;
 
-void display(linked_list *ll) {
+typedef void (*handle)(linked_list*);
+
+void print_value(linked_list *ll) {
+    printf("From print_value::%d\n", ll->value);
+}
+
+void display(linked_list *ll, handle callback) {
     while(ll != NULL) { // check until next is null that is end
-        printf("%d\n", ll->value);
+        callback(ll);
         ll = ll->next; // assign ll to next pointer
     }
 }
@@ -52,7 +58,7 @@ int main() {
             currentNode->next = NULL; // safe way to find the list end
         }
     }
-    display(head);
+    display(head, &print_value);
     reverse_display(head);
     free_mem(head);
     return 0;
