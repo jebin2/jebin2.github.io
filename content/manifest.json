@@ -1,6 +1,21 @@
 {
   "posts": [
     {
+      "title": "pico_connect",
+      "path": "guide/pico_connect.md",
+      "date": "2025-10-05 22:03:40 +0530"
+    },
+    {
+      "title": "pico_setup_build",
+      "path": "guide/pico_setup_build.md",
+      "date": "2025-10-05 22:03:40 +0530"
+    },
+    {
+      "title": "ccompile",
+      "path": "guide/ccompile.md",
+      "date": "2025-10-05 22:03:24 +0530"
+    },
+    {
       "title": "Linked List in C",
       "path": "C/Linked List in C.md",
       "date": "2025-10-02 08:55:10 +0530"
