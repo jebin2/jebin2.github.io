@@ -1,0 +1,52 @@
+#!/bin/bash
+# cppico: Flash a UF2 to Raspberry Pi Pico with step-by-step log
+
+if [ -z "$1" ]; then
+  echo "Usage: cppico <filename.uf2>"
+  exit 1
+fi
+
+UF2_FILE="$1"
+MOUNT_POINT="/run/media/$USER/RPI-RP2"
+
+echo "=== cppico: Flashing $UF2_FILE ==="
+
+# Step 1: Detect Pico
+echo "[1/5] Detecting Raspberry Pi Pico..."
+PICO_DEV=$(lsblk -f | grep RPI-RP2 | awk '{print $1}' | sed 's/[^a-zA-Z0-9]*//g')
+if [ -z "$PICO_DEV" ]; then
+  echo "❌ Raspberry Pi Pico not detected. Make sure BOOTSEL is pressed."
+  exit 1
+fi
+echo "✅ Found Pico device: /dev/$PICO_DEV"
+
+# Step 2: Create mount point
+echo "[2/5] Creating mount point: $MOUNT_POINT"
+mkdir -p "$MOUNT_POINT"
+echo "✅ Mount point ready."
+
+# Step 3: Mount Pico
+echo "[3/5] Mounting /dev/$PICO_DEV to $MOUNT_POINT with current user permissions..."
+sudo mount -o uid=$(id -u),gid=$(id -g) /dev/"$PICO_DEV" "$MOUNT_POINT"
+if [ $? -ne 0 ]; then
+  echo "❌ Failed to mount device."
+  exit 1
+fi
+echo "✅ Pico mounted."
+
+# Step 4: Copy UF2 file
+echo "[4/5] Copying $UF2_FILE to $MOUNT_POINT..."
+cp "$UF2_FILE" "$MOUNT_POINT/"
+if [ $? -ne 0 ]; then
+  echo "❌ Failed to copy file."
+  sudo umount "$MOUNT_POINT"
+  exit 1
+fi
+echo "✅ File copied."
+
+# Step 5: Unmount Pico
+echo "[5/5] Unmounting Pico..."
+sudo umount "$MOUNT_POINT"
+echo "✅ Pico safely unmounted."
+
+echo "🎉 Flashing complete!"
