@@ -1,64 +1,79 @@
 name: Update manifest.json
 
 on:
-  push:
-    branches:
-      - main
+push:
+	branches:
+	- main
 
 jobs:
-  update-manifest:
-    runs-on: ubuntu-latest
-    permissions:
-      contents: write   # allow pushing back to repo
+update-manifest:
+	runs-on: ubuntu-latest
+	permissions:
+	contents: write   # allow pushing back to repo
 
-    steps:
-      - name: Checkout repo
-        uses: actions/checkout@v4
-        with:
-          fetch-depth: 0  # Important: fetch full git history
+	steps:
+	- name: Checkout repo
+		uses: actions/checkout@v4
+		with:
+		fetch-depth: 0  # Important: fetch full git history
 
-      - name: Set up Python
-        uses: actions/setup-python@v5
-        with:
-          python-version: '3.x'
+	- name: Set up Python
+		uses: actions/setup-python@v5
+		with:
+		python-version: '3.x'
 
-      - name: Generate manifest.json
-        run: |
-          import os, json, subprocess
+	- name: Generate manifest.json
+		run: |
+		import os, json, subprocess
 
-          posts = []
-          for root, dirs, files in os.walk("."):
-              for f in files:
-                  if f.endswith(".md") and f not in ["README.md", "index.md", "manifest.json", "prompt.md"] and not f.startswith("__"):
-                      path = os.path.relpath(os.path.join(root, f), ".").replace("\\", "/")
+		posts = []
+		svgs = []
 
-                      # Get creation date and time (first commit) from git history
-                      try:
-                          result = subprocess.run(
-                              ["git", "log", "--reverse", "--format=%ci", "--", path],
-                              capture_output=True, text=True, check=True
-                          )
-                          dates = result.stdout.strip().split('\n')
-                          datetime_str = dates[0] if dates and dates[0] else "2025-09-22 00:00:00 +0000"
-                      except:
-                          datetime_str = "2025-09-22 00:00:00 +0000"
+		for root, dirs, files in os.walk("."):
+			for f in files:
+				path = os.path.relpath(os.path.join(root, f), ".").replace("\\", "/")
 
-                      posts.append({
-                          "title": os.path.splitext(os.path.basename(f))[0],
-                          "path": path,
-                          "date": datetime_str
-                      })
+				# Get creation date and time (first commit) from git history
+				try:
+					result = subprocess.run(
+						["git", "log", "--reverse", "--format=%ci", "--", path],
+						capture_output=True, text=True, check=True
+					)
+					dates = result.stdout.strip().split('\n')
+					datetime_str = dates[0] if dates and dates[0] else "2025-09-22 00:00:00 +0000"
+				except:
+					datetime_str = "2025-09-22 00:00:00 +0000"
 
-          posts.sort(key=lambda x: x["date"], reverse=True)
+					if not f.startswith("__"):
+						# Collect .md files
+						if f.endswith(".md") and f not in ["README.md", "index.md", "manifest.json", "prompt.md"]:
+							posts.append({
+								"title": os.path.splitext(os.path.basename(f))[0],
+								"path": path,
+								"date": datetime_str
+							})
 
-          with open("manifest.json", "w") as f:
-              json.dump({"posts": posts}, f, indent=2)
-        shell: python
+						# Collect .svg files
+						elif f.endswith(".svg"):
+							svgs.append({
+								"name": os.path.splitext(f)[0],
+								"path": path,
+								"date": datetime_str
+							})
 
-      - name: Commit and push manifest.json
-        run: |
-          git config --global user.name "github-actions[bot]"
-          git config --global user.email "github-actions[bot]@users.noreply.github.com"
-          git add manifest.json
-          git commit -m "Update manifest.json" || echo "No changes to commit"
-          git push
+		# Sort posts by date descending
+		posts.sort(key=lambda x: x["date"], reverse=True)
+		# Sort svgs by date descending
+		svgs.sort(key=lambda x: x["date"], reverse=True)
+
+		with open("manifest.json", "w") as f:
+			json.dump({"posts": posts, "svgs": svgs}, f, indent=2)
+		shell: python
+
+	- name: Commit and push manifest.json
+		run: |
+		git config --global user.name "github-actions[bot]"
+		git config --global user.email "github-actions[bot]@users.noreply.github.com"
+		git add manifest.json
+		git commit -m "Update manifest.json" || echo "No changes to commit"
+		git push
