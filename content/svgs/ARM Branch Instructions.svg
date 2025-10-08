@@ -1,0 +1,251 @@
+<svg viewBox="0 0 1200 1700" xmlns="http://www.w3.org/2000/svg">
+  <!-- Title -->
+  <text x="600" y="40" font-size="32" font-weight="bold" text-anchor="middle" fill="#2c3e50">ARM Branch Instructions</text>
+  
+  <!-- B Instruction -->
+  <g transform="translate(0, 80)">
+    <rect x="50" y="0" width="1100" height="320" fill="#3498db" opacity="0.1" rx="10"/>
+    <text x="70" y="35" font-size="28" font-weight="bold" fill="#3498db">B — Branch (Simple Jump)</text>
+    
+    <!-- Diagram -->
+    <circle cx="150" cy="100" r="30" fill="#3498db"/>
+    <text x="150" y="108" font-size="16" fill="white" text-anchor="middle" font-weight="bold">PC</text>
+    
+    <line x1="180" y1="100" x2="350" y2="100" stroke="#3498db" stroke-width="3" marker-end="url(#arrowblue)"/>
+    <text x="265" y="85" font-size="14" fill="#2c3e50" font-weight="bold">Jump</text>
+    <text x="265" y="105" font-size="11" fill="#7f8c8d">Offset relative to PC+8</text>
+    <text x="265" y="120" font-size="11" fill="#7f8c8d">(ARM pipeline)</text>
+    
+    <rect x="370" y="70" width="100" height="60" fill="#3498db" opacity="0.3" rx="5"/>
+    <text x="420" y="108" font-size="16" fill="#2c3e50" text-anchor="middle" font-weight="bold">LABEL</text>
+    
+    <!-- Features -->
+    <text x="550" y="95" font-size="18" fill="#2c3e50">✓ Changes PC only</text>
+    <text x="550" y="125" font-size="18" fill="#2c3e50">✗ No LR change</text>
+    <text x="550" y="155" font-size="18" fill="#2c3e50">✗ No mode switch</text>
+    
+    <!-- Key Point Box -->
+    <rect x="550" y="170" width="550" height="45" fill="#f39c12" opacity="0.2" rx="5" stroke="#f39c12" stroke-width="2"/>
+    <text x="565" y="192" font-size="14" fill="#2c3e50" font-weight="bold">💡 Key: </text>
+    <text x="620" y="192" font-size="14" fill="#2c3e50">No return possible - one way jump!</text>
+    <text x="565" y="210" font-size="13" fill="#7f8c8d">Use for loops, if-else, infinite jumps</text>
+    
+    <!-- Example -->
+    <rect x="70" y="230" width="1050" height="70" fill="#ecf0f1" rx="5"/>
+    <text x="90" y="255" font-size="16" font-family="monospace" fill="#2c3e50">CMP R0, R1</text>
+    <text x="90" y="280" font-size="16" font-family="monospace" fill="#2c3e50">BLT smaller    ; if R0 &lt; R1, jump to 'smaller'</text>
+  </g>
+  
+  <!-- BL Instruction -->
+  <g transform="translate(0, 420)">
+    <rect x="50" y="0" width="1100" height="340" fill="#e74c3c" opacity="0.1" rx="10"/>
+    <text x="70" y="35" font-size="28" font-weight="bold" fill="#e74c3c">BL — Branch with Link (Function Call)</text>
+    
+    <!-- Diagram -->
+    <circle cx="150" cy="100" r="30" fill="#e74c3c"/>
+    <text x="150" y="108" font-size="16" fill="white" text-anchor="middle" font-weight="bold">PC</text>
+    
+    <line x1="180" y1="100" x2="350" y2="100" stroke="#e74c3c" stroke-width="3" marker-end="url(#arrowred)"/>
+    <text x="265" y="90" font-size="14" fill="#2c3e50" font-weight="bold">Call Function</text>
+    
+    <rect x="370" y="70" width="120" height="60" fill="#e74c3c" opacity="0.3" rx="5"/>
+    <text x="430" y="108" font-size="16" fill="#2c3e50" text-anchor="middle" font-weight="bold">FUNCTION</text>
+    
+    <!-- LR Save -->
+    <line x1="150" y1="140" x2="150" y2="190" stroke="#e74c3c" stroke-width="3" stroke-dasharray="5,5" marker-end="url(#arrowred)"/>
+    <circle cx="150" cy="210" r="30" fill="#e74c3c"/>
+    <text x="150" y="218" font-size="16" fill="white" text-anchor="middle" font-weight="bold">LR</text>
+    <text x="200" y="215" font-size="14" fill="#2c3e50">LR = PC + 4</text>
+    <text x="200" y="235" font-size="12" fill="#7f8c8d">(return address)</text>
+    
+    <!-- Features -->
+    <text x="550" y="95" font-size="18" fill="#2c3e50">✓ Changes PC</text>
+    <text x="550" y="125" font-size="18" fill="#2c3e50">✓ Saves to LR (PC+4)</text>
+    <text x="550" y="155" font-size="18" fill="#2c3e50">✗ No mode switch</text>
+    <text x="550" y="185" font-size="18" fill="#16a085">→ Return with BX LR</text>
+    
+    <!-- Key Point Box -->
+    <rect x="550" y="200" width="550" height="45" fill="#f39c12" opacity="0.2" rx="5" stroke="#f39c12" stroke-width="2"/>
+    <text x="565" y="222" font-size="14" fill="#2c3e50" font-weight="bold">💡 Key: </text>
+    <text x="620" y="222" font-size="14" fill="#2c3e50">Two-way! Can return to caller</text>
+    <text x="565" y="240" font-size="13" fill="#7f8c8d">Use for subroutines and function calls</text>
+    
+    <!-- Example -->
+    <rect x="70" y="260" width="1050" height="60" fill="#ecf0f1" rx="5"/>
+    <text x="90" y="290" font-size="16" font-family="monospace" fill="#2c3e50">BL my_function    ; LR = PC+4, jump to function</text>
+    <text x="90" y="310" font-size="14" font-family="monospace" fill="#7f8c8d">                  ; Returns here after BX LR</text>
+  </g>
+  
+  <!-- BX Instruction -->
+  <g transform="translate(0, 780)">
+    <rect x="50" y="0" width="1100" height="360" fill="#9b59b6" opacity="0.1" rx="10"/>
+    <text x="70" y="35" font-size="28" font-weight="bold" fill="#9b59b6">BX — Branch and Exchange (Jump + Mode Switch)</text>
+    
+    <!-- Diagram -->
+    <circle cx="150" cy="100" r="30" fill="#9b59b6"/>
+    <text x="150" y="108" font-size="16" fill="white" text-anchor="middle" font-weight="bold">PC</text>
+    
+    <line x1="180" y1="100" x2="290" y2="100" stroke="#9b59b6" stroke-width="3" marker-end="url(#arrowpurple)"/>
+    
+    <circle cx="330" cy="100" r="30" fill="#9b59b6"/>
+    <text x="330" y="108" font-size="16" fill="white" text-anchor="middle" font-weight="bold">Rn</text>
+    <text x="330" y="145" font-size="14" fill="#2c3e50" text-anchor="middle">Register with address</text>
+    
+    <!-- Mode Switch Box -->
+    <rect x="420" y="60" width="160" height="90" fill="#f39c12" opacity="0.3" rx="5" stroke="#f39c12" stroke-width="2"/>
+    <text x="500" y="85" font-size="16" fill="#2c3e50" text-anchor="middle" font-weight="bold">ARM ⇄ Thumb</text>
+    <text x="500" y="105" font-size="13" fill="#2c3e50" text-anchor="middle">Bit 0 = 0 → ARM</text>
+    <text x="500" y="125" font-size="13" fill="#2c3e50" text-anchor="middle">Bit 0 = 1 → Thumb</text>
+    <text x="500" y="145" font-size="11" fill="#7f8c8d" text-anchor="middle">LSB determines mode</text>
+    
+    <!-- Features -->
+    <text x="630" y="90" font-size="18" fill="#2c3e50">✓ Changes PC</text>
+    <text x="630" y="120" font-size="18" fill="#2c3e50">✗ No LR change</text>
+    <text x="630" y="150" font-size="18" fill="#2c3e50">✓ Mode switch</text>
+    
+    <!-- Key Point Box -->
+    <rect x="630" y="165" width="470" height="45" fill="#f39c12" opacity="0.2" rx="5" stroke="#f39c12" stroke-width="2"/>
+    <text x="645" y="187" font-size="14" fill="#2c3e50" font-weight="bold">💡 Key: </text>
+    <text x="700" y="187" font-size="14" fill="#2c3e50">Jump to register address</text>
+    <text x="645" y="205" font-size="13" fill="#7f8c8d">Most common: BX LR (return from function)</text>
+    
+    <!-- Example -->
+    <rect x="70" y="230" width="1050" height="110" fill="#ecf0f1" rx="5"/>
+    <text x="90" y="260" font-size="16" font-family="monospace" fill="#2c3e50">BX LR         ; Return from function (PC = LR)</text>
+    <text x="90" y="285" font-size="16" font-family="monospace" fill="#2c3e50">BX R3         ; Jump to address in R3</text>
+    <text x="90" y="310" font-size="14" font-family="monospace" fill="#7f8c8d">              ; If R3 = 0x8000 → ARM mode</text>
+    <text x="90" y="330" font-size="14" font-family="monospace" fill="#7f8c8d">              ; If R3 = 0x8001 → Thumb mode</text>
+  </g>
+  
+  <!-- BLX Instruction -->
+  <g transform="translate(0, 1160)">
+    <rect x="50" y="0" width="1100" height="360" fill="#16a085" opacity="0.1" rx="10"/>
+    <text x="70" y="35" font-size="28" font-weight="bold" fill="#16a085">BLX — Branch with Link and Exchange (Call + Mode Switch)</text>
+    
+    <!-- Diagram -->
+    <circle cx="150" cy="100" r="30" fill="#16a085"/>
+    <text x="150" y="108" font-size="16" fill="white" text-anchor="middle" font-weight="bold">PC</text>
+    
+    <line x1="180" y1="100" x2="290" y2="100" stroke="#16a085" stroke-width="3" marker-end="url(#arrowgreen)"/>
+    <text x="235" y="85" font-size="14" fill="#2c3e50" font-weight="bold">Call</text>
+    
+    <circle cx="330" cy="100" r="30" fill="#16a085"/>
+    <text x="330" y="108" font-size="16" fill="white" text-anchor="middle" font-weight="bold">Rn</text>
+    
+    <!-- LR Save -->
+    <line x1="150" y1="140" x2="150" y2="190" stroke="#16a085" stroke-width="3" stroke-dasharray="5,5" marker-end="url(#arrowgreen)"/>
+    <circle cx="150" cy="210" r="30" fill="#16a085"/>
+    <text x="150" y="218" font-size="16" fill="white" text-anchor="middle" font-weight="bold">LR</text>
+    <text x="200" y="215" font-size="14" fill="#2c3e50">LR = PC + 4</text>
+    
+    <!-- Mode Switch Box -->
+    <rect x="390" y="60" width="160" height="90" fill="#f39c12" opacity="0.3" rx="5" stroke="#f39c12" stroke-width="2"/>
+    <text x="470" y="85" font-size="16" fill="#2c3e50" text-anchor="middle" font-weight="bold">ARM ⇄ Thumb</text>
+    <text x="470" y="105" font-size="13" fill="#2c3e50" text-anchor="middle">Bit 0 = 0 → ARM</text>
+    <text x="470" y="125" font-size="13" fill="#2c3e50" text-anchor="middle">Bit 0 = 1 → Thumb</text>
+    <text x="470" y="145" font-size="11" fill="#7f8c8d" text-anchor="middle">Auto mode switch</text>
+    
+    <!-- Features -->
+    <text x="600" y="85" font-size="18" fill="#2c3e50">✓ Changes PC</text>
+    <text x="600" y="115" font-size="18" fill="#2c3e50">✓ Saves to LR (PC+4)</text>
+    <text x="600" y="145" font-size="18" fill="#2c3e50">✓ Mode switch</text>
+    <text x="600" y="180" font-size="16" fill="#7f8c8d" font-style="italic">= BL + BX combined!</text>
+    
+    <!-- Key Point Box -->
+    <rect x="600" y="195" width="500" height="45" fill="#f39c12" opacity="0.2" rx="5" stroke="#f39c12" stroke-width="2"/>
+    <text x="615" y="217" font-size="14" fill="#2c3e50" font-weight="bold">💡 Key: </text>
+    <text x="670" y="217" font-size="14" fill="#2c3e50">Most powerful - call + switch + return</text>
+    <text x="615" y="235" font-size="13" fill="#7f8c8d">Use when calling between ARM ↔ Thumb code</text>
+    
+    <!-- Example -->
+    <rect x="70" y="260" width="1050" height="80" fill="#ecf0f1" rx="5"/>
+    <text x="90" y="290" font-size="16" font-family="monospace" fill="#2c3e50">BLX R3            ; LR = PC+4, jump to R3, switch mode</text>
+    <text x="90" y="315" font-size="16" font-family="monospace" fill="#2c3e50">BLX thumb_func    ; Call Thumb function from ARM code</text>
+  </g>
+  
+  <!-- Comparison Table -->
+  <g transform="translate(0, 1540)">
+    <text x="600" y="20" font-size="24" font-weight="bold" text-anchor="middle" fill="#2c3e50">Quick Comparison Table</text>
+    
+    <!-- Table Header -->
+    <rect x="50" y="40" width="180" height="50" fill="#34495e"/>
+    <rect x="230" y="40" width="180" height="50" fill="#34495e"/>
+    <rect x="410" y="40" width="180" height="50" fill="#34495e"/>
+    <rect x="590" y="40" width="180" height="50" fill="#34495e"/>
+    <rect x="770" y="40" width="380" height="50" fill="#34495e"/>
+    
+    <text x="140" y="72" font-size="16" fill="white" text-anchor="middle" font-weight="bold">Instruction</text>
+    <text x="320" y="72" font-size="16" fill="white" text-anchor="middle" font-weight="bold">Changes PC</text>
+    <text x="500" y="72" font-size="16" fill="white" text-anchor="middle" font-weight="bold">Changes LR</text>
+    <text x="680" y="72" font-size="16" fill="white" text-anchor="middle" font-weight="bold">Mode Switch</text>
+    <text x="960" y="72" font-size="16" fill="white" text-anchor="middle" font-weight="bold">Primary Use Case</text>
+    
+    <!-- B Row -->
+    <rect x="50" y="90" width="180" height="50" fill="#3498db" opacity="0.2"/>
+    <rect x="230" y="90" width="180" height="50" fill="#ecf0f1"/>
+    <rect x="410" y="90" width="180" height="50" fill="#ecf0f1"/>
+    <rect x="590" y="90" width="180" height="50" fill="#ecf0f1"/>
+    <rect x="770" y="90" width="380" height="50" fill="#ecf0f1"/>
+    
+    <text x="140" y="122" font-size="20" fill="#3498db" text-anchor="middle" font-weight="bold">B</text>
+    <text x="320" y="122" font-size="20" fill="#27ae60" text-anchor="middle" font-weight="bold">✓</text>
+    <text x="500" y="122" font-size="20" fill="#e74c3c" text-anchor="middle" font-weight="bold">✗</text>
+    <text x="680" y="122" font-size="20" fill="#e74c3c" text-anchor="middle" font-weight="bold">✗</text>
+    <text x="960" y="122" font-size="15" fill="#2c3e50" text-anchor="middle">Loops, if-else, unconditional jumps</text>
+    
+    <!-- BL Row -->
+    <rect x="50" y="140" width="180" height="50" fill="#e74c3c" opacity="0.2"/>
+    <rect x="230" y="140" width="180" height="50" fill="#ecf0f1"/>
+    <rect x="410" y="140" width="180" height="50" fill="#ecf0f1"/>
+    <rect x="590" y="140" width="180" height="50" fill="#ecf0f1"/>
+    <rect x="770" y="140" width="380" height="50" fill="#ecf0f1"/>
+    
+    <text x="140" y="172" font-size="20" fill="#e74c3c" text-anchor="middle" font-weight="bold">BL</text>
+    <text x="320" y="172" font-size="20" fill="#27ae60" text-anchor="middle" font-weight="bold">✓</text>
+    <text x="500" y="172" font-size="20" fill="#27ae60" text-anchor="middle" font-weight="bold">✓</text>
+    <text x="680" y="172" font-size="20" fill="#e74c3c" text-anchor="middle" font-weight="bold">✗</text>
+    <text x="960" y="172" font-size="15" fill="#2c3e50" text-anchor="middle">Function calls (same mode)</text>
+    
+    <!-- BX Row -->
+    <rect x="50" y="190" width="180" height="50" fill="#9b59b6" opacity="0.2"/>
+    <rect x="230" y="190" width="180" height="50" fill="#ecf0f1"/>
+    <rect x="410" y="190" width="180" height="50" fill="#ecf0f1"/>
+    <rect x="590" y="190" width="180" height="50" fill="#ecf0f1"/>
+    <rect x="770" y="190" width="380" height="50" fill="#ecf0f1"/>
+    
+    <text x="140" y="222" font-size="20" fill="#9b59b6" text-anchor="middle" font-weight="bold">BX</text>
+    <text x="320" y="222" font-size="20" fill="#27ae60" text-anchor="middle" font-weight="bold">✓</text>
+    <text x="500" y="222" font-size="20" fill="#e74c3c" text-anchor="middle" font-weight="bold">✗</text>
+    <text x="680" y="222" font-size="20" fill="#27ae60" text-anchor="middle" font-weight="bold">✓</text>
+    <text x="960" y="222" font-size="15" fill="#2c3e50" text-anchor="middle">Return (BX LR) or mode switch</text>
+    
+    <!-- BLX Row -->
+    <rect x="50" y="240" width="180" height="50" fill="#16a085" opacity="0.2"/>
+    <rect x="230" y="240" width="180" height="50" fill="#ecf0f1"/>
+    <rect x="410" y="240" width="180" height="50" fill="#ecf0f1"/>
+    <rect x="590" y="240" width="180" height="50" fill="#ecf0f1"/>
+    <rect x="770" y="240" width="380" height="50" fill="#ecf0f1"/>
+    
+    <text x="140" y="272" font-size="20" fill="#16a085" text-anchor="middle" font-weight="bold">BLX</text>
+    <text x="320" y="272" font-size="20" fill="#27ae60" text-anchor="middle" font-weight="bold">✓</text>
+    <text x="500" y="272" font-size="20" fill="#27ae60" text-anchor="middle" font-weight="bold">✓</text>
+    <text x="680" y="272" font-size="20" fill="#27ae60" text-anchor="middle" font-weight="bold">✓</text>
+    <text x="960" y="272" font-size="15" fill="#2c3e50" text-anchor="middle">Call function + switch ARM ↔ Thumb</text>
+  </g>
+  
+  <!-- Arrow Markers -->
+  <defs>
+    <marker id="arrowblue" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L0,6 L9,3 z" fill="#3498db"/>
+    </marker>
+    <marker id="arrowred" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L0,6 L9,3 z" fill="#e74c3c"/>
+    </marker>
+    <marker id="arrowpurple" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L0,6 L9,3 z" fill="#9b59b6"/>
+    </marker>
+    <marker id="arrowgreen" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L0,6 L9,3 z" fill="#16a085"/>
+    </marker>
+  </defs>
+</svg>
