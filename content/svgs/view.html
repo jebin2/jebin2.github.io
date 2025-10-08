@@ -173,7 +173,7 @@
 		function checkUrlParameter() {
 			const urlParams = new URLSearchParams(window.location.search);
 			const srcParam = urlParams.get('src');
-			
+
 			if (srcParam) {
 				const fullPath = `https://raw.githubusercontent.com/jebin2/blog/main/${srcParam}`;
 				openModal(fullPath, srcParam);
@@ -216,6 +216,10 @@
 				const scaleY = containerHeight / imgHeight;
 				scale = Math.min(scaleX, scaleY, 1) * 0.9; // 90% of available space
 
+				// Calculate position to align top of image to top of viewport
+				const scaledHeight = imgHeight * scale;
+				posY = (containerHeight / 3 - scaledHeight / 3);
+
 				updateTransform(true);
 				updateZoomInfo();
 			};
@@ -249,7 +253,7 @@
 		window.addEventListener('popstate', () => {
 			const urlParams = new URLSearchParams(window.location.search);
 			const srcParam = urlParams.get('src');
-			
+
 			if (srcParam) {
 				const fullPath = `https://raw.githubusercontent.com/jebin2/blog/main/${srcParam}`;
 				openModal(fullPath, srcParam);
@@ -285,7 +289,7 @@
 		// --- Zoom with Mouse Wheel ---
 		modal.addEventListener('wheel', e => {
 			e.preventDefault();
-			
+
 			const rect = modalImg.getBoundingClientRect();
 			const mouseX = e.clientX;
 			const mouseY = e.clientY;
