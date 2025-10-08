@@ -1,0 +1,363 @@
+<svg viewBox="0 0 1400 1550" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <marker id="arrowhead" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto">
+      <polygon points="0 0, 10 3, 0 6" fill="#2563eb" />
+    </marker>
+    <marker id="arrowhead-green" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto">
+      <polygon points="0 0, 10 3, 0 6" fill="#16a34a" />
+    </marker>
+  </defs>
+  
+  <!-- Title -->
+  <text x="700" y="40" font-size="28" font-weight="bold" text-anchor="middle" fill="#1e293b">
+    ARM Load/Store Multiple Instructions
+  </text>
+  
+  <!-- Single Word Section -->
+  <text x="700" y="80" font-size="20" font-weight="bold" text-anchor="middle" fill="#475569">
+    Single-Word Instructions
+  </text>
+  
+  <!-- LDR Example -->
+  <rect x="100" y="100" width="500" height="120" fill="#dbeafe" stroke="#3b82f6" stroke-width="2" rx="8"/>
+  <text x="350" y="130" font-size="18" font-weight="bold" text-anchor="middle" fill="#1e40af">
+    LDR r0, [r1]
+  </text>
+  <text x="350" y="155" font-size="14" text-anchor="middle" fill="#475569">
+    Memory → CPU Register
+  </text>
+  
+  <!-- Memory box for LDR -->
+  <rect x="150" y="180" width="80" height="30" fill="#fef3c7" stroke="#f59e0b" stroke-width="2"/>
+  <text x="190" y="200" font-size="12" text-anchor="middle" fill="#92400e">[r1]</text>
+  
+  <!-- Arrow -->
+  <line x1="230" y1="195" x2="380" y2="195" stroke="#2563eb" stroke-width="3" marker-end="url(#arrowhead)"/>
+  
+  <!-- Register box for LDR -->
+  <rect x="400" y="180" width="80" height="30" fill="#d1fae5" stroke="#10b981" stroke-width="2"/>
+  <text x="440" y="200" font-size="12" text-anchor="middle" fill="#065f46">r0</text>
+  
+  <!-- STR Example -->
+  <rect x="800" y="100" width="500" height="120" fill="#fce7f3" stroke="#ec4899" stroke-width="2" rx="8"/>
+  <text x="1050" y="130" font-size="18" font-weight="bold" text-anchor="middle" fill="#be185d">
+    STR r0, [r1]
+  </text>
+  <text x="1050" y="155" font-size="14" text-anchor="middle" fill="#475569">
+    CPU Register → Memory
+  </text>
+  
+  <!-- Register box for STR -->
+  <rect x="850" y="180" width="80" height="30" fill="#d1fae5" stroke="#10b981" stroke-width="2"/>
+  <text x="890" y="200" font-size="12" text-anchor="middle" fill="#065f46">r0</text>
+  
+  <!-- Arrow -->
+  <line x1="930" y1="195" x2="1080" y2="195" stroke="#2563eb" stroke-width="3" marker-end="url(#arrowhead)"/>
+  
+  <!-- Memory box for STR -->
+  <rect x="1100" y="180" width="80" height="30" fill="#fef3c7" stroke="#f59e0b" stroke-width="2"/>
+  <text x="1140" y="200" font-size="12" text-anchor="middle" fill="#92400e">[r1]</text>
+  
+  <!-- LDM Section -->
+  <rect x="50" y="260" width="650" height="700" fill="#f0f9ff" stroke="#0ea5e9" stroke-width="3" rx="10"/>
+  <text x="375" y="295" font-size="22" font-weight="bold" text-anchor="middle" fill="#0c4a6e">
+    LDM (Load Multiple) - Memory → CPU
+  </text>
+  
+  <!-- LDMIA -->
+  <text x="80" y="335" font-size="16" font-weight="bold" fill="#1e40af">LDMIA (Increment After)</text>
+  <rect x="80" y="345" width="260" height="120" fill="#fff" stroke="#3b82f6" stroke-width="2" rx="5"/>
+  
+  <rect x="100" y="365" width="60" height="25" fill="#fef3c7" stroke="#f59e0b" stroke-width="1.5"/>
+  <text x="130" y="382" font-size="11" text-anchor="middle">[r0]</text>
+  
+  <rect x="100" y="395" width="60" height="25" fill="#fef3c7" stroke="#f59e0b" stroke-width="1.5"/>
+  <text x="130" y="412" font-size="11" text-anchor="middle">[r0+4]</text>
+  
+  <rect x="100" y="425" width="60" height="25" fill="#fef3c7" stroke="#f59e0b" stroke-width="1.5"/>
+  <text x="130" y="442" font-size="11" text-anchor="middle">[r0+8]</text>
+  
+  <line x1="170" y1="377" x2="230" y2="377" stroke="#2563eb" stroke-width="2" marker-end="url(#arrowhead)"/>
+  <line x1="170" y1="407" x2="230" y2="407" stroke="#2563eb" stroke-width="2" marker-end="url(#arrowhead)"/>
+  <line x1="170" y1="437" x2="230" y2="437" stroke="#2563eb" stroke-width="2" marker-end="url(#arrowhead)"/>
+  
+  <rect x="240" y="365" width="60" height="25" fill="#d1fae5" stroke="#10b981" stroke-width="1.5"/>
+  <text x="270" y="382" font-size="11" text-anchor="middle">r4</text>
+  
+  <rect x="240" y="395" width="60" height="25" fill="#d1fae5" stroke="#10b981" stroke-width="1.5"/>
+  <text x="270" y="412" font-size="11" text-anchor="middle">r5</text>
+  
+  <rect x="240" y="425" width="60" height="25" fill="#d1fae5" stroke="#10b981" stroke-width="1.5"/>
+  <text x="270" y="442" font-size="11" text-anchor="middle">r6</text>
+  
+  <!-- LDMIB -->
+  <text x="380" y="335" font-size="16" font-weight="bold" fill="#1e40af">LDMIB (Increment Before)</text>
+  <rect x="380" y="345" width="260" height="120" fill="#fff" stroke="#3b82f6" stroke-width="2" rx="5"/>
+  
+  <rect x="400" y="365" width="60" height="25" fill="#fef3c7" stroke="#f59e0b" stroke-width="1.5"/>
+  <text x="430" y="382" font-size="11" text-anchor="middle">[r0+4]</text>
+  
+  <rect x="400" y="395" width="60" height="25" fill="#fef3c7" stroke="#f59e0b" stroke-width="1.5"/>
+  <text x="430" y="412" font-size="11" text-anchor="middle">[r0+8]</text>
+  
+  <rect x="400" y="425" width="60" height="25" fill="#fef3c7" stroke="#f59e0b" stroke-width="1.5"/>
+  <text x="430" y="442" font-size="11" text-anchor="middle">[r0+12]</text>
+  
+  <line x1="470" y1="377" x2="530" y2="377" stroke="#2563eb" stroke-width="2" marker-end="url(#arrowhead)"/>
+  <line x1="470" y1="407" x2="530" y2="407" stroke="#2563eb" stroke-width="2" marker-end="url(#arrowhead)"/>
+  <line x1="470" y1="437" x2="530" y2="437" stroke="#2563eb" stroke-width="2" marker-end="url(#arrowhead)"/>
+  
+  <rect x="540" y="365" width="60" height="25" fill="#d1fae5" stroke="#10b981" stroke-width="1.5"/>
+  <text x="570" y="382" font-size="11" text-anchor="middle">r4</text>
+  
+  <rect x="540" y="395" width="60" height="25" fill="#d1fae5" stroke="#10b981" stroke-width="1.5"/>
+  <text x="570" y="412" font-size="11" text-anchor="middle">r5</text>
+  
+  <rect x="540" y="425" width="60" height="25" fill="#d1fae5" stroke="#10b981" stroke-width="1.5"/>
+  <text x="570" y="442" font-size="11" text-anchor="middle">r6</text>
+  
+  <!-- LDMDA -->
+  <text x="80" y="505" font-size="16" font-weight="bold" fill="#1e40af">LDMDA (Decrement After)</text>
+  <rect x="80" y="515" width="260" height="120" fill="#fff" stroke="#3b82f6" stroke-width="2" rx="5"/>
+  
+  <rect x="100" y="535" width="60" height="25" fill="#fef3c7" stroke="#f59e0b" stroke-width="1.5"/>
+  <text x="130" y="552" font-size="11" text-anchor="middle">[r0+8]</text>
+  
+  <rect x="100" y="565" width="60" height="25" fill="#fef3c7" stroke="#f59e0b" stroke-width="1.5"/>
+  <text x="130" y="582" font-size="11" text-anchor="middle">[r0+4]</text>
+  
+  <rect x="100" y="595" width="60" height="25" fill="#fef3c7" stroke="#f59e0b" stroke-width="1.5"/>
+  <text x="130" y="612" font-size="11" text-anchor="middle">[r0]</text>
+  
+  <line x1="170" y1="547" x2="230" y2="547" stroke="#2563eb" stroke-width="2" marker-end="url(#arrowhead)"/>
+  <line x1="170" y1="577" x2="230" y2="577" stroke="#2563eb" stroke-width="2" marker-end="url(#arrowhead)"/>
+  <line x1="170" y1="607" x2="230" y2="607" stroke="#2563eb" stroke-width="2" marker-end="url(#arrowhead)"/>
+  
+  <rect x="240" y="535" width="60" height="25" fill="#d1fae5" stroke="#10b981" stroke-width="1.5"/>
+  <text x="270" y="552" font-size="11" text-anchor="middle">r4</text>
+  
+  <rect x="240" y="565" width="60" height="25" fill="#d1fae5" stroke="#10b981" stroke-width="1.5"/>
+  <text x="270" y="582" font-size="11" text-anchor="middle">r5</text>
+  
+  <rect x="240" y="595" width="60" height="25" fill="#d1fae5" stroke="#10b981" stroke-width="1.5"/>
+  <text x="270" y="612" font-size="11" text-anchor="middle">r6</text>
+  
+  <!-- LDMDB -->
+  <text x="380" y="505" font-size="16" font-weight="bold" fill="#1e40af">LDMDB (Decrement Before)</text>
+  <rect x="380" y="515" width="260" height="120" fill="#fff" stroke="#3b82f6" stroke-width="2" rx="5"/>
+  
+  <rect x="400" y="535" width="60" height="25" fill="#fef3c7" stroke="#f59e0b" stroke-width="1.5"/>
+  <text x="430" y="552" font-size="11" text-anchor="middle">[r0+12]</text>
+  
+  <rect x="400" y="565" width="60" height="25" fill="#fef3c7" stroke="#f59e0b" stroke-width="1.5"/>
+  <text x="430" y="582" font-size="11" text-anchor="middle">[r0+8]</text>
+  
+  <rect x="400" y="595" width="60" height="25" fill="#fef3c7" stroke="#f59e0b" stroke-width="1.5"/>
+  <text x="430" y="612" font-size="11" text-anchor="middle">[r0+4]</text>
+  
+  <line x1="470" y1="547" x2="530" y2="547" stroke="#2563eb" stroke-width="2" marker-end="url(#arrowhead)"/>
+  <line x1="470" y1="577" x2="530" y2="577" stroke="#2563eb" stroke-width="2" marker-end="url(#arrowhead)"/>
+  <line x1="470" y1="607" x2="530" y2="607" stroke="#2563eb" stroke-width="2" marker-end="url(#arrowhead)"/>
+  
+  <rect x="540" y="535" width="60" height="25" fill="#d1fae5" stroke="#10b981" stroke-width="1.5"/>
+  <text x="570" y="552" font-size="11" text-anchor="middle">r4</text>
+  
+  <rect x="540" y="565" width="60" height="25" fill="#d1fae5" stroke="#10b981" stroke-width="1.5"/>
+  <text x="570" y="582" font-size="11" text-anchor="middle">r5</text>
+  
+  <rect x="540" y="595" width="60" height="25" fill="#d1fae5" stroke="#10b981" stroke-width="1.5"/>
+  <text x="570" y="612" font-size="11" text-anchor="middle">r6</text>
+  
+  <!-- Key Points for LDM -->
+  <rect x="80" y="660" width="580" height="280" fill="#fffbeb" stroke="#f59e0b" stroke-width="2" rx="5"/>
+  <text x="370" y="690" font-size="16" font-weight="bold" text-anchor="middle" fill="#92400e">Key Points - LDM</text>
+  
+  <text x="100" y="720" font-size="13" fill="#78350f">• IA (Increment After): Start at base, increment after each load</text>
+  <text x="100" y="750" font-size="13" fill="#78350f">• IB (Increment Before): Increment first, then load</text>
+  <text x="100" y="780" font-size="13" fill="#78350f">• DA (Decrement After): Start at base, decrement after each load</text>
+  <text x="100" y="810" font-size="13" fill="#78350f">• DB (Decrement Before): Decrement first, then load</text>
+  <text x="100" y="850" font-size="13" fill="#78350f">• Memory addresses shown are ACTUAL locations accessed</text>
+  <text x="100" y="880" font-size="13" fill="#78350f">• Registers filled in order: r4 → r5 → r6</text>
+  <text x="100" y="910" font-size="13" fill="#78350f">• Base register (r0) unchanged unless writeback used (!)</text>
+  
+  <!-- STM Section -->
+  <rect x="750" y="260" width="600" height="700" fill="#fef2f2" stroke="#ef4444" stroke-width="3" rx="10"/>
+  <text x="1050" y="295" font-size="22" font-weight="bold" text-anchor="middle" fill="#7f1d1d">
+    STM (Store Multiple) - CPU → Memory
+  </text>
+  
+  <!-- STMIA -->
+  <text x="780" y="335" font-size="16" font-weight="bold" fill="#be185d">STMIA (Increment After)</text>
+  <rect x="780" y="345" width="260" height="120" fill="#fff" stroke="#ec4899" stroke-width="2" rx="5"/>
+  
+  <rect x="800" y="365" width="60" height="25" fill="#d1fae5" stroke="#10b981" stroke-width="1.5"/>
+  <text x="830" y="382" font-size="11" text-anchor="middle">r4</text>
+  
+  <rect x="800" y="395" width="60" height="25" fill="#d1fae5" stroke="#10b981" stroke-width="1.5"/>
+  <text x="830" y="412" font-size="11" text-anchor="middle">r5</text>
+  
+  <rect x="800" y="425" width="60" height="25" fill="#d1fae5" stroke="#10b981" stroke-width="1.5"/>
+  <text x="830" y="442" font-size="11" text-anchor="middle">r6</text>
+  
+  <line x1="870" y1="377" x2="930" y2="377" stroke="#16a34a" stroke-width="2" marker-end="url(#arrowhead-green)"/>
+  <line x1="870" y1="407" x2="930" y2="407" stroke="#16a34a" stroke-width="2" marker-end="url(#arrowhead-green)"/>
+  <line x1="870" y1="437" x2="930" y2="437" stroke="#16a34a" stroke-width="2" marker-end="url(#arrowhead-green)"/>
+  
+  <rect x="940" y="365" width="60" height="25" fill="#fef3c7" stroke="#f59e0b" stroke-width="1.5"/>
+  <text x="970" y="382" font-size="11" text-anchor="middle">[r1]</text>
+  
+  <rect x="940" y="395" width="60" height="25" fill="#fef3c7" stroke="#f59e0b" stroke-width="1.5"/>
+  <text x="970" y="412" font-size="11" text-anchor="middle">[r1+4]</text>
+  
+  <rect x="940" y="425" width="60" height="25" fill="#fef3c7" stroke="#f59e0b" stroke-width="1.5"/>
+  <text x="970" y="442" font-size="11" text-anchor="middle">[r1+8]</text>
+  
+  <!-- STMIB -->
+  <text x="1080" y="335" font-size="16" font-weight="bold" fill="#be185d">STMIB (Increment Before)</text>
+  <rect x="1080" y="345" width="260" height="120" fill="#fff" stroke="#ec4899" stroke-width="2" rx="5"/>
+  
+  <rect x="1100" y="365" width="60" height="25" fill="#d1fae5" stroke="#10b981" stroke-width="1.5"/>
+  <text x="1130" y="382" font-size="11" text-anchor="middle">r4</text>
+  
+  <rect x="1100" y="395" width="60" height="25" fill="#d1fae5" stroke="#10b981" stroke-width="1.5"/>
+  <text x="1130" y="412" font-size="11" text-anchor="middle">r5</text>
+  
+  <rect x="1100" y="425" width="60" height="25" fill="#d1fae5" stroke="#10b981" stroke-width="1.5"/>
+  <text x="1130" y="442" font-size="11" text-anchor="middle">r6</text>
+  
+  <line x1="1170" y1="377" x2="1230" y2="377" stroke="#16a34a" stroke-width="2" marker-end="url(#arrowhead-green)"/>
+  <line x1="1170" y1="407" x2="1230" y2="407" stroke="#16a34a" stroke-width="2" marker-end="url(#arrowhead-green)"/>
+  <line x1="1170" y1="437" x2="1230" y2="437" stroke="#16a34a" stroke-width="2" marker-end="url(#arrowhead-green)"/>
+  
+  <rect x="1240" y="365" width="60" height="25" fill="#fef3c7" stroke="#f59e0b" stroke-width="1.5"/>
+  <text x="1270" y="382" font-size="11" text-anchor="middle">[r1+4]</text>
+  
+  <rect x="1240" y="395" width="60" height="25" fill="#fef3c7" stroke="#f59e0b" stroke-width="1.5"/>
+  <text x="1270" y="412" font-size="11" text-anchor="middle">[r1+8]</text>
+  
+  <rect x="1240" y="425" width="60" height="25" fill="#fef3c7" stroke="#f59e0b" stroke-width="1.5"/>
+  <text x="1270" y="442" font-size="11" text-anchor="middle">[r1+12]</text>
+  
+  <!-- STMDA -->
+  <text x="780" y="505" font-size="16" font-weight="bold" fill="#be185d">STMDA (Decrement After)</text>
+  <rect x="780" y="515" width="260" height="120" fill="#fff" stroke="#ec4899" stroke-width="2" rx="5"/>
+  
+  <rect x="800" y="535" width="60" height="25" fill="#d1fae5" stroke="#10b981" stroke-width="1.5"/>
+  <text x="830" y="552" font-size="11" text-anchor="middle">r4</text>
+  
+  <rect x="800" y="565" width="60" height="25" fill="#d1fae5" stroke="#10b981" stroke-width="1.5"/>
+  <text x="830" y="582" font-size="11" text-anchor="middle">r5</text>
+  
+  <rect x="800" y="595" width="60" height="25" fill="#d1fae5" stroke="#10b981" stroke-width="1.5"/>
+  <text x="830" y="612" font-size="11" text-anchor="middle">r6</text>
+  
+  <line x1="870" y1="547" x2="930" y2="547" stroke="#16a34a" stroke-width="2" marker-end="url(#arrowhead-green)"/>
+  <line x1="870" y1="577" x2="930" y2="577" stroke="#16a34a" stroke-width="2" marker-end="url(#arrowhead-green)"/>
+  <line x1="870" y1="607" x2="930" y2="607" stroke="#16a34a" stroke-width="2" marker-end="url(#arrowhead-green)"/>
+  
+  <rect x="940" y="535" width="60" height="25" fill="#fef3c7" stroke="#f59e0b" stroke-width="1.5"/>
+  <text x="970" y="552" font-size="11" text-anchor="middle">[r1+8]</text>
+  
+  <rect x="940" y="565" width="60" height="25" fill="#fef3c7" stroke="#f59e0b" stroke-width="1.5"/>
+  <text x="970" y="582" font-size="11" text-anchor="middle">[r1+4]</text>
+  
+  <rect x="940" y="595" width="60" height="25" fill="#fef3c7" stroke="#f59e0b" stroke-width="1.5"/>
+  <text x="970" y="612" font-size="11" text-anchor="middle">[r1]</text>
+  
+  <!-- STMDB -->
+  <text x="1080" y="505" font-size="16" font-weight="bold" fill="#be185d">STMDB (Decrement Before)</text>
+  <rect x="1080" y="515" width="260" height="120" fill="#fff" stroke="#ec4899" stroke-width="2" rx="5"/>
+  
+  <rect x="1100" y="535" width="60" height="25" fill="#d1fae5" stroke="#10b981" stroke-width="1.5"/>
+  <text x="1130" y="552" font-size="11" text-anchor="middle">r4</text>
+  
+  <rect x="1100" y="565" width="60" height="25" fill="#d1fae5" stroke="#10b981" stroke-width="1.5"/>
+  <text x="1130" y="582" font-size="11" text-anchor="middle">r5</text>
+  
+  <rect x="1100" y="595" width="60" height="25" fill="#d1fae5" stroke="#10b981" stroke-width="1.5"/>
+  <text x="1130" y="612" font-size="11" text-anchor="middle">r6</text>
+  
+  <line x1="1170" y1="547" x2="1230" y2="547" stroke="#16a34a" stroke-width="2" marker-end="url(#arrowhead-green)"/>
+  <line x1="1170" y1="577" x2="1230" y2="577" stroke="#16a34a" stroke-width="2" marker-end="url(#arrowhead-green)"/>
+  <line x1="1170" y1="607" x2="1230" y2="607" stroke="#16a34a" stroke-width="2" marker-end="url(#arrowhead-green)"/>
+  
+  <rect x="1240" y="535" width="60" height="25" fill="#fef3c7" stroke="#f59e0b" stroke-width="1.5"/>
+  <text x="1270" y="552" font-size="11" text-anchor="middle">[r1+12]</text>
+  
+  <rect x="1240" y="565" width="60" height="25" fill="#fef3c7" stroke="#f59e0b" stroke-width="1.5"/>
+  <text x="1270" y="582" font-size="11" text-anchor="middle">[r1+8]</text>
+  
+  <rect x="1240" y="595" width="60" height="25" fill="#fef3c7" stroke="#f59e0b" stroke-width="1.5"/>
+  <text x="1270" y="612" font-size="11" text-anchor="middle">[r1+4]</text>
+  
+  <!-- Key Points for STM -->
+  <rect x="780" y="660" width="530" height="280" fill="#fffbeb" stroke="#f59e0b" stroke-width="2" rx="5"/>
+  <text x="1045" y="690" font-size="16" font-weight="bold" text-anchor="middle" fill="#92400e">Key Points - STM</text>
+  
+  <text x="800" y="720" font-size="13" fill="#78350f">• IA (Increment After): Store at base, increment after each</text>
+  <text x="800" y="750" font-size="13" fill="#78350f">• IB (Increment Before): Increment first, then store</text>
+  <text x="800" y="780" font-size="13" fill="#78350f">• DA (Decrement After): Store at base, decrement after</text>
+  <text x="800" y="810" font-size="13" fill="#78350f">• DB (Decrement Before): Decrement first, then store</text>
+  <text x="800" y="850" font-size="13" fill="#78350f">• Registers stored in order: r4 → r5 → r6</text>
+  <text x="800" y="880" font-size="13" fill="#78350f">• Memory order varies based on mode</text>
+  <text x="800" y="910" font-size="13" fill="#78350f">• Base register (r1) unchanged unless writeback (!)</text>
+  
+  <!-- Legend -->
+  <rect x="50" y="1000" width="1300" height="100" fill="#f8fafc" stroke="#94a3b8" stroke-width="2" rx="8"/>
+  <text x="700" y="1030" font-size="18" font-weight="bold" text-anchor="middle" fill="#1e293b">Legend</text>
+  
+  <rect x="200" y="1050" width="60" height="25" fill="#fef3c7" stroke="#f59e0b" stroke-width="2"/>
+  <text x="270" y="1067" font-size="14" fill="#475569">Memory Address</text>
+  
+  <rect x="550" y="1050" width="60" height="25" fill="#d1fae5" stroke="#10b981" stroke-width="2"/>
+  <text x="620" y="1067" font-size="14" fill="#475569">CPU Register</text>
+  
+  <line x1="900" y1="1062" x2="960" y2="1062" stroke="#2563eb" stroke-width="3" marker-end="url(#arrowhead)"/>
+  <text x="970" y="1067" font-size="14" fill="#475569">Data Flow (Load)</text>
+  
+  <!-- Summary Box -->
+  <rect x="50" y="1130" width="1300" height="180" fill="#fefce8" stroke="#ca8a04" stroke-width="3" rx="10"/>
+  <text x="700" y="1165" font-size="20" font-weight="bold" text-anchor="middle" fill="#713f12">
+    Critical Understanding
+  </text>
+  
+  <text x="700" y="1200" font-size="15" text-anchor="middle" fill="#854d0e">
+    AFTER vs BEFORE determines WHEN the address changes relative to memory access
+  </text>
+  <text x="700" y="1230" font-size="15" text-anchor="middle" fill="#854d0e">
+    INCREMENT vs DECREMENT determines DIRECTION of address change
+  </text>
+  <text x="700" y="1260" font-size="15" text-anchor="middle" fill="#854d0e">
+    Register list order stays CONSTANT (r4→r5→r6), memory addresses VARY by mode
+  </text>
+  <text x="700" y="1290" font-size="15" text-anchor="middle" fill="#854d0e">
+    Each word = 4 bytes (32-bit ARM), so offsets are multiples of 4
+  </text>
+  
+  <!-- Stack Operations Note -->
+  <rect x="50" y="1340" width="1300" height="140" fill="#f0fdfa" stroke="#14b8a6" stroke-width="3" rx="10"/>
+  <text x="700" y="1375" font-size="20" font-weight="bold" text-anchor="middle" fill="#0f766e">
+    Common Stack Usage
+  </text>
+  
+  <text x="150" y="1415" font-size="14" fill="#0d9488">
+    • STMDB sp!, {r4-r6} → Push to stack (Full Descending)
+  </text>
+  <text x="150" y="1440" font-size="14" fill="#0d9488">
+    • LDMIA sp!, {r4-r6} → Pop from stack (Full Descending)
+  </text>
+  <text x="750" y="1415" font-size="14" fill="#0d9488">
+    • STMFD = STMDB (Full Descending Push)
+  </text>
+  <text x="750" y="1440" font-size="14" fill="#0d9488">
+    • LDMFD = LDMIA (Full Descending Pop)
+  </text>
+  <text x="150" y="1465" font-size="14" fill="#0d9488">
+    • "!" means writeback: update base register after operation
+  </text>
+  
+  <!-- Footer -->
+  <text x="700" y="1520" font-size="13" text-anchor="middle" fill="#64748b" font-style="italic">
+    All offsets shown assume 32-bit (4-byte) word size
+  </text>
+</svg>
