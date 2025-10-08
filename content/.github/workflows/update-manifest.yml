@@ -29,7 +29,7 @@ jobs:
           posts = []
           for root, dirs, files in os.walk("."):
               for f in files:
-                  if f.endswith(".md") and f not in ["README.md", "index.md", "manifest.json", "prompt.md"]:
+                  if f.endswith(".md") and f not in ["README.md", "index.md", "manifest.json", "prompt.md"] and not f.startswith("__"):
                       path = os.path.relpath(os.path.join(root, f), ".").replace("\\", "/")
 
                       # Get creation date and time (first commit) from git history
