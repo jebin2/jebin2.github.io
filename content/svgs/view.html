@@ -147,19 +147,21 @@
 		let startX = 0;
 		let startY = 0;
 		let initialDistance = 0;
+		let allSvgs = [];
 
 		// Load manifest.json and display SVGs
 		async function loadSVGs() {
 			try {
 				const response = await fetch(repoUrl);
 				const manifest = await response.json();
-				const svgs = manifest.svgs;
+				allSvgs = manifest.svgs;
 
-				svgs.forEach(svg => {
+				allSvgs.forEach(svg => {
 					const img = document.createElement('img');
 					img.src = `https://raw.githubusercontent.com/jebin2/blog/main/${svg.path}`;
 					img.alt = svg.name;
-					img.addEventListener('click', () => openModal(img.src));
+					img.dataset.path = svg.path;
+					img.addEventListener('click', () => openModal(img.src, svg.path));
 					svgGrid.appendChild(img);
 				});
 			} catch (err) {
@@ -167,13 +169,41 @@
 			}
 		}
 
+		// Check URL for src parameter and open modal if present
+		function checkUrlParameter() {
+			const urlParams = new URLSearchParams(window.location.search);
+			const srcParam = urlParams.get('src');
+			
+			if (srcParam) {
+				const fullPath = `https://raw.githubusercontent.com/jebin2/blog/main/${srcParam}`;
+				openModal(fullPath, srcParam);
+			}
+		}
+
+		// Update URL with src parameter
+		function updateUrl(svgPath) {
+			const url = new URL(window.location);
+			url.searchParams.set('src', svgPath);
+			window.history.pushState({}, '', url);
+		}
+
+		// Remove src parameter from URL
+		function clearUrl() {
+			const url = new URL(window.location);
+			url.searchParams.delete('src');
+			window.history.pushState({}, '', url);
+		}
+
 		// --- Modal Functions ---
-		function openModal(src) {
+		function openModal(src, svgPath) {
 			modal.style.display = 'block';
 			modalImg.src = src;
 			scale = 1;
 			posX = 0;
 			posY = 0;
+
+			// Update URL with the svg path
+			updateUrl(svgPath);
 
 			modalImg.onload = () => {
 				const containerWidth = window.innerWidth;
@@ -193,6 +223,8 @@
 
 		function closeModal() {
 			modal.style.display = 'none';
+			// Clear the src parameter from URL
+			clearUrl();
 		}
 
 		function updateTransform(smooth = false) {
@@ -211,6 +243,19 @@
 		closeBtn.onclick = closeModal;
 		window.addEventListener('keydown', e => {
 			if (e.key === 'Escape') closeModal();
+		});
+
+		// Handle browser back/forward buttons
+		window.addEventListener('popstate', () => {
+			const urlParams = new URLSearchParams(window.location.search);
+			const srcParam = urlParams.get('src');
+			
+			if (srcParam) {
+				const fullPath = `https://raw.githubusercontent.com/jebin2/blog/main/${srcParam}`;
+				openModal(fullPath, srcParam);
+			} else {
+				closeModal();
+			}
 		});
 
 		// --- Pan with Mouse ---
@@ -348,6 +393,8 @@
 		});
 
 		// Initialize
+		// Check if URL has src parameter on load
+		checkUrlParameter();
 		loadSVGs();
 		modalImg.style.cursor = 'grab';
 	</script>
