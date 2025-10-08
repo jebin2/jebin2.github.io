@@ -33,6 +33,11 @@
   ],
   "svgs": [
     {
+      "name": "ARM Instruction Format",
+      "path": "svgs/ARM Instruction Format.svg",
+      "date": "2025-10-08 21:46:20 +0530"
+    },
+    {
       "name": "ARM Branch Instructions",
       "path": "svgs/ARM Branch Instructions.svg",
       "date": "2025-10-08 20:38:26 +0530"
