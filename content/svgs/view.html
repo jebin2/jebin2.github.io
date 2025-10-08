@@ -1,226 +1,357 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <title>Quick Infographics</title>
-  <style>
-    body {
-      font-family: sans-serif;
-      margin: 0;
-      padding: 20px;
-      background: #f7f7f7;
-    }
-    .grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
-      gap: 15px;
-    }
-    .grid img {
-      width: 100%;
-      height: auto;
-      cursor: pointer;
-      border: 1px solid #ccc;
-      border-radius: 5px;
-      transition: transform 0.2s;
-    }
-    .grid img:hover {
-      transform: scale(1.05);
-    }
 
-    /* Modal */
-    .modal {
-      display: none;
-      position: fixed;
-      z-index: 999;
-      left: 0;
-      top: 0;
-      width: 100%;
-      height: 100%;
-      overflow: hidden; /* Prevent body scroll when modal is open */
-      background-color: rgba(0,0,0,0.8);
-    }
-    .modal-content {
-      position: relative;
-      margin: 2.5% auto;
-      width: 95%;
-      height: 95%;
-      text-align: center;
-      overflow: auto; /* Enable scrollbars when image is too big */
-    }
-    .modal-content img {
-      max-width: initial; /* Allow image to exceed container size */
-      max-height: initial; /* Allow image to exceed container size */
-      transition: transform 0.2s ease-out;
-      background: white;
-      cursor: grab; /* Cursor for panning */
-    }
-    .modal-content img.grabbing {
-      cursor: grabbing; /* Cursor while actively panning */
-    }
-    .close {
-      position: absolute;
-      top: 10px;
-      right: 20px;
-      font-size: 30px;
-      color: white;
-      cursor: pointer;
-      z-index: 1000; /* Ensure it's on top of everything */
-    }
-    .zoom-controls {
-      position: absolute;
-      bottom: 20px;
-      left: 50%;
-      transform: translateX(-50%);
-      background: rgba(0, 0, 0, 0.5);
-      border-radius: 5px;
-      padding: 5px;
-      z-index: 1000;
-    }
-    .zoom-controls button {
-      padding: 5px 10px;
-      margin: 0 5px;
-      font-size: 16px;
-      cursor: pointer;
-      border: none;
-      border-radius: 3px;
-    }
-  </style>
+<head>
+	<meta charset="UTF-8">
+	<title>Quick Infographics</title>
+	<style>
+		body {
+			font-family: sans-serif;
+			margin: 0;
+			padding: 20px;
+			background: #f7f7f7;
+		}
+
+		.grid {
+			display: grid;
+			grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+			gap: 15px;
+		}
+
+		.grid img {
+			width: 100%;
+			height: auto;
+			cursor: pointer;
+			border: 1px solid #ccc;
+			border-radius: 5px;
+			transition: transform 0.2s;
+		}
+
+		.grid img:hover {
+			transform: scale(1.05);
+		}
+
+		/* Modal */
+		.modal {
+			display: none;
+			position: fixed;
+			z-index: 999;
+			left: 0;
+			top: 0;
+			width: 100%;
+			height: 100%;
+			background-color: rgba(0, 0, 0, 0.9);
+		}
+
+		.modal-content {
+			position: relative;
+			width: 100%;
+			height: 100%;
+			overflow: hidden;
+		}
+
+		.image-container {
+			position: absolute;
+			top: 0;
+			left: 0;
+			width: 100%;
+			height: 100%;
+			display: flex;
+			justify-content: center;
+			align-items: center;
+			overflow: hidden;
+		}
+
+		.modal-content img {
+			position: absolute;
+			max-width: none;
+			max-height: none;
+			transition: none;
+			user-select: none;
+			-webkit-user-select: none;
+			background: white;
+		}
+
+		.modal-content img.smooth {
+			transition: transform 0.2s ease-out;
+		}
+
+		.close {
+			position: fixed;
+			top: 15px;
+			right: 25px;
+			font-size: 40px;
+			font-weight: bold;
+			color: #fff;
+			cursor: pointer;
+			z-index: 1000;
+			line-height: 1;
+			text-shadow: 0 0 10px rgba(0, 0, 0, 0.8);
+			background: rgba(220, 20, 60, 0.8);
+			width: 50px;
+			height: 50px;
+			border-radius: 50%;
+			display: flex;
+			align-items: center;
+			justify-content: center;
+		}
+
+		.close:hover {
+			background: rgba(220, 20, 60, 1);
+		}
+
+		.zoom-info {
+			position: fixed;
+			bottom: 20px;
+			left: 50%;
+			transform: translateX(-50%);
+			background: rgba(0, 0, 0, 0.7);
+			color: white;
+			padding: 10px 20px;
+			border-radius: 20px;
+			font-size: 14px;
+			z-index: 1000;
+			pointer-events: none;
+		}
+	</style>
 </head>
+
 <body>
 
-<h1>Quick Infographics</h1>
-<div class="grid" id="svgGrid"></div>
+	<h1>Quick Infographics</h1>
+	<div class="grid" id="svgGrid"></div>
 
-<!-- Modal -->
-<div id="svgModal" class="modal">
-  <span class="close">&times;</span>
-  <div class="modal-content" id="modalContent">
-    <img id="modalImg" src="" alt="SVG">
-  </div>
-  <div class="zoom-controls">
-    <button id="zoomIn">Zoom In +</button>
-    <button id="zoomOut">Zoom Out -</button>
-  </div>
-</div>
+	<!-- Modal -->
+	<div id="svgModal" class="modal">
+		<span class="close">&times;</span>
+		<div class="modal-content">
+			<div class="image-container">
+				<img id="modalImg" src="" alt="SVG">
+			</div>
+		</div>
+		<div class="zoom-info" id="zoomInfo">100%</div>
+	</div>
 
-<script>
-const repoUrl = 'https://raw.githubusercontent.com/jebin2/blog/main/manifest.json';
-const svgGrid = document.getElementById('svgGrid');
-const modal = document.getElementById('svgModal');
-const modalContent = document.getElementById('modalContent');
-const modalImg = document.getElementById('modalImg');
-const closeBtn = modal.querySelector('.close');
-const zoomInBtn = document.getElementById('zoomIn');
-const zoomOutBtn = document.getElementById('zoomOut');
+	<script>
+		const repoUrl = 'https://raw.githubusercontent.com/jebin2/blog/main/manifest.json';
+		const svgGrid = document.getElementById('svgGrid');
+		const modal = document.getElementById('svgModal');
+		const modalImg = document.getElementById('modalImg');
+		const closeBtn = modal.querySelector('.close');
+		const zoomInfo = document.getElementById('zoomInfo');
 
-let currentScale = 1;
-let isDragging = false;
-let startPos = { x: 0, y: 0 };
-let scrollPos = { left: 0, top: 0 };
+		let scale = 1;
+		let posX = 0;
+		let posY = 0;
+		let isDragging = false;
+		let startX = 0;
+		let startY = 0;
+		let initialDistance = 0;
 
-// Load manifest.json and display SVGs
-async function loadSVGs() {
-  try {
-    const response = await fetch(repoUrl);
-    const manifest = await response.json();
-    const svgs = manifest.svgs;
+		// Load manifest.json and display SVGs
+		async function loadSVGs() {
+			try {
+				const response = await fetch(repoUrl);
+				const manifest = await response.json();
+				const svgs = manifest.svgs;
 
-    svgs.forEach(svg => {
-      const img = document.createElement('img');
-      img.src = `https://raw.githubusercontent.com/jebin2/blog/main/${svg.path}`;
-      img.alt = svg.name;
-      img.addEventListener('click', () => openModal(img.src));
-      svgGrid.appendChild(img);
-    });
-  } catch (err) {
-    svgGrid.innerHTML = `<div class="error">Error loading SVGs: ${err.message}</div>`;
-  }
-}
+				svgs.forEach(svg => {
+					const img = document.createElement('img');
+					img.src = `https://raw.githubusercontent.com/jebin2/blog/main/${svg.path}`;
+					img.alt = svg.name;
+					img.addEventListener('click', () => openModal(img.src));
+					svgGrid.appendChild(img);
+				});
+			} catch (err) {
+				svgGrid.innerHTML = `<div class="error">Error loading SVGs: ${err.message}</div>`;
+			}
+		}
 
-// Open modal
-function openModal(src) {
-  modal.style.display = 'block';
-  modalImg.src = src;
-  // Reset state
-  currentScale = 1;
-  modalImg.style.transform = `scale(${currentScale})`;
-  modalContent.scrollTop = 0;
-  modalContent.scrollLeft = 0;
-}
+		// --- Modal Functions ---
+		function openModal(src) {
+			modal.style.display = 'block';
+			modalImg.src = src;
+			scale = 1;
+			posX = 0;
+			posY = 0;
 
-// Close modal
-closeBtn.onclick = () => modal.style.display = 'none';
-window.onclick = e => { if (e.target === modal) modal.style.display = 'none'; };
+			modalImg.onload = () => {
+				const containerWidth = window.innerWidth;
+				const containerHeight = window.innerHeight;
+				const imgWidth = modalImg.naturalWidth;
+				const imgHeight = modalImg.naturalHeight;
 
-// --- Pan and Drag ---
-modalImg.addEventListener('mousedown', e => {
-  e.preventDefault();
-  isDragging = true;
-  modalImg.classList.add('grabbing');
-  startPos = { x: e.pageX - modalContent.offsetLeft, y: e.pageY - modalContent.offsetTop };
-  scrollPos = { left: modalContent.scrollLeft, top: modalContent.scrollTop };
-});
+				// Calculate initial scale to fit image in viewport
+				const scaleX = containerWidth / imgWidth;
+				const scaleY = containerHeight / imgHeight;
+				scale = Math.min(scaleX, scaleY, 1) * 0.9; // 90% of available space
 
-window.addEventListener('mouseup', () => {
-  isDragging = false;
-  modalImg.classList.remove('grabbing');
-});
+				updateTransform(true);
+				updateZoomInfo();
+			};
+		}
 
-window.addEventListener('mousemove', e => {
-  if (!isDragging) return;
-  const dx = e.pageX - modalContent.offsetLeft - startPos.x;
-  const dy = e.pageY - modalContent.offsetTop - startPos.y;
-  modalContent.scrollLeft = scrollPos.left - dx;
-  modalContent.scrollTop = scrollPos.top - dy;
-});
+		function closeModal() {
+			modal.style.display = 'none';
+		}
 
-// --- Zoom Logic ---
-function applyZoom(scaleChange, mouseX, mouseY) {
-  const rect = modalContent.getBoundingClientRect();
-  const relX = mouseX - rect.left;
-  const relY = mouseY - rect.top;
+		function updateTransform(smooth = false) {
+			if (smooth) {
+				modalImg.classList.add('smooth');
+				setTimeout(() => modalImg.classList.remove('smooth'), 200);
+			}
+			modalImg.style.transform = `translate(${posX}px, ${posY}px) scale(${scale})`;
+		}
 
-  const imgX = (modalContent.scrollLeft + relX) / currentScale;
-  const imgY = (modalContent.scrollTop + relY) / currentScale;
+		function updateZoomInfo() {
+			zoomInfo.textContent = `${Math.round(scale * 100)}%`;
+		}
 
-  const newScale = Math.max(0.2, currentScale + scaleChange);
+		// Event listeners for closing the modal
+		closeBtn.onclick = closeModal;
+		window.addEventListener('keydown', e => {
+			if (e.key === 'Escape') closeModal();
+		});
 
-  modalImg.style.transform = `scale(${newScale})`;
+		// --- Pan with Mouse ---
+		modalImg.addEventListener('mousedown', e => {
+			if (e.button === 0) {
+				isDragging = true;
+				startX = e.clientX - posX;
+				startY = e.clientY - posY;
+				modalImg.style.cursor = 'grabbing';
+				e.preventDefault();
+			}
+		});
 
-  const newScrollLeft = imgX * newScale - relX;
-  const newScrollTop = imgY * newScale - relY;
+		window.addEventListener('mousemove', e => {
+			if (isDragging) {
+				posX = e.clientX - startX;
+				posY = e.clientY - startY;
+				updateTransform();
+			}
+		});
 
-  modalContent.scrollLeft = newScrollLeft;
-  modalContent.scrollTop = newScrollTop;
+		window.addEventListener('mouseup', () => {
+			isDragging = false;
+			modalImg.style.cursor = 'grab';
+		});
 
-  currentScale = newScale;
-}
+		// --- Zoom with Mouse Wheel ---
+		modal.addEventListener('wheel', e => {
+			e.preventDefault();
+			
+			const rect = modalImg.getBoundingClientRect();
+			const mouseX = e.clientX;
+			const mouseY = e.clientY;
 
-// Zoom with mouse wheel
-modalContent.addEventListener('wheel', e => {
-  e.preventDefault();
-  const scaleChange = e.deltaY < 0 ? 0.2 : -0.2;
-  applyZoom(scaleChange, e.clientX, e.clientY);
-});
+			// Calculate mouse position relative to image center
+			const imgCenterX = rect.left + rect.width / 2;
+			const imgCenterY = rect.top + rect.height / 2;
 
-// Zoom with buttons (zooms from center)
-zoomInBtn.onclick = () => {
-  const rect = modalContent.getBoundingClientRect();
-  const centerX = rect.left + rect.width / 2;
-  const centerY = rect.top + rect.height / 2;
-  applyZoom(0.2, centerX, centerY);
-};
+			const offsetX = mouseX - imgCenterX;
+			const offsetY = mouseY - imgCenterY;
 
-zoomOutBtn.onclick = () => {
-  const rect = modalContent.getBoundingClientRect();
-  const centerX = rect.left + rect.width / 2;
-  const centerY = rect.top + rect.height / 2;
-  applyZoom(-0.2, centerX, centerY);
-};
+			// Determine zoom direction
+			const delta = e.deltaY > 0 ? -0.1 : 0.1;
+			const newScale = Math.max(0.1, Math.min(10, scale + delta));
 
-// Initialize
-loadSVGs();
-</script>
+			// Adjust position to zoom towards mouse cursor
+			const scaleDiff = newScale - scale;
+			posX -= offsetX * scaleDiff / scale;
+			posY -= offsetY * scaleDiff / scale;
+
+			scale = newScale;
+			updateTransform(true);
+			updateZoomInfo();
+		}, { passive: false });
+
+		// --- Touch Support for Zoom and Pan ---
+		let lastTouchDistance = 0;
+		let lastTouchCenter = { x: 0, y: 0 };
+
+		modalImg.addEventListener('touchstart', e => {
+			if (e.touches.length === 1) {
+				isDragging = true;
+				startX = e.touches[0].clientX - posX;
+				startY = e.touches[0].clientY - posY;
+			} else if (e.touches.length === 2) {
+				isDragging = false;
+				const dx = e.touches[0].clientX - e.touches[1].clientX;
+				const dy = e.touches[0].clientY - e.touches[1].clientY;
+				lastTouchDistance = Math.sqrt(dx * dx + dy * dy);
+				lastTouchCenter = {
+					x: (e.touches[0].clientX + e.touches[1].clientX) / 2,
+					y: (e.touches[0].clientY + e.touches[1].clientY) / 2
+				};
+			}
+			e.preventDefault();
+		});
+
+		modalImg.addEventListener('touchmove', e => {
+			if (e.touches.length === 1 && isDragging) {
+				posX = e.touches[0].clientX - startX;
+				posY = e.touches[0].clientY - startY;
+				updateTransform();
+			} else if (e.touches.length === 2) {
+				const dx = e.touches[0].clientX - e.touches[1].clientX;
+				const dy = e.touches[0].clientY - e.touches[1].clientY;
+				const distance = Math.sqrt(dx * dx + dy * dy);
+				const center = {
+					x: (e.touches[0].clientX + e.touches[1].clientX) / 2,
+					y: (e.touches[0].clientY + e.touches[1].clientY) / 2
+				};
+
+				if (lastTouchDistance > 0) {
+					const rect = modalImg.getBoundingClientRect();
+					const imgCenterX = rect.left + rect.width / 2;
+					const imgCenterY = rect.top + rect.height / 2;
+					const offsetX = center.x - imgCenterX;
+					const offsetY = center.y - imgCenterY;
+
+					const scaleChange = distance / lastTouchDistance;
+					const newScale = Math.max(0.1, Math.min(10, scale * scaleChange));
+					const scaleDiff = newScale - scale;
+
+					posX -= offsetX * scaleDiff / scale;
+					posY -= offsetY * scaleDiff / scale;
+					posX += center.x - lastTouchCenter.x;
+					posY += center.y - lastTouchCenter.y;
+
+					scale = newScale;
+					updateTransform();
+					updateZoomInfo();
+				}
+
+				lastTouchDistance = distance;
+				lastTouchCenter = center;
+			}
+			e.preventDefault();
+		});
+
+		modalImg.addEventListener('touchend', e => {
+			if (e.touches.length < 2) {
+				lastTouchDistance = 0;
+			}
+			if (e.touches.length === 0) {
+				isDragging = false;
+			}
+		});
+
+		// Double-click to reset
+		modalImg.addEventListener('dblclick', e => {
+			scale = 1;
+			posX = 0;
+			posY = 0;
+			updateTransform(true);
+			updateZoomInfo();
+		});
+
+		// Initialize
+		loadSVGs();
+		modalImg.style.cursor = 'grab';
+	</script>
 
 </body>
+
 </html>
