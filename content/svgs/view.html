@@ -56,6 +56,7 @@
 			position: absolute;
 			top: 0;
 			left: 0;
+			cursor: grab;
 			user-select: none;
 			-webkit-user-select: none;
 			/* We use transform-origin: 0 0 for simpler calculations */
@@ -231,6 +232,8 @@
 
 		// --- Panning with Mouse ---
 		modalImg.addEventListener('mousedown', e => {
+			if (e.button !== 0) return;
+
 			e.preventDefault();
 			isPanning = true;
 			panStart.x = e.clientX - translateX;
@@ -238,14 +241,22 @@
 			modalImg.style.cursor = 'grabbing';
 		});
 
-		window.addEventListener('mouseup', () => {
+		modalImg.addEventListener('contextmenu', e => {
 			isPanning = false;
-			modalImg.style.cursor = 'default';
+			modalImg.style.cursor = 'grab';
 		});
 
-		window.addEventListener('mouseleave', () => {
+		window.addEventListener('mouseup', (e) => {
+			// Check for left-click release
+			if (e.button !== 0) return;
 			isPanning = false;
-			modalImg.style.cursor = 'default';
+			modalImg.style.cursor = 'grab'; // Reset to grab cursor
+		});
+		
+		// This listener is not strictly needed with the window.mouseup, but is good practice
+		modalImg.addEventListener('mouseleave', () => {
+			isPanning = false;
+			modalImg.style.cursor = 'grab';
 		});
 
 		window.addEventListener('mousemove', e => {
@@ -259,15 +270,15 @@
 		// --- Zooming with Mouse Wheel ---
 		modal.addEventListener('wheel', e => {
 			e.preventDefault();
-			const zoomSpeed = 1.2;
-			const newScale = e.deltaY < 0 ? scale * zoomSpeed : scale / zoomSpeed;
+			const zoomFactor = 1.2;
+			const newScale = e.deltaY < 0 ? scale * zoomFactor : scale / zoomFactor;
 			const clampedScale = Math.max(0.1, Math.min(20, newScale));
 
-			const imageX = (e.clientX - translateX) / scale;
-			const imageY = (e.clientY - translateY) / scale;
+			const mouseX = e.clientX - translateX;
+			const mouseY = e.clientY - translateY;
 
-			translateX = e.clientX - imageX * clampedScale;
-			translateY = e.clientY - imageY * clampedScale;
+			translateX += (mouseX - (mouseX / scale) * clampedScale);
+			translateY += (mouseY - (mouseY / scale) * clampedScale);
 			scale = clampedScale;
 
 			applyTransform();
