@@ -1,0 +1,50 @@
+<svg viewBox="0 0 400 300" xmlns="http://www.w3.org/2000/svg">
+  <!-- Header -->
+  <text x="200" y="25" text-anchor="middle" fill="#1a1a1a" font-family="monospace" font-size="20" font-weight="bold">0x0.st</text>
+  <text x="200" y="45" text-anchor="middle" fill="#666" font-family="sans-serif" font-size="12">Anonymous file sharing from command line</text>
+  
+  <!-- Example section -->
+  <text x="20" y="75" fill="#333" font-family="sans-serif" font-size="14" font-weight="bold">Example:</text>
+  
+  <!-- Command box -->
+  <rect x="20" y="85" width="360" height="30" rx="3" fill="#2a2a2a" stroke="#444"/>
+  <text x="30" y="105" fill="#00ff00" font-family="monospace" font-size="12">echo "Hello World" | curl -F 'file=@-' 0x0.st</text>
+  
+  <!-- Arrow down -->
+  <path d="M200 125 L200 140 M195 135 L200 140 L205 135" stroke="#666" stroke-width="2" fill="none"/>
+  
+  <!-- Output box -->
+  <rect x="20" y="145" width="360" height="25" rx="3" fill="#f8f9fa" stroke="#d1d5db"/>
+  <text x="30" y="162" fill="#059669" font-family="monospace" font-size="11">https://0x0.st/abc123.txt</text>
+  
+  <!-- Benefits and Cons -->
+  <g transform="translate(0, 30)">
+    <!-- Share section -->
+    <text x="20" y="165" fill="#059669" font-family="sans-serif" font-size="14" font-weight="bold">✓ Share</text>
+    <text x="20" y="180" fill="#333" font-family="sans-serif" font-size="11">• Instant shareable links</text>
+    <text x="20" y="195" fill="#333" font-family="sans-serif" font-size="11">• No registration required</text>
+    <text x="20" y="210" fill="#333" font-family="sans-serif" font-size="11">• Works with any data/file</text>
+    
+    <!-- Cons section -->
+    <text x="220" y="165" fill="#dc2626" font-family="sans-serif" font-size="14" font-weight="bold">⚠ Cons</text>
+    <text x="220" y="180" fill="#333" font-family="sans-serif" font-size="11">• Files expire (30 days)</text>
+    <text x="220" y="195" fill="#333" font-family="sans-serif" font-size="11">• No edit/delete control</text>
+    <text x="220" y="210" fill="#333" font-family="sans-serif" font-size="11">• Public access</text>
+  </g>
+  
+  <!-- Simple flow visualization -->
+  <g transform="translate(0, 50)">
+    <circle cx="70" cy="220" r="25" fill="#2a2a2a" opacity="0.1"/>
+    <text x="70" y="225" text-anchor="middle" fill="#333" font-family="sans-serif" font-size="10">Command</text>
+    
+    <path d="M100 220 L130 220 M125 215 L130 220 L125 225" stroke="#666" stroke-width="1.5" fill="none"/>
+    
+    <circle cx="160" cy="220" r="25" fill="#3b82f6" opacity="0.1"/>
+    <text x="160" y="225" text-anchor="middle" fill="#333" font-family="sans-serif" font-size="10">Upload</text>
+    
+    <path d="M190 220 L220 220 M215 215 L220 220 L215 225" stroke="#666" stroke-width="1.5" fill="none"/>
+    
+    <circle cx="250" cy="220" r="25" fill="#059669" opacity="0.1"/>
+    <text x="250" y="225" text-anchor="middle" fill="#333" font-family="sans-serif" font-size="10">Share URL</text>
+  </g>
+</svg>
