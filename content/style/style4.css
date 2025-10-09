@@ -4,10 +4,12 @@
     --text-primary: #000000;
     --background: #967297;
     --accent-primary: #a15dcc;  /* NEW: Vibrant Purple */
-    --accent-secondary: #0052FF; /* Electric Blue */
+    --accent-secondary: #4f3c62; /* Electric Blue */
     --accent-error: #FF0000;   /* NEW: Pure Red */
     --border-thickness: 3px;
     --shadow-offset: 8px;
+    --highlight-bg: #8e5caa;
+    --code-bg: #8e5caa;
 }
 
 /* --- Base Styles --- */
@@ -131,7 +133,7 @@ code {
 }
 
 p code, li code {
-    background: #8e5caa;
+    background: var(highlight-bg);
     border: 2px solid var(--text-primary);
     padding: 0.2rem 0.4rem;
     color: var(--text-primary);
@@ -140,7 +142,7 @@ pre::before {
     content: '';
     position: absolute;
     top: 1rem;
-    left: 1rem;
+    right: 3rem;
     width: 12px;
     height: 12px;
     border-radius: 50%;
@@ -149,13 +151,14 @@ pre::before {
 }
 
 pre {
-    background: var(--background);
+    background: var(code-bg);
     color: var(--text-primary);
     padding: 1.5rem;
     border: var(--border-thickness) solid var(--text-primary);
     overflow-x: auto;
     margin: 2.5rem 0;
     line-height: 1.6;
+    position: relative;
 }
 
 pre code {
