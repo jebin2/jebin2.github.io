@@ -4,152 +4,257 @@
 <head>
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<title>Quick Infographics</title>
+	<title>SVG Gallery</title>
 	<style>
-		body {
-			font-family: sans-serif;
+		* {
 			margin: 0;
+			padding: 0;
+			box-sizing: border-box;
+		}
+
+		body {
+			font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+			background: #f5f5f5;
 			padding: 20px;
-			background: #f7f7f7;
 		}
 
-		.grid {
-			display: grid;
-			grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
-			gap: 15px;
+		.header {
+			max-width: 1400px;
+			margin: 0 auto 30px;
 		}
 
-		.grid img {
+		h1 {
+			color: #333;
+			margin-bottom: 20px;
+			font-size: 2em;
+		}
+
+		.search-bar {
+			width: 100%;
+			max-width: 600px;
+			padding: 12px 20px;
+			font-size: 16px;
+			border: 2px solid #ddd;
+			border-radius: 25px;
+			outline: none;
+			transition: border-color 0.3s;
+		}
+
+		.search-bar:focus {
+			border-color: #4a90e2;
+		}
+
+		.svg-grid {
+			max-width: 1400px;
+			margin: 0 auto;
+			column-count: 5;
+			column-gap: 15px;
+		}
+
+		@media (max-width: 1200px) {
+			.svg-grid {
+				column-count: 4;
+			}
+		}
+
+		@media (max-width: 900px) {
+			.svg-grid {
+				column-count: 3;
+			}
+		}
+
+		@media (max-width: 600px) {
+			.svg-grid {
+				column-count: 2;
+			}
+		}
+
+		.svg-item {
+			break-inside: avoid;
+			margin-bottom: 15px;
+			background: white;
+			border-radius: 8px;
+			overflow: hidden;
+			box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+			cursor: pointer;
+			transition: transform 0.2s, box-shadow 0.2s;
+		}
+
+		.svg-item:hover {
+			transform: translateY(-2px);
+			box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+		}
+
+		.svg-item img {
 			width: 100%;
 			height: auto;
-			cursor: pointer;
-			border: 1px solid #ccc;
-			border-radius: 5px;
-			transition: transform 0.2s;
+			display: block;
 		}
 
-		.grid img:hover {
-			transform: scale(1.05);
+		.svg-name {
+			padding: 10px;
+			font-size: 12px;
+			color: #666;
+			background: #fafafa;
 		}
 
-		/* Modal */
 		.modal {
 			display: none;
 			position: fixed;
-			z-index: 999;
-			left: 0;
 			top: 0;
+			left: 0;
 			width: 100%;
 			height: 100%;
-			background-color: rgba(0, 0, 0, 0.9);
-			overflow: hidden;
-			/* Important: hides parts of image outside the viewport */
+			background: rgba(0, 0, 0, 0.9);
+			z-index: 1000;
+			justify-content: center;
+			align-items: center;
+		}
+
+		.modal.active {
+			display: flex;
 		}
 
 		.modal-content {
-			width: 100%;
-			height: 100%;
-		}
-
-		/* The image is positioned absolutely to be controlled by transform */
-		.modal-content img {
-			position: absolute;
-			top: 0;
-			left: 0;
+			position: relative;
+			width: 90%;
+			height: 90%;
+			overflow: hidden;
 			cursor: grab;
-			user-select: none;
-			-webkit-user-select: none;
-			/* We use transform-origin: 0 0 for simpler calculations */
-			transform-origin: 0 0;
-			background: white;
-		}
-
-		.close {
-			position: fixed;
-			top: 15px;
-			right: 25px;
-			font-size: 40px;
-			font-weight: bold;
-			color: #fff;
-			cursor: pointer;
-			z-index: 1000;
-			line-height: 1;
-			text-shadow: 0 0 10px rgba(0, 0, 0, 0.8);
-			background: rgba(220, 20, 60, 0.8);
-			width: 50px;
-			height: 50px;
-			border-radius: 50%;
 			display: flex;
 			align-items: center;
 			justify-content: center;
 		}
 
-		.close:hover {
-			background: rgba(220, 20, 60, 1);
+		.modal-content:active {
+			cursor: grabbing;
 		}
 
-		.zoom-info {
-			position: fixed;
+		.modal-image {
+			max-width: 100%;
+			max-height: 100%;
+			transition: transform 0.1s ease-out;
+			user-select: none;
+			-webkit-user-select: none;
+			transform-origin: center center;
+			background: white;
+		}
+
+		.modal-close {
+			position: absolute;
+			top: 20px;
+			right: 20px;
+			font-size: 40px;
+			color: white;
+			cursor: pointer;
+			z-index: 1001;
+			width: 50px;
+			height: 50px;
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			background: rgba(0, 0, 0, 0.5);
+			border-radius: 50%;
+			transition: background 0.2s;
+		}
+
+		.modal-close:hover {
+			background: rgba(0, 0, 0, 0.8);
+		}
+
+		.zoom-controls {
+			position: absolute;
 			bottom: 20px;
 			left: 50%;
 			transform: translateX(-50%);
+			display: flex;
+			gap: 10px;
+			z-index: 1001;
+		}
+
+		.zoom-btn {
+			width: 50px;
+			height: 50px;
 			background: rgba(0, 0, 0, 0.7);
 			color: white;
-			padding: 10px 20px;
-			border-radius: 20px;
-			font-size: 14px;
-			z-index: 1000;
-			pointer-events: none;
+			border: none;
+			border-radius: 50%;
+			font-size: 24px;
+			cursor: pointer;
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			transition: background 0.2s;
+		}
+
+		.zoom-btn:hover {
+			background: rgba(0, 0, 0, 0.9);
+		}
+
+		.error {
+			color: #e74c3c;
+			text-align: center;
+			padding: 20px;
+			font-size: 16px;
+		}
+
+		.loading {
+			text-align: center;
+			padding: 40px;
+			color: #666;
+			font-size: 18px;
 		}
 	</style>
 </head>
 
 <body>
+	<div class="header">
+		<h1>SVG Gallery</h1>
+		<input type="text" class="search-bar" id="searchBar" placeholder="Search SVGs by filename...">
+	</div>
 
-	<h1>Quick Infographics</h1>
-	<div class="grid" id="svgGrid"></div>
+	<div class="svg-grid" id="svgGrid">
+		<div class="loading">Loading SVGs...</div>
+	</div>
 
-	<!-- Modal -->
-	<div id="svgModal" class="modal">
-		<span class="close">&times;</span>
-		<div class="modal-content">
-			<img id="modalImg" src="" alt="SVG">
+	<div class="modal" id="modal">
+		<span class="modal-close" id="modalClose">&times;</span>
+		<div class="modal-content" id="modalContent">
+			<img class="modal-image" id="modalImage" src="" alt="">
 		</div>
-		<div class="zoom-info" id="zoomInfo">100%</div>
+		<div class="zoom-controls">
+			<button class="zoom-btn" id="zoomOut">−</button>
+			<button class="zoom-btn" id="zoomReset">⟲</button>
+			<button class="zoom-btn" id="zoomIn">+</button>
+		</div>
 	</div>
 
 	<script>
 		const repoUrl = 'https://raw.githubusercontent.com/jebin2/blog/main/manifest.json';
 		const svgGrid = document.getElementById('svgGrid');
-		const modal = document.getElementById('svgModal');
-		const modalImg = document.getElementById('modalImg');
-		const closeBtn = modal.querySelector('.close');
-		const zoomInfo = document.getElementById('zoomInfo');
+		const searchBar = document.getElementById('searchBar');
+		const modal = document.getElementById('modal');
+		const modalImage = document.getElementById('modalImage');
+		const modalContent = document.getElementById('modalContent');
+		const modalClose = document.getElementById('modalClose');
+		const zoomIn = document.getElementById('zoomIn');
+		const zoomOut = document.getElementById('zoomOut');
+		const zoomReset = document.getElementById('zoomReset');
 
-		// State variables for zoom and pan
+		let allSvgs = [];
 		let scale = 1;
 		let translateX = 0;
 		let translateY = 0;
-		let isPanning = false;
-		let panStart = { x: 0, y: 0 };
-		let allSvgs = [];
-		let initialTouchState = null;
+		let isDragging = false;
+		let startX, startY;
 
-		// --- Data Loading and Initialization ---
 		async function loadSVGs() {
 			try {
 				const response = await fetch(repoUrl);
 				const manifest = await response.json();
 				allSvgs = manifest.svgs;
 
-				allSvgs.forEach(svg => {
-					const img = document.createElement('img');
-					img.src = `https://raw.githubusercontent.com/jebin2/blog/main/${svg.path}`;
-					img.alt = svg.name;
-					img.dataset.path = svg.path;
-					img.addEventListener('click', () => openModal(img.src, svg.path));
-					svgGrid.appendChild(img);
-				});
+				displaySVGs(allSvgs);
 			} catch (err) {
 				svgGrid.innerHTML = `<div class="error">Error loading SVGs: ${err.message}</div>`;
 			}
@@ -177,189 +282,206 @@
 			window.history.pushState({}, '', url);
 		}
 
-		// --- Modal and Transform Logic ---
-		function openModal(src, svgPath) {
-			modal.style.display = 'block';
-			updateUrl(svgPath);
-			modalImg.src = src;
-			modalImg.style.cursor = 'default';
+		function displaySVGs(svgs) {
+			svgGrid.innerHTML = '';
+
+			if (svgs.length === 0) {
+				svgGrid.innerHTML = '<div class="error">No SVGs found</div>';
+				return;
+			}
+
+			svgs.forEach(svg => {
+				const item = document.createElement('div');
+				item.className = 'svg-item';
+
+				const img = document.createElement('img');
+				img.src = `https://raw.githubusercontent.com/jebin2/blog/main/${svg.path}`;
+				img.alt = svg.name;
+				img.loading = 'lazy';
+
+				const name = document.createElement('div');
+				name.className = 'svg-name';
+				name.textContent = svg.name;
+
+				item.appendChild(img);
+				item.appendChild(name);
+				item.addEventListener('click', () => openModal(img.src, svg.path));
+
+				svgGrid.appendChild(item);
+			});
+		}
+
+		function openModal(src, srcParam) {
+			updateUrl(srcParam);
+			modalImage.src = src;
+			modal.classList.add('active');
+			resetZoom();
+			document.body.style.overflow = 'hidden';
+
+			// Wait for image to load to get correct dimensions
+			modalImage.onload = () => {
+				resetZoom();
+			};
 		}
 
 		function closeModal() {
-			modal.style.display = 'none';
+			modal.classList.remove('active');
+			document.body.style.overflow = 'auto';
 			clearUrl();
 		}
 
-		function applyTransform() {
-			modalImg.style.transform = `translate(${translateX}px, ${translateY}px) scale(${scale})`;
-			updateZoomInfo();
+		function updateTransform() {
+			modalImage.style.transform = `translate(${translateX}px, ${translateY}px) scale(${scale})`;
 		}
 
-		function fitAndCenterImage(e) {
-			const zoomSpeed = 1.2;
-			const newScale = scale * zoomSpeed;
-			const clampedScale = Math.max(0.1, Math.min(20, newScale));
-
-			const imageX = (e.clientX - translateX) / scale;
-			const imageY = (e.clientY - translateY) / scale;
-
-			translateX = e.clientX - imageX * clampedScale;
-			translateY = e.clientY - imageY * clampedScale;
-			scale = clampedScale;
-
-			applyTransform();
+		function resetZoom() {
+			scale = 1;
+			translateX = 0;
+			translateY = 0;
+			updateTransform();
 		}
 
-		function updateZoomInfo() {
-			zoomInfo.textContent = `${Math.round(scale * 100)}%`;
-		}
-
-		// --- Event Listeners ---
-		closeBtn.onclick = closeModal;
-		window.addEventListener('keydown', e => {
-			if (e.key === 'Escape') closeModal();
+		// Search functionality
+		searchBar.addEventListener('input', (e) => {
+			const searchTerm = e.target.value.toLowerCase();
+			const filtered = allSvgs.filter(svg =>
+				svg.name.toLowerCase().includes(searchTerm) ||
+				svg.path.toLowerCase().includes(searchTerm)
+			);
+			displaySVGs(filtered);
 		});
-		window.addEventListener('popstate', () => {
-			const urlParams = new URLSearchParams(window.location.search);
-			const srcParam = urlParams.get('src');
-			if (srcParam) {
-				const fullPath = `https://raw.githubusercontent.com/jebin2/blog/main/${srcParam}`;
-				openModal(fullPath, srcParam);
-			} else {
-				closeModal();
+
+		// Modal controls
+		modalClose.addEventListener('click', closeModal);
+		modal.addEventListener('click', (e) => {
+			if (e.target === modal) closeModal();
+		});
+
+		zoomIn.addEventListener('click', () => {
+			scale = Math.min(scale + 0.2, 5);
+			updateTransform();
+		});
+
+		zoomOut.addEventListener('click', () => {
+			scale = Math.max(scale - 0.2, 0.5);
+			updateTransform();
+		});
+
+		zoomReset.addEventListener('click', resetZoom);
+
+		// Wheel zoom with cursor point
+		modalContent.addEventListener('wheel', (e) => {
+			e.preventDefault();
+
+			// Get mouse position relative to the image element
+			const imgRect = modalImage.getBoundingClientRect();
+			const mouseX = e.clientX - imgRect.left;
+			const mouseY = e.clientY - imgRect.top;
+
+			// Current image dimensions
+			const currentWidth = imgRect.width;
+			const currentHeight = imgRect.height;
+
+			const delta = e.deltaY > 0 ? -0.1 : 0.1;
+			const newScale = Math.max(0.5, Math.min(5, scale + delta));
+
+			// Calculate the ratio of mouse position within the image
+			const ratioX = mouseX / currentWidth;
+			const ratioY = mouseY / currentHeight;
+
+			// Calculate how much the image will grow/shrink
+			const scaleDiff = newScale - scale;
+
+			// Adjust translation to keep the point under cursor fixed
+			translateX -= (mouseX - currentWidth / 2) * scaleDiff / scale;
+			translateY -= (mouseY - currentHeight / 2) * scaleDiff / scale;
+
+			scale = newScale;
+			updateTransform();
+		});
+
+		// Drag functionality
+		modalContent.addEventListener('mousedown', (e) => {
+			if (e.target === modalImage || e.target === modalContent) {
+				e.preventDefault();
+				isDragging = true;
+				startX = e.clientX - translateX;
+				startY = e.clientY - translateY;
+				modalContent.style.cursor = 'grabbing';
 			}
 		});
 
-		// --- Panning with Mouse ---
-		modalImg.addEventListener('mousedown', e => {
-			if (e.button !== 0) return;
-
-			e.preventDefault();
-			isPanning = true;
-			panStart.x = e.clientX - translateX;
-			panStart.y = e.clientY - translateY;
-			modalImg.style.cursor = 'grabbing';
+		document.addEventListener('mousemove', (e) => {
+			if (isDragging) {
+				e.preventDefault();
+				translateX = e.clientX - startX;
+				translateY = e.clientY - startY;
+				updateTransform();
+			}
 		});
 
-		modalImg.addEventListener('contextmenu', e => {
-			isPanning = false;
-			modalImg.style.cursor = 'grab';
+		document.addEventListener('mouseup', () => {
+			if (isDragging) {
+				isDragging = false;
+				modalContent.style.cursor = 'grab';
+			}
 		});
 
-		window.addEventListener('mouseup', (e) => {
-			// Check for left-click release
-			if (e.button !== 0) return;
-			isPanning = false;
-			modalImg.style.cursor = 'grab'; // Reset to grab cursor
-		});
-		
-		// This listener is not strictly needed with the window.mouseup, but is good practice
-		modalImg.addEventListener('mouseleave', () => {
-			isPanning = false;
-			modalImg.style.cursor = 'grab';
-		});
+		// Touch support
+		let touchStartX, touchStartY, touchStartDist;
 
-		window.addEventListener('mousemove', e => {
-			if (!isPanning) return;
-			e.preventDefault();
-			translateX = e.clientX - panStart.x;
-			translateY = e.clientY - panStart.y;
-			applyTransform();
-		});
-
-		// --- Zooming with Mouse Wheel ---
-		modal.addEventListener('wheel', e => {
-			e.preventDefault();
-			const zoomFactor = 1.2;
-			const newScale = e.deltaY < 0 ? scale * zoomFactor : scale / zoomFactor;
-			const clampedScale = Math.max(0.1, Math.min(20, newScale));
-
-			const mouseX = e.clientX - translateX;
-			const mouseY = e.clientY - translateY;
-
-			translateX += (mouseX - (mouseX / scale) * clampedScale);
-			translateY += (mouseY - (mouseY / scale) * clampedScale);
-			scale = clampedScale;
-
-			applyTransform();
-		});
-
-		// --- Touch Support for Pan and Pinch-Zoom ---
-		function getDistance(t1, t2) {
-			const dx = t1.clientX - t2.clientX;
-			const dy = t1.clientY - t2.clientY;
-			return Math.sqrt(dx * dx + dy * dy);
-		}
-
-		function getMidpoint(t1, t2) {
-			return { x: (t1.clientX + t2.clientX) / 2, y: (t1.clientY + t2.clientY) / 2 };
-		}
-
-		modalImg.addEventListener('touchstart', e => {
-			e.preventDefault();
+		modalContent.addEventListener('touchstart', (e) => {
 			if (e.touches.length === 1) {
-				isPanning = true;
-				panStart.x = e.touches[0].clientX - translateX;
-				panStart.y = e.touches[0].clientY - translateY;
+				isDragging = true;
+				touchStartX = e.touches[0].clientX - translateX;
+				touchStartY = e.touches[0].clientY - translateY;
 			} else if (e.touches.length === 2) {
-				isPanning = false;
-				initialTouchState = {
-					distance: getDistance(e.touches[0], e.touches[1]),
-					midpoint: getMidpoint(e.touches[0], e.touches[1]),
-					scale: scale,
-					translateX: translateX,
-					translateY: translateY,
-				};
+				isDragging = false;
+				touchStartDist = Math.hypot(
+					e.touches[0].clientX - e.touches[1].clientX,
+					e.touches[0].clientY - e.touches[1].clientY
+				);
 			}
 		});
 
-		modalImg.addEventListener('touchmove', e => {
+		modalContent.addEventListener('touchmove', (e) => {
 			e.preventDefault();
-			if (isPanning && e.touches.length === 1) {
-				translateX = e.touches[0].clientX - panStart.x;
-				translateY = e.touches[0].clientY - panStart.y;
-				applyTransform();
-			} else if (e.touches.length === 2 && initialTouchState) {
-				const currentDistance = getDistance(e.touches[0], e.touches[1]);
-				const currentMidpoint = getMidpoint(e.touches[0], e.touches[1]);
-
-				const scaleChange = currentDistance / initialTouchState.distance;
-				const newScale = initialTouchState.scale * scaleChange;
-				scale = Math.max(0.1, Math.min(20, newScale));
-
-				const imageX = (initialTouchState.midpoint.x - initialTouchState.translateX) / initialTouchState.scale;
-				const imageY = (initialTouchState.midpoint.y - initialTouchState.translateY) / initialTouchState.scale;
-
-				translateX = currentMidpoint.x - imageX * scale;
-				translateY = currentMidpoint.y - imageY * scale;
-
-				applyTransform();
+			if (e.touches.length === 1 && isDragging) {
+				translateX = e.touches[0].clientX - touchStartX;
+				translateY = e.touches[0].clientY - touchStartY;
+				updateTransform();
+			} else if (e.touches.length === 2) {
+				const dist = Math.hypot(
+					e.touches[0].clientX - e.touches[1].clientX,
+					e.touches[0].clientY - e.touches[1].clientY
+				);
+				scale = Math.max(0.5, Math.min(5, scale * (dist / touchStartDist)));
+				touchStartDist = dist;
+				updateTransform();
 			}
 		});
 
-		modalImg.addEventListener('touchend', e => {
-			if (e.touches.length === 0) {
-				isPanning = false;
-				initialTouchState = null;
-			} else if (e.touches.length === 1) {
-				isPanning = true;
-				initialTouchState = null;
-				panStart.x = e.touches[0].clientX - translateX;
-				panStart.y = e.touches[0].clientY - translateY;
-			}
+		modalContent.addEventListener('touchend', () => {
+			isDragging = false;
 		});
 
-		// Double-click to reset view
-		modalImg.addEventListener('dblclick', fitAndCenterImage);
+		// Keyboard shortcuts
+		document.addEventListener('keydown', (e) => {
+			if (!modal.classList.contains('active')) return;
 
-		// Reset view on window resize
-		// window.addEventListener('resize', (e) => {
-		// 	if (modal.style.display === 'block') {
-		// 		fitAndCenterImage(e);
-		// 	}
-		// });
+			if (e.key === 'Escape') closeModal();
+			if (e.key === '+' || e.key === '=') {
+				scale = Math.min(scale + 0.2, 5);
+				updateTransform();
+			}
+			if (e.key === '-' || e.key === '_') {
+				scale = Math.max(scale - 0.2, 0.5);
+				updateTransform();
+			}
+			if (e.key === '0') resetZoom();
+		});
 
-		// --- Initialize ---
+		// Load SVGs on page load
 		checkUrlParameter();
 		loadSVGs();
 	</script>
