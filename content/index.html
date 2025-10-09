@@ -17,6 +17,7 @@
 	<link class="theme" id="theme7" rel="stylesheet" href="style/style7.css" disabled>
 	<link class="theme" id="theme8" rel="stylesheet" href="style/style8.css" disabled>
 	<link class="theme" id="theme9" rel="stylesheet" href="style/style9.css" disabled>
+	<link class="theme" id="theme10" rel="stylesheet" href="style/style10.css" disabled>
 
 	<style>
 		/* --- Base Structural Styles --- */
@@ -322,15 +323,6 @@
 			<div class="dropdown">
 				<span id="themeLabel">Select Theme</span>
 				<div class="dropdown-content">
-					<div class="theme-option" data-theme="theme1">Theme 1</div>
-					<div class="theme-option" data-theme="theme2">Theme 2</div>
-					<div class="theme-option" data-theme="theme3">Theme 3</div>
-					<div class="theme-option" data-theme="theme4">Theme 4</div>
-					<div class="theme-option" data-theme="theme5">Theme 5</div>
-					<div class="theme-option" data-theme="theme6">Theme 6</div>
-					<div class="theme-option" data-theme="theme7">Theme 7</div>
-					<div class="theme-option" data-theme="theme8">Theme 8</div>
-					<div class="theme-option" data-theme="theme9">Theme 9</div>
 				</div>
 			</div>
 		</div>
@@ -457,22 +449,37 @@
 			};
 
 			const setupThemeSwitcher = () => {
-				const themeOptions = document.querySelectorAll('.theme-option');
 				const themeLinks = document.querySelectorAll('link.theme');
+				const dropdownContent = document.querySelector('.dropdown-content');
 				const themeLabel = document.getElementById('themeLabel');
+
+				// Clear any existing (static) options
+				dropdownContent.innerHTML = '';
+
+				// Create a button for each theme link dynamically
+				themeLinks.forEach((link, index) => {
+					const themeId = link.id;
+					const option = document.createElement('div');
+					option.className = 'theme-option';
+					option.dataset.theme = themeId;
+					option.textContent = `Theme ${index + 1}`;
+					dropdownContent.appendChild(option);
+				});
 
 				const applyTheme = (themeId) => {
 					themeLinks.forEach(link => link.disabled = (link.id !== themeId));
-					const option = document.querySelector(`.theme-option[data-theme="${themeId}"]`);
+					const option = dropdownContent.querySelector(`[data-theme="${themeId}"]`);
 					if (option) themeLabel.textContent = option.textContent;
 					localStorage.setItem('selectedTheme', themeId);
 				};
 
-				themeOptions.forEach(option => {
-					option.addEventListener('click', () => applyTheme(option.getAttribute('data-theme')));
+				// Add click event to each dynamically created option
+				dropdownContent.querySelectorAll('.theme-option').forEach(option => {
+					option.addEventListener('click', () => applyTheme(option.dataset.theme));
 				});
 
-				const savedTheme = localStorage.getItem('selectedTheme') || 'theme4';
+				// Load saved theme or fallback
+				const savedTheme = localStorage.getItem('selectedTheme') || themeLinks[0].id;
 				applyTheme(savedTheme);
 			};
 
