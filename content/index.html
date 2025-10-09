@@ -22,12 +22,14 @@
 			text-align: center !important;
 			display: block !important;
 		}
+
 		.container {
 			max-width: 80% !important;
 			margin: 0 auto !important;
 			padding: 2rem 1.5rem !important;
 			min-height: 100vh !important;
 		}
+
 		.loading,
 		.error {
 			text-align: center;
@@ -189,6 +191,7 @@
 			cursor: pointer;
 			transition: all 0.3s ease;
 		}
+
 		.read-btn:hover {
 			background-color: var(--accent-primary);
 			color: white;
@@ -198,6 +201,7 @@
 			text-align: center !important;
 			margin: 1.5rem 0 !important;
 		}
+
 		.blog-footer_p {
 			text-align: center !important;
 			margin: 1.5rem 0 !important;
@@ -289,13 +293,26 @@
 <body>
 
 	<main id="content" class="container">
-		<div class="loading">Loading...</div>
+		<div class="main-page">
+			<header class="blog-header">
+				<h1>📚 Dive-In</h1>
+				<p class="blog-subtitle">Welcome Seeker.</p>
+			</header>
+			<section class="blog-category">
+				<h2 class="category-title"></h2>
+				<div class="blog-grid"></div>
+			</section>
+			<footer class="blog-footer">
+				<p class="blog-footer_p">📖 Made by Learning.</p>
+			</footer>
+		</div>
 	</main>
 
 	<div class="scroll-progress"></div>
 
 	<div class="site-controls">
-		<button onclick="window.location.href=window.location.pathname" class="nav-btn" aria-label="Go to Home">🏠 Home</button>
+		<button onclick="window.location.href=window.location.pathname" class="nav-btn" aria-label="Go to Home">🏠
+			Home</button>
 		<div id="themeSwitcher">
 			<div class="dropdown">
 				<span id="themeLabel">Select Theme</span>
@@ -360,7 +377,13 @@
 			};
 
 			const loadMainPage = async () => {
-				renderState('<div class="loading">Loading blog posts...</div>');
+				const categoryTitleEl = document.querySelector('.category-title');
+				const blogGridEl = document.querySelector('.blog-grid');
+
+				// Show temporary loading
+				categoryTitleEl.textContent = 'Loading posts...';
+				blogGridEl.innerHTML = '<div class="loading">Loading blog posts...</div>';
+
 				try {
 					const response = await fetch('manifest.json');
 					if (!response.ok) throw new Error('manifest.json not found');
@@ -368,44 +391,32 @@
 					if (!manifest.posts || manifest.posts.length === 0) {
 						throw new Error('No posts found in manifest.json');
 					}
+
 					const posts = manifest.posts.sort((a, b) => new Date(b.date) - new Date(a.date));
-					contentArea.innerHTML = generateMainPageHTML(posts);
-					setupBlogLinks();
+
+					// Update category title
+					categoryTitleEl.textContent = `Posts (${posts.length})`;
+
+					// Generate post cards
+					blogGridEl.innerHTML = posts.map(post => {
+						const cleanName = post.title || post.path.split('/').pop().replace('.md', '');
+						const date = new Date(post.date).toLocaleDateString();
+						return `
+                <article class="blog-card" data-path="${post.path}">
+                    <h3 class="post-title">${cleanName}</h3>
+                    <span class="post-path">${post.path}</span><br>
+                    <small>📅 ${date}</small>
+                    <div class="card-footer">
+                        <button class="read-btn" data-path="${post.path}">Read Post →</button>
+                    </div>
+                </article>`;
+					}).join('');
+
+					setupBlogLinks(); // Add click handlers
 				} catch (error) {
-					renderState(`<div class="error">Error loading blog posts: ${error.message}</div>`);
+					categoryTitleEl.textContent = 'Error';
+					blogGridEl.innerHTML = `<div class="error">Error loading blog posts: ${error.message}</div>`;
 				}
-			};
-
-			// --- HTML Generation ---
-			const generateMainPageHTML = (posts) => {
-				const postCards = posts.map(post => {
-					const cleanName = post.title || post.path.split('/').pop().replace('.md', '');
-					const date = new Date(post.date).toLocaleDateString();
-					return `
-                    <article class="blog-card" data-path="${post.path}">
-                        <h3 class="post-title">${cleanName}</h3>
-                        <span class="post-path">${post.path}</span><br>
-                        <small>📅 ${date}</small>
-                        <div class="card-footer">
-                            <button class="read-btn" data-path="${post.path}">Read Post →</button>
-                        </div>
-                    </article>`;
-				}).join('');
-
-				return `
-                <div class="main-page">
-                    <header class="blog-header">
-                        <h1>📚 Dive-In</h1>
-                        <p class="blog-subtitle">Welcome Seeker.</p>
-                    </header>
-                    <section class="blog-category">
-                        <h2 class="category-title">Posts (${posts.length})</h2>
-                        <div class="blog-grid">${postCards}</div>
-                    </section>
-                    <footer class="blog-footer">
-                        <p class="blog-footer_p">📖 Made by Learning.</p>
-                    </footer>
-                </div>`;
 			};
 
 			// --- Event Handlers & Setup ---
