@@ -1,0 +1,191 @@
+/* Retro Wave Blog Theme - 80s Sci-Fi Inspired */
+
+:root {
+    --background: #1a0f2b;
+    --surface: #2c1a47;
+    --text-primary: #e0d7ff;
+    --text-secondary: #a093c4;
+    --glow-magenta: #ff00c1;
+    --glow-cyan: #00f2ff;
+    --accent-yellow: #faff00;
+    --border-radius: 8px;
+    --font-primary: 'Orbitron', sans-serif; /* Recommended: Add <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@700&family=Roboto+Mono&display=swap" rel="stylesheet"> */
+    --font-mono: 'Roboto Mono', monospace;
+    --transition: all 0.3s ease-in-out;
+}
+
+/* --- Base Styles --- */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html {
+    scroll-behavior: smooth;
+    font-size: 16px;
+}
+
+body {
+    font-family: var(--font-mono);
+    line-height: 1.8;
+    color: var(--text-primary);
+    background: var(--background);
+    -webkit-font-smoothing: antialiased;
+    overflow-x: hidden;
+    position: relative;
+}
+
+/* Animated Grid Background */
+body::before {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100vh;
+    background-image:
+        linear-gradient(to right, rgba(0, 242, 255, 0.2) 1px, transparent 1px),
+        linear-gradient(to bottom, rgba(0, 242, 255, 0.2) 1px, transparent 1px);
+    background-size: 40px 40px;
+    animation: grid-scroll 10s linear infinite;
+    z-index: 0;
+    pointer-events: none;
+}
+
+@keyframes grid-scroll {
+    from { background-position: 0 0; }
+    to { background-position: 40px 80px; }
+}
+
+
+/* --- Container --- */
+.container {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 4rem 2rem;
+    position: relative;
+    z-index: 1;
+    background: rgba(26, 15, 43, 0.8);
+    backdrop-filter: blur(5px);
+}
+
+/* --- Typography --- */
+h1, h2, h3 {
+    font-family: var(--font-primary);
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    text-shadow: 0 0 5px var(--glow-magenta), 0 0 10px var(--glow-magenta), 0 0 15px var(--glow-magenta);
+}
+
+h1 {
+    font-size: 3.5rem;
+    color: #fff;
+    margin-bottom: 2rem;
+    animation: flicker 3s infinite alternate;
+}
+
+@keyframes flicker {
+    0%, 18%, 22%, 25%, 53%, 57%, 100% {
+        text-shadow:
+            0 0 4px #fff,
+            0 0 11px var(--glow-magenta),
+            0 0 19px var(--glow-magenta),
+            0 0 40px var(--glow-magenta);
+    }
+    20%, 24%, 55% { text-shadow: none; }
+}
+
+h2 {
+    font-size: 2.25rem;
+    margin: 4rem 0 1.5rem 0;
+    color: var(--glow-cyan);
+    text-shadow: 0 0 5px var(--glow-cyan), 0 0 10px var(--glow-cyan);
+    border-bottom: 2px solid var(--glow-cyan);
+    padding-bottom: 0.5rem;
+}
+
+h3 {
+    font-size: 1.75rem;
+    margin: 3rem 0 1rem 0;
+    color: var(--accent-yellow);
+    text-shadow: 0 0 5px var(--accent-yellow);
+}
+
+p {
+    margin: 1.5rem 0;
+    font-size: 1.125rem;
+    text-shadow: 0 0 3px rgba(224, 215, 255, 0.3);
+}
+
+/* --- Links --- */
+a {
+    color: var(--glow-cyan);
+    text-decoration: none;
+    font-weight: bold;
+    transition: var(--transition);
+    text-shadow: 0 0 3px var(--glow-cyan);
+}
+
+a:hover {
+    color: var(--accent-yellow);
+    text-shadow: 0 0 5px var(--accent-yellow);
+    background: rgba(250, 255, 0, 0.1);
+}
+
+/* --- Blockquotes --- */
+blockquote {
+    margin: 3rem 0;
+    padding: 1.5rem;
+    background: transparent;
+    border: 2px solid var(--glow-magenta);
+    border-radius: var(--border-radius);
+    box-shadow: inset 0 0 10px var(--glow-magenta), 0 0 15px rgba(255, 0, 193, 0.3);
+    font-style: italic;
+    color: var(--text-secondary);
+}
+
+/* --- Code Styling --- */
+p code, li code {
+    background: var(--surface);
+    color: var(--accent-yellow);
+    padding: 0.2rem 0.5rem;
+    border-radius: 4px;
+}
+
+pre {
+    background: var(--surface);
+    color: var(--text-primary);
+    padding: 1.5rem;
+    border-radius: var(--border-radius);
+    overflow-x: auto;
+    margin: 2.5rem 0;
+    border: 1px solid var(--glow-cyan);
+    box-shadow: inset 0 0 8px var(--glow-cyan);
+}
+
+/* --- Images --- */
+img {
+    max-width: 100%;
+    height: auto;
+    margin: 3rem auto;
+    display: block;
+    border-radius: var(--border-radius);
+    border: 2px solid var(--glow-magenta);
+    box-shadow: 0 0 20px var(--glow-magenta);
+    transition: var(--transition);
+}
+
+img:hover {
+    transform: scale(1.05);
+    box-shadow: 0 0 30px var(--glow-cyan);
+    border-color: var(--glow-cyan);
+}
+
+/* --- Horizontal Rules --- */
+hr {
+    border: none;
+    height: 2px;
+    background-image: linear-gradient(to right, transparent, var(--glow-cyan), transparent);
+    margin: 4rem 0;
+}
