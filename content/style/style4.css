@@ -133,7 +133,7 @@ code {
 }
 
 p code, li code {
-    background: var(highlight-bg);
+    background: var(--highlight-bg);
     border: 2px solid var(--text-primary);
     padding: 0.2rem 0.4rem;
     color: var(--text-primary);
@@ -151,7 +151,7 @@ pre::before {
 }
 
 pre {
-    background: var(code-bg);
+    background: var(--code-bg);
     color: var(--text-primary);
     padding: 1.5rem;
     border: var(--border-thickness) solid var(--text-primary);
