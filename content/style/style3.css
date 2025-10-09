@@ -136,7 +136,17 @@ p code, li code {
     box-shadow: inset 2px 2px 4px var(--shadow-dark),
                 inset -2px -2px 4px var(--shadow-light);
 }
-
+pre::before {
+    content: '';
+    position: absolute;
+    top: 1rem;
+    left: 1rem;
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    background: #ff5f56;
+    box-shadow: 18px 0 #ffbd2e, 36px 0 #27ca3f;
+}
 pre {
     background-color: var(--background);
     color: var(--text-primary);
@@ -147,6 +157,7 @@ pre {
     line-height: 1.7;
     box-shadow: inset 8px 8px 16px var(--shadow-dark),
                 inset -8px -8px 16px var(--shadow-light);
+    position: relative;
 }
 
 pre code {
