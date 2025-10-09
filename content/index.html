@@ -195,13 +195,16 @@
 			cursor: pointer;
 			transition: all 0.3s ease;
 		}
+		.read-btn:hover {
+			background-color: var(--accent-primary);
+		}
 
 		.blog-footer {
 			text-align: center;
-			margin-top: 4rem;
+			/* margin-top: 4rem;
 			padding: 2rem;
 			border-radius: 12px;
-			border: 1px solid #e9ecef;
+			border: 1px solid #e9ecef; */
 		}
 
 		/* 6. Image Modal */
@@ -403,7 +406,7 @@
                 <div class="main-page">
                     <header class="blog-header">
                         <h1>📚 My Blog</h1>
-                        <p class="blog-subtitle">Welcome to my markdown blog. Choose a post to read:</p>
+                        <p class="blog-subtitle">Welcome to my markdown blog.</p>
                     </header>
                     <div class="blog-stats">
                         <span class="stat-item">📄 ${posts.length} Posts</span>
