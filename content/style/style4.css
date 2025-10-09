@@ -2,7 +2,7 @@
 
 :root {
     --text-primary: #000000;
-    --background: #FDFBF6;
+    --background: #967297;
     --accent-primary: #a15dcc;  /* NEW: Vibrant Purple */
     --accent-secondary: #0052FF; /* Electric Blue */
     --accent-error: #FF0000;   /* NEW: Pure Red */
@@ -54,11 +54,11 @@ h1, h2, h3, h4, h5, h6 {
 h1 {
     font-size: 3.5rem;
     margin-bottom: 2rem;
-    background-color: var(--accent-primary);
+    /* background-color: var(--accent-primary); */
     padding: 0.5rem 1rem;
     display: inline-block;
     border: var(--border-thickness) solid var(--text-primary);
-    color: var(--background); /* Changed text color for better contrast on purple */
+    /* color: var(--background); Changed text color for better contrast on purple */
 }
 
 h2 {

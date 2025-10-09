@@ -197,6 +197,7 @@
 		}
 		.read-btn:hover {
 			background-color: var(--accent-primary);
+			color: white;
 		}
 
 		.blog-footer {
@@ -464,7 +465,7 @@
 					option.addEventListener('click', () => applyTheme(option.getAttribute('data-theme')));
 				});
 
-				const savedTheme = localStorage.getItem('selectedTheme') || 'theme2';
+				const savedTheme = localStorage.getItem('selectedTheme') || 'theme4';
 				applyTheme(savedTheme);
 			};
 
