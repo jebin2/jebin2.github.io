@@ -131,10 +131,21 @@ code {
 }
 
 p code, li code {
-    background: transparent;
+    background: #8e5caa;
     border: 2px solid var(--text-primary);
     padding: 0.2rem 0.4rem;
     color: var(--text-primary);
+}
+pre::before {
+    content: '';
+    position: absolute;
+    top: 1rem;
+    left: 1rem;
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    background: #ff5f56;
+    box-shadow: 18px 0 #ffbd2e, 36px 0 #27ca3f;
 }
 
 pre {
