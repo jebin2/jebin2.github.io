@@ -33,6 +33,11 @@
   ],
   "svgs": [
     {
+      "name": "How CPU Execute Instructions",
+      "path": "svgs/How CPU Execute Instructions.svg",
+      "date": "2025-10-10 21:02:32 +0530"
+    },
+    {
       "name": "Anonymous file sharing from command line",
       "path": "svgs/Anonymous file sharing from command line.svg",
       "date": "2025-10-08 23:31:05 +0530"
