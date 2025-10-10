@@ -1,0 +1,148 @@
+/* Solarpunk Webring Theme - Lo-Fi & Handcrafted */
+
+:root {
+    --background-papyrus: #e8e4d9; /* A warm, paper-like off-white */
+    --surface-screen: #d8d2c5; /* A slightly darker tone for surfaces */
+    --text-ink: #2a2520; /* A dark, soft black */
+    --text-secondary: #6a6359;
+    --link-blue: #0033cc;
+    --accent-moss: #1a5933;
+    --border-color: #9a9387;
+    --border-radius: 0; /* No rounded corners allowed */
+    /* Recommended: <link href="https://fonts.googleapis.com/css2?family=VT323&display=swap" rel="stylesheet"> */
+    --font-pixel: 'VT323', monospace;
+    --transition: none; /* Intentional lack of smooth transitions */
+}
+
+/* --- Base Styles --- */
+* { margin: 0; padding: 0; box-sizing: border-box; }
+html { scroll-behavior: smooth; font-size: 18px; } /* Slightly larger for readability */
+
+body {
+    font-family: var(--font-pixel);
+    line-height: 1.7;
+    color: var(--text-ink);
+    background-color: var(--background-papyrus);
+    /* Classic 1-bit dithering pattern */
+    background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="4" height="4" viewBox="0 0 4 4"><path fill="%232a2520" fill-opacity="0.05" d="M0 2h2V0h2v2H2v2H0V2z"></path></svg>');
+    -webkit-font-smoothing: none; /* Enforce crisp pixel fonts */
+    image-rendering: pixelated; /* Make images look retro */
+}
+
+/* --- Container --- */
+.container {
+    max-width: 700px;
+    margin: 0 auto;
+    padding: 4rem 1.5rem;
+}
+
+/* --- Typography --- */
+h1, h2, h3, h4, h5, h6 {
+    font-weight: normal;
+    color: var(--text-ink);
+    line-height: 1.2;
+    text-transform: uppercase;
+}
+
+h1 {
+    font-size: 3rem;
+    margin-bottom: 2rem;
+    text-align: center;
+    border: 2px solid var(--text-ink);
+    padding: 1rem;
+    background: var(--background-papyrus);
+    box-shadow: 4px 4px 0px var(--text-ink);
+}
+
+h2 {
+    font-size: 1.8rem;
+    margin: 3rem 0 1rem 0;
+}
+h2::before { content: '==> '; color: var(--accent-moss); }
+
+h3 {
+    font-size: 1.3rem;
+    margin: 2.5rem 0 1rem 0;
+    text-decoration: underline;
+    text-decoration-style: dotted;
+    text-decoration-color: var(--border-color);
+}
+
+p { margin: 1.5rem 0; }
+
+/* --- Links --- */
+a {
+    color: var(--link-blue);
+    text-decoration: underline;
+    font-weight: bold;
+    transition: var(--transition);
+}
+a:hover {
+    color: var(--background-papyrus);
+    background: var(--link-blue);
+    text-decoration: none;
+}
+
+/* --- Blockquotes --- */
+blockquote {
+    margin: 2rem 0;
+    padding: 1.5rem;
+    background: var(--surface-screen);
+    border: 1px dotted var(--border-color);
+    color: var(--text-secondary);
+}
+
+/* --- Code Styling with ASCII Borders --- */
+code { font-family: var(--font-pixel); }
+p code { background: var(--surface-screen); padding: 0.1rem 0.3rem; }
+
+pre {
+    background: var(--text-ink);
+    color: var(--background-papyrus);
+    padding: 1.5rem;
+    margin: 2.5rem 0;
+    border: 2px solid var(--text-ink);
+    overflow-x: auto;
+    position: relative;
+}
+/* ASCII decorative top border */
+pre::before {
+    position: absolute;
+    top: 0;
+    left: 10px;
+    padding: 0 10px;
+    background: var(--background-papyrus);
+    color: var(--text-ink);
+    font-size: 1rem;
+    white-space: nowrap;
+}
+
+/* --- Images --- */
+img {
+    max-width: 100%;
+    height: auto;
+    margin: 2rem auto;
+    display: block;
+    border: 2px solid var(--text-ink);
+    padding: 4px;
+    background: var(--surface-screen);
+}
+
+/* --- Horizontal Rules --- */
+hr {
+    border: 0;
+    text-align: center;
+    margin: 3rem 0;
+    color: var(--accent-moss);
+}
+hr::before {
+    content: "- - - x x x - - -";
+    font-size: 1.2rem;
+    letter-spacing: 0.5em;
+}
+
+/* --- Custom Retro Scrollbar (for Webkit browsers) --- */
+::-webkit-scrollbar { width: 12px; }
+::-webkit-scrollbar-track { background: var(--surface-screen); border-left: 1px solid var(--border-color); }
+::-webkit-scrollbar-thumb { background: var(--text-secondary); }
+::-webkit-scrollbar-thumb:hover { background: var(--accent-moss); }
