@@ -7,7 +7,7 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
 
-	<!-- External Themes: These files control the visual appearance (colors, fonts, etc.) -->
+	<!-- External Themes: Complete styling controlled by these files -->
 	<link class="theme" id="theme1" rel="stylesheet" href="style/style1.css" disabled>
 	<link class="theme" id="theme2" rel="stylesheet" href="style/style2.css">
 	<link class="theme" id="theme3" rel="stylesheet" href="style/style3.css" disabled>
@@ -19,345 +19,144 @@
 	<link class="theme" id="theme9" rel="stylesheet" href="style/style9.css" disabled>
 	<link class="theme" id="theme10" rel="stylesheet" href="style/style10.css" disabled>
 	<link class="theme" id="theme11" rel="stylesheet" href="style/style11.css" disabled>
-
-	<style>
-		/* --- Base Structural Styles --- */
-		/* These styles define the layout and should not be overridden by themes. */
-
-		/* 1. Page States */
-		main h1:first-child {
-			text-align: center !important;
-			display: block !important;
-			background-color: transparent !important;
-			color: var(--accent-primary);
-			border: none !important;
-		}
-
-		.container {
-			max-width: 80% !important;
-			padding: 2rem 1.5rem 0 !important;
-			/* min-height: 100vh !important; */
-		}
-
-		.loading,
-		.error {
-			text-align: center;
-			padding: 3rem;
-			font-style: italic;
-			color: #666;
-		}
-
-		.error {
-			color: #dc3545;
-			background-color: #f8d7da;
-			border: 1px solid #f5c6cb;
-			border-radius: 8px;
-		}
-
-		/* 2. Navigation & Theme Switcher */
-		.site-controls {
-			display: grid;
-			position: fixed;
-			top: 20px;
-			right: 20px;
-			z-index: 1001;
-			gap: 10px;
-		}
-
-		.nav-btn,
-		#themeSwitcher {
-			color: var(--accent-primary);
-			background: var(--background);
-			border: 1px solid #ddd;
-			padding: 0.5rem 1rem;
-			border-radius: 6px;
-			font-weight: 600;
-			cursor: pointer;
-			transition: all 0.2s ease;
-			box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-			/* FIX: Added font-size for consistency */
-			font-size: 14px;
-		}
-
-		.dropdown {
-			position: relative;
-			display: inline-block;
-		}
-
-		.dropdown-content {
-			color: var(--accent-primary);
-			background: var(--background);
-			display: none;
-			position: absolute;
-			right: 0;
-			min-width: 130px;
-			box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
-			padding: 12px;
-			z-index: 1;
-			border: 1px solid #ddd;
-			border-radius: 6px;
-		}
-
-		.theme-option {
-			padding: 5px 8px;
-			cursor: pointer;
-			border-radius: 4px;
-		}
-
-		.dropdown:hover .dropdown-content {
-			display: block;
-		}
-
-		/* 3. Scroll Progress Bar */
-		.scroll-progress {
-			position: fixed;
-			top: 0;
-			left: 0;
-			width: 0%;
-			height: 3px;
-			background: linear-gradient(90deg, #007bff, #0056b3);
-			/* Default gradient */
-			z-index: 1000;
-			transition: width 0.1s ease;
-		}
-
-		/* 4. Main Page Structure */
-		.main-page header.blog-header {
-			text-align: center;
-			border-bottom: 2px solid #e9ecef;
-		}
-
-		.blog-header h1 {
-			font-size: 3rem;
-			font-weight: bold;
-			margin-bottom: 1rem;
-		}
-
-		.blog-subtitle {
-			font-size: 1.2rem;
-			margin: 0;
-		}
-
-		.category-title {
-			font-size: 1.8rem;
-			margin-bottom: 1.5rem;
-			padding-bottom: 0.5rem;
-			border-bottom: 3px solid var(--accent-secondary);
-			/* Default color */
-			display: inline-block;
-			    margin-top: 1.5rem !important;
-		}
-
-		.blog-grid {
-			display: grid;
-			grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
-			gap: 1.5rem;
-		}
-
-		/* 5. Blog Card Structure */
-		.blog-card {
-			border: 1px solid #e9ecef;
-			border-radius: 12px;
-			padding: 1.5rem;
-			transition: all 0.3s ease;
-			cursor: pointer;
-			box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-			position: relative;
-			overflow: hidden;
-		}
-
-		.blog-card:hover {
-			transform: translateY(-4px);
-			box-shadow: 0 8px 25px rgba(0, 123, 255, 0.15);
-		}
-
-		.post-title {
-			font-size: 1.3rem;
-			font-weight: 600;
-			margin: 0 0 0.5rem 0;
-		}
-
-		.post-path {
-			font-size: 0.85rem;
-			font-family: 'Courier New', monospace;
-			padding: 0.25rem 0.5rem;
-			border-radius: 4px;
-		}
-
-		.card-footer {
-			display: flex;
-			justify-content: flex-end;
-			margin-top: 1rem;
-		}
-
-		.read-btn {
-			border: none;
-			padding: 0.75rem 1.5rem;
-			border-radius: 8px;
-			font-size: 0.9rem;
-			font-weight: 600;
-			cursor: pointer;
-			transition: all 0.3s ease;
-		}
-
-		.read-btn:hover {
-			background-color: var(--accent-primary);
-			color: var(--text-primary);
-		}
-
-		.blog-category {
-			display: grid;
-		}
-
-		.blog-footer {
-			text-align: center !important;
-			margin: 1.5rem 0 !important;
-		}
-
-		.blog-footer_p {
-			text-align: center !important;
-			margin: 1.5rem 0 !important;
-		}
-
-		/* 6. Image Modal */
-		.image-modal {
-			display: none;
-			position: fixed;
-			z-index: 2000;
-			left: 0;
-			top: 0;
-			width: 100%;
-			height: 100%;
-			background-color: rgba(0, 0, 0, 0.9);
-			opacity: 0;
-			transition: opacity 0.3s ease;
-			align-items: center;
-			justify-content: center;
-		}
-
-		.image-modal.show {
-			display: flex;
-			opacity: 1;
-		}
-
-		.modal-content {
-			position: relative;
-			max-width: 90%;
-			max-height: 90%;
-		}
-
-		.modal-image {
-			max-width: 100%;
-			max-height: 100%;
-			object-fit: contain;
-			border-radius: 8px;
-		}
-
-		.close-btn {
-			position: absolute;
-			top: -40px;
-			right: 0;
-			background: none;
-			border: none;
-			color: #fff;
-			font-size: 2.5rem;
-			cursor: pointer;
-		}
-
-		.image-caption {
-			color: #fff;
-			text-align: center;
-			margin-top: 10px;
-			font-style: italic;
-		}
-
-		.modal-spinner {
-			border: 4px solid #f3f3f3;
-			border-top: 4px solid #007bff;
-			/* Default color */
-			border-radius: 50%;
-			width: 40px;
-			height: 40px;
-			animation: spin 1s linear infinite;
-			margin: auto;
-		}
-
-		@keyframes spin {
-			to {
-				transform: rotate(360deg);
-			}
-		}
-
-		/* 7. Responsive Design */
-		@media (max-width: 768px) {
-			.blog-header h1 {
-				font-size: 2.5rem;
-			}
-
-			.blog-grid {
-				grid-template-columns: 1fr;
-				gap: 1rem;
-			}
-		}
-	</style>
 </head>
 
 <body>
+	<!-- Decorative corners for themes that want them -->
+	<div class="corner corner-top-left"></div>
+	<div class="corner corner-top-right"></div>
+	<div class="corner corner-bottom-left"></div>
+	<div class="corner corner-bottom-right"></div>
 
-	<main id="content" class="container">
-		<div class="main-page">
-			<header class="blog-header">
-				<h1>📚 Dive-In</h1>
-				<!-- <p class="blog-subtitle">Welcome Seeker.</p> -->
+	<!-- Progress indicator -->
+	<div class="progress-bar"></div>
+
+	<!-- Fixed navigation controls -->
+	<div class="controls">
+		<button class="button button-home" onclick="window.location.href=window.location.pathname">
+			<span class="button-icon">🏠</span>
+			<span class="button-label">Home</span>
+		</button>
+		<div class="dropdown">
+			<div class="dropdown-trigger" id="themeLabel">
+				<span class="dropdown-icon">🎨</span>
+				<span class="dropdown-label">Select Theme</span>
+			</div>
+			<div class="dropdown-menu"></div>
+		</div>
+	</div>
+
+	<!-- Main content wrapper -->
+	<main class="wrapper" id="content">
+		<div class="page page-main">
+			
+			<!-- Window decoration wrapper -->
+			<div class="window">
+				<div class="window-titlebar">
+					<span class="window-title">BLOG.EXE</span>
+					<div class="window-buttons">
+						<span class="window-button window-button-minimize">─</span>
+						<span class="window-button window-button-maximize">□</span>
+						<span class="window-button window-button-close">✕</span>
+					</div>
+				</div>
+			</div>
+
+			<!-- Header section -->
+			<header class="header">
+				<div class="header-decoration-top"></div>
+				<h1 class="title title-main">Dive-In</h1>
+				<p class="subtitle">Welcome Seeker</p>
+				<div class="header-decoration-bottom"></div>
 			</header>
-			<section class="blog-category">
-				<a href="svgs/view.html" target="_blank"><h2 class="category-title" id="svg_head"></h2></a>
-				<h2 class="category-title" id="post_title"></h2>
-				<div class="blog-grid"></div>
+
+			<!-- Separator -->
+			<div class="separator separator-header"></div>
+
+			<!-- Content sections -->
+			<section class="content">
+				
+				<!-- SVG/Infographics category -->
+				<div class="category category-infographics">
+					<a href="svgs/view.html" target="_blank" class="link">
+						<h2 class="title title-category" id="svg_head">
+							<span class="title-icon">🎨</span>
+							<span class="title-text">Infographics</span>
+							<span class="title-count"></span>
+						</h2>
+					</a>
+				</div>
+
+				<div class="separator separator-category"></div>
+
+				<!-- Posts category -->
+				<div class="category category-posts">
+					<h2 class="title title-category" id="post_title">
+						<span class="title-icon">📚</span>
+						<span class="title-text">Posts</span>
+						<span class="title-count"></span>
+					</h2>
+					<div class="grid"></div>
+				</div>
 			</section>
-			<footer class="blog-footer">
-				<p class="blog-footer_p">📖 Made by Learning.</p>
+
+			<div class="separator separator-footer"></div>
+
+			<!-- Footer -->
+			<footer class="footer">
+				<div class="footer-decoration-top"></div>
+				<p class="text text-footer">Made by Learning</p>
+				<div class="footer-decoration-bottom"></div>
 			</footer>
 		</div>
 	</main>
 
-	<div class="scroll-progress"></div>
-
-	<div class="site-controls">
-		<button onclick="window.location.href=window.location.pathname" class="nav-btn" aria-label="Go to Home">🏠
-			Home</button>
-		<div id="themeSwitcher">
-			<div class="dropdown">
-				<span id="themeLabel">Select Theme</span>
-				<div class="dropdown-content">
-				</div>
-			</div>
-		</div>
+	<!-- Status bar for themes that want it -->
+	<div class="statusbar">
+		<span class="statusbar-item statusbar-left">Ready</span>
+		<span class="statusbar-item statusbar-center"></span>
+		<span class="statusbar-item statusbar-right" id="statusTime"></span>
 	</div>
 
-	<div id="imageModal" class="image-modal">
-		<div class="modal-content">
-			<button class="close-btn" aria-label="Close image viewer">&times;</button>
-			<div id="modalImageContainer"></div>
+	<!-- Image modal -->
+	<div class="modal modal-image" id="imageModal">
+		<div class="modal-overlay"></div>
+		<div class="modal-container">
+			<button class="modal-close">
+				<span class="modal-close-icon">×</span>
+			</button>
+			<div class="modal-content" id="modalImageContainer"></div>
 		</div>
 	</div>
 
 	<script>
 		document.addEventListener('DOMContentLoaded', () => {
 
-			// --- DOM Element References ---
+			// Update status time
+			const updateStatusTime = () => {
+				const statusTime = document.getElementById('statusTime');
+				if (statusTime) {
+					const now = new Date();
+					statusTime.textContent = now.toLocaleTimeString('en-US', { hour12: false });
+				}
+			};
+			updateStatusTime();
+			setInterval(updateStatusTime, 1000);
+
+			// DOM references
 			const contentArea = document.getElementById('content');
-			const progressBar = document.querySelector('.scroll-progress');
+			const progressBar = document.querySelector('.progress-bar');
 			const imageModal = document.getElementById('imageModal');
 			const modalImageContainer = document.getElementById('modalImageContainer');
 
-			// --- Initialization & Routing ---
+			// Initialize
 			const init = () => {
 				setupThemeSwitcher();
 				setupImageModalControls();
 				router();
 			};
 
+			// Route to correct page
 			const router = () => {
 				const page = new URLSearchParams(window.location.search).get('page');
 				if (page) {
@@ -367,13 +166,14 @@
 				}
 			};
 
-			// --- Page Loading Logic ---
+			// Render state
 			const renderState = (html) => {
 				contentArea.innerHTML = html;
 			};
 
+			// Load markdown page
 			const loadMarkdownPage = async (page) => {
-				renderState('<div class="loading">Loading...</div>');
+				renderState('<div class="message message-loading">Loading...</div>');
 				try {
 					const response = await fetch(`https://raw.githubusercontent.com/jebin2/blog/main/${page}`);
 					if (!response.ok) throw new Error('Markdown file not found');
@@ -381,129 +181,139 @@
 					contentArea.innerHTML = marked.parse(md);
 					setupPageSpecificFeatures();
 				} catch (err) {
-					renderState(`<div class="error">Error: ${err.message}</div>`);
+					renderState(`<div class="message message-error">Error: ${err.message}</div>`);
 				}
 			};
 
+			// Load main page with posts
 			const loadMainPage = async () => {
 				const categoryTitleEl = document.querySelector('#post_title');
-				const svghead = document.querySelector('#svg_head');
-				const blogGridEl = document.querySelector('.blog-grid');
+				const svgTitleEl = document.querySelector('#svg_head');
+				const gridEl = document.querySelector('.grid');
 
-				// Show temporary loading
-				categoryTitleEl.textContent = 'Loading posts...';
-				blogGridEl.innerHTML = '<div class="loading">Loading blog posts...</div>';
+				const postsText = categoryTitleEl.querySelector('.title-text');
+				const postsCount = categoryTitleEl.querySelector('.title-count');
+				const svgText = svgTitleEl.querySelector('.title-text');
+				const svgCount = svgTitleEl.querySelector('.title-count');
+
+				if (postsText) postsText.textContent = 'Loading...';
+				gridEl.innerHTML = '<div class="message message-loading">Loading blog posts...</div>';
 
 				try {
 					const response = await fetch('manifest.json');
 					if (!response.ok) throw new Error('manifest.json not found');
 					const manifest = await response.json();
 					if (!manifest.posts || manifest.posts.length === 0) {
-						throw new Error('No posts found in manifest.json');
+						throw new Error('No posts found');
 					}
 
 					const posts = manifest.posts.sort((a, b) => new Date(b.date) - new Date(a.date));
 					const svgs = manifest.svgs.sort((a, b) => new Date(b.date) - new Date(a.date));
 
-					// Update category title
-					categoryTitleEl.textContent = `Posts (${posts.length})`;
-					svghead.textContent = `Infographics (${svgs.length})`;
+					if (postsText) postsText.textContent = 'Posts';
+					if (svgText) svgText.textContent = 'Infographics';
+					if (postsCount) postsCount.textContent = `(${posts.length})`;
+					if (svgCount) svgCount.textContent = `(${svgs.length})`;
 
-					// Generate post cards
-					blogGridEl.innerHTML = posts.map(post => {
+					gridEl.innerHTML = posts.map(post => {
 						const cleanName = post.title || post.path.split('/').pop().replace('.md', '');
 						const date = new Date(post.date).toLocaleDateString();
 						return `
-                <article class="blog-card" data-path="${post.path}">
-                    <h3 class="post-title">${cleanName}</h3>
-                    <span class="post-path">${post.path}</span><br>
-                    <small>📅 ${date}</small>
-                    <div class="card-footer">
-                        <button class="read-btn" data-path="${post.path}">Read Post →</button>
+                <article class="card">
+                    <div class="card-decoration card-decoration-top"></div>
+                    <h3 class="card-title">${cleanName}</h3>
+                    <div class="card-path">${post.path}</div>
+                    <div class="card-meta">
+                        <span class="card-date">📅 ${date}</span>
                     </div>
+                    <div class="card-actions">
+                        <button class="button button-read" data-path="${post.path}">
+                            <span class="button-label">Read Post</span>
+                            <span class="button-icon">→</span>
+                        </button>
+                    </div>
+                    <div class="card-decoration card-decoration-bottom"></div>
                 </article>`;
 					}).join('');
 
-					setupBlogLinks(); // Add click handlers
+					setupBlogLinks();
 				} catch (error) {
-					categoryTitleEl.textContent = 'Error';
-					blogGridEl.innerHTML = `<div class="error">Error loading blog posts: ${error.message}</div>`;
+					if (postsText) postsText.textContent = 'Error';
+					gridEl.innerHTML = `<div class="message message-error">Error: ${error.message}</div>`;
 				}
 			};
 
-			// --- Event Handlers & Setup ---
+			// Setup blog card click handlers
 			const setupBlogLinks = () => {
-				contentArea.addEventListener('click', (e) => {
-					const card = e.target.closest('.blog-card');
-					if (card) {
-						const path = card.getAttribute('data-path');
+				document.querySelectorAll('[data-path]').forEach(el => {
+					el.addEventListener('click', (e) => {
+						const path = el.getAttribute('data-path');
 						window.location.href = `${window.location.pathname}?page=${path}`;
-					}
+					});
 				});
 			};
 
+			// Setup page-specific features
 			const setupPageSpecificFeatures = () => {
 				setupScrollProgressBar();
 				setupImagePopups();
 			};
 
-			// --- Component Logic ---
+			// Scroll progress bar
 			const setupScrollProgressBar = () => {
 				window.addEventListener('scroll', () => {
 					const winScroll = document.body.scrollTop || document.documentElement.scrollTop;
 					const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
-					progressBar.style.width = (height > 0) ? `${(winScroll / height) * 100}%` : '0%';
-				}, {
-					passive: true
-				});
+					const scrollPercent = height > 0 ? (winScroll / height) * 100 : 0;
+					progressBar.style.width = `${scrollPercent}%`;
+				}, { passive: true });
 			};
 
+			// Theme switcher
 			const setupThemeSwitcher = () => {
 				const themeLinks = document.querySelectorAll('link.theme');
-				const dropdownContent = document.querySelector('.dropdown-content');
+				const dropdownMenu = document.querySelector('.dropdown-menu');
 				const themeLabel = document.getElementById('themeLabel');
 
-				// Clear any existing (static) options
-				dropdownContent.innerHTML = '';
+				dropdownMenu.innerHTML = '';
 
-				// Create a button for each theme link dynamically
 				themeLinks.forEach((link, index) => {
 					const themeId = link.id;
 					const option = document.createElement('div');
-					option.className = 'theme-option';
-					option.dataset.theme = themeId;
-					option.textContent = `Theme ${index + 1}`;
-					dropdownContent.appendChild(option);
+					option.className = 'dropdown-item';
+					option.innerHTML = `
+						<span class="dropdown-item-icon">🎨</span>
+						<span class="dropdown-item-label">Theme ${index + 1}</span>
+					`;
+					option.addEventListener('click', () => applyTheme(themeId));
+					dropdownMenu.appendChild(option);
 				});
 
 				const applyTheme = (themeId) => {
 					themeLinks.forEach(link => link.disabled = (link.id !== themeId));
-					const option = dropdownContent.querySelector(`[data-theme="${themeId}"]`);
-					if (option) themeLabel.textContent = option.textContent;
+					const option = dropdownMenu.querySelector(`[data-theme="${themeId}"]`);
 					localStorage.setItem('selectedTheme', themeId);
+					document.body.className = `theme-${themeId}`;
 				};
 
-				// Add click event to each dynamically created option
-				dropdownContent.querySelectorAll('.theme-option').forEach(option => {
-					option.addEventListener('click', () => applyTheme(option.dataset.theme));
-				});
-
-				// Load saved theme or fallback
 				const savedTheme = localStorage.getItem('selectedTheme') || themeLinks[6].id;
 				applyTheme(savedTheme);
 			};
 
+			// Image modal controls
 			const setupImageModalControls = () => {
-				imageModal.addEventListener('click', (e) => {
-					if (e.target === imageModal || e.target.closest('.close-btn')) {
-						closeImageModal();
-					}
-				});
+				const closeBtn = imageModal.querySelector('.modal-close');
+				const overlay = imageModal.querySelector('.modal-overlay');
+				
+				closeBtn.addEventListener('click', closeImageModal);
+				overlay.addEventListener('click', closeImageModal);
+				
 				document.addEventListener('keydown', (e) => {
 					if (e.key === 'Escape') closeImageModal();
 				});
 			};
 
+			// Image popup on click
 			const setupImagePopups = () => {
 				contentArea.querySelectorAll('img').forEach(img => {
 					img.style.cursor = 'pointer';
@@ -511,14 +321,16 @@
 				});
 			};
 
+			// Open image modal
 			const openImageModal = (src, altText) => {
-				imageModal.classList.add('show');
+				imageModal.classList.add('modal-open');
 				document.body.style.overflow = 'hidden';
-				modalImageContainer.innerHTML = '<div class="modal-spinner"></div>';
+				modalImageContainer.innerHTML = '<div class="spinner"></div>';
 
 				const modalImg = new Image();
-				modalImg.className = 'modal-image';
+				modalImg.className = 'image';
 				modalImg.alt = altText || 'Blog image';
+				
 				modalImg.onload = () => {
 					modalImageContainer.innerHTML = '';
 					modalImageContainer.appendChild(modalImg);
@@ -529,18 +341,21 @@
 						modalImageContainer.appendChild(caption);
 					}
 				};
+				
 				modalImg.onerror = () => {
-					modalImageContainer.innerHTML = '<div class="image-caption">Failed to load image.</div>';
+					modalImageContainer.innerHTML = '<div class="message message-error">Failed to load image</div>';
 				};
+				
 				modalImg.src = src;
 			};
 
+			// Close image modal
 			const closeImageModal = () => {
-				imageModal.classList.remove('show');
+				imageModal.classList.remove('modal-open');
 				document.body.style.overflow = 'auto';
 			};
 
-			// --- Start the application ---
+			// Start application
 			init();
 		});
 	</script>

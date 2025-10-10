@@ -1,148 +1,411 @@
-/* Solarpunk Webring Theme - Lo-Fi & Handcrafted */
+/* ============================================= */
+/* == Solarpunk Webring Theme for Dynamic Blog == */
+/* ============================================= */
 
+/* --- Root Variables & Base Styles --- */
 :root {
-    --background-papyrus: #e8e4d9; /* A warm, paper-like off-white */
-    --surface-screen: #d8d2c5; /* A slightly darker tone for surfaces */
-    --text-ink: #2a2520; /* A dark, soft black */
-    --text-secondary: #6a6359;
-    --link-blue: #0033cc;
-    --accent-moss: #1a5933;
-    --border-color: #9a9387;
-    --border-radius: 0; /* No rounded corners allowed */
-    /* Recommended: <link href="https://fonts.googleapis.com/css2?family=VT323&display=swap" rel="stylesheet"> */
-    --font-pixel: 'VT323', monospace;
-    --transition: none; /* Intentional lack of smooth transitions */
+	--background-papyrus: #e8e4d9; /* A warm, paper-like off-white */
+	--surface-screen: #d8d2c5; /* A slightly darker tone for surfaces */
+	--text-ink: #2a2520; /* A dark, soft black */
+	--text-secondary: #6a6359;
+	--link-blue: #0033cc;
+	--accent-moss: #1a5933;
+	--error-red: #b32d2d;
+	--border-color: #9a9387;
+	--border-width: 2px;
+	/* Recommended Font: <link href="https://fonts.googleapis.com/css2?family=VT323&display=swap" rel="stylesheet"> */
+	--font-pixel: 'VT323', monospace;
+	--transition: none; /* Intentional lack of smooth transitions */
 }
 
-/* --- Base Styles --- */
-* { margin: 0; padding: 0; box-sizing: border-box; }
-html { scroll-behavior: smooth; font-size: 18px; } /* Slightly larger for readability */
+* {
+	margin: 0;
+	padding: 0;
+	box-sizing: border-box;
+}
+
+html {
+	scroll-behavior: smooth;
+	font-size: 18px;
+}
 
 body {
-    font-family: var(--font-pixel);
-    line-height: 1.7;
-    color: var(--text-ink);
-    background-color: var(--background-papyrus);
-    /* Classic 1-bit dithering pattern */
-    background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="4" height="4" viewBox="0 0 4 4"><path fill="%232a2520" fill-opacity="0.05" d="M0 2h2V0h2v2H2v2H0V2z"></path></svg>');
-    -webkit-font-smoothing: none; /* Enforce crisp pixel fonts */
-    image-rendering: pixelated; /* Make images look retro */
+	font-family: var(--font-pixel);
+	line-height: 1.6;
+	color: var(--text-ink);
+	background-color: var(--background-papyrus);
+	/* Classic 1-bit dithering pattern */
+	background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="4" height="4" viewBox="0 0 4 4"><path fill="%232a2520" fill-opacity="0.05" d="M0 2h2V0h2v2H2v2H0V2z"></path></svg>');
+	-webkit-font-smoothing: none; /* Enforce crisp pixel fonts */
+	image-rendering: pixelated; /* Make images look retro */
 }
 
-/* --- Container --- */
-.container {
-    max-width: 700px;
-    margin: 0 auto;
-    padding: 4rem 1.5rem;
+/* Hide decorative elements that don't fit the blocky theme */
+.corner,
+.header-decoration-top,
+.header-decoration-bottom,
+.footer-decoration-top,
+.footer-decoration-bottom,
+.separator,
+.card-decoration {
+	display: none;
+}
+
+
+/* --- Main Layout & Wrapper --- */
+.wrapper {
+	max-width: 800px;
+	margin: 0 auto;
+	padding: 4rem 1.5rem;
+}
+
+/* --- Retro Window Wrapper --- */
+.window {
+	border: var(--border-width) solid var(--text-ink);
+	background: var(--surface-screen);
+	box-shadow: 4px 4px 0px var(--text-ink);
+	margin-bottom: 2rem;
+}
+
+.window-titlebar {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	background: var(--accent-moss);
+	color: var(--background-papyrus);
+	padding: 0.25rem 0.5rem;
+	border-bottom: var(--border-width) solid var(--text-ink);
+	text-transform: uppercase;
+}
+
+.window-buttons span {
+	padding: 0 0.25rem;
 }
 
 /* --- Typography --- */
 h1, h2, h3, h4, h5, h6 {
-    font-weight: normal;
-    color: var(--text-ink);
-    line-height: 1.2;
-    text-transform: uppercase;
+	font-weight: normal;
+	line-height: 1.2;
 }
 
-h1 {
-    font-size: 3rem;
-    margin-bottom: 2rem;
-    text-align: center;
-    border: 2px solid var(--text-ink);
-    padding: 1rem;
-    background: var(--background-papyrus);
-    box-shadow: 4px 4px 0px var(--text-ink);
+.title-main {
+	font-size: 3rem;
+	text-transform: uppercase;
+	text-align: center;
+	padding: 1rem;
 }
 
-h2 {
-    font-size: 1.8rem;
-    margin: 3rem 0 1rem 0;
+.subtitle {
+	text-align: center;
+	font-size: 1.2rem;
+	margin-bottom: 1.5rem;
+	color: var(--text-secondary);
 }
-h2::before { content: '==> '; color: var(--accent-moss); }
+.subtitle::before, .subtitle::after { content: ' -- '; }
 
-h3 {
-    font-size: 1.3rem;
-    margin: 2.5rem 0 1rem 0;
-    text-decoration: underline;
-    text-decoration-style: dotted;
-    text-decoration-color: var(--border-color);
+
+.title-category {
+	font-size: 1.8rem;
+	text-transform: uppercase;
+	margin: 2rem 0 1.5rem 0;
 }
+.title-category .title-text::before { content: '==> '; color: var(--accent-moss); }
+.title-category .title-count { color: var(--text-secondary); margin-left: 0.5rem; }
 
-p { margin: 1.5rem 0; }
-
-/* --- Links --- */
-a {
-    color: var(--link-blue);
-    text-decoration: underline;
-    font-weight: bold;
-    transition: var(--transition);
+a.link {
+	color: var(--text-ink);
+	text-decoration: none;
 }
-a:hover {
-    color: var(--background-papyrus);
-    background: var(--link-blue);
-    text-decoration: none;
+a.link:hover .title-category {
+	background: var(--accent-moss);
+	color: var(--background-papyrus);
 }
-
-/* --- Blockquotes --- */
-blockquote {
-    margin: 2rem 0;
-    padding: 1.5rem;
-    background: var(--surface-screen);
-    border: 1px dotted var(--border-color);
-    color: var(--text-secondary);
+a.link:hover .title-category .title-text::before,
+a.link:hover .title-category .title-count {
+	color: var(--background-papyrus);
 }
 
-/* --- Code Styling with ASCII Borders --- */
-code { font-family: var(--font-pixel); }
-p code { background: var(--surface-screen); padding: 0.1rem 0.3rem; }
 
-pre {
-    background: var(--text-ink);
-    color: var(--background-papyrus);
-    padding: 1.5rem;
-    margin: 2.5rem 0;
-    border: 2px solid var(--text-ink);
-    overflow-x: auto;
-    position: relative;
-}
-/* ASCII decorative top border */
-pre::before {
-    position: absolute;
-    top: 0;
-    left: 10px;
-    padding: 0 10px;
-    background: var(--background-papyrus);
-    color: var(--text-ink);
-    font-size: 1rem;
-    white-space: nowrap;
+/* --- Controls: Buttons & Dropdown --- */
+.controls {
+	position: fixed;
+	top: 15px;
+	right: 15px;
+	z-index: 1001;
+	display: flex;
+	gap: 10px;
 }
 
-/* --- Images --- */
-img {
-    max-width: 100%;
-    height: auto;
-    margin: 2rem auto;
-    display: block;
-    border: 2px solid var(--text-ink);
-    padding: 4px;
-    background: var(--surface-screen);
+.button, .dropdown-trigger {
+	font-family: var(--font-pixel);
+	font-size: 1rem;
+	color: var(--text-ink);
+	background: var(--background-papyrus);
+	border: var(--border-width) solid var(--text-ink);
+	padding: 0.5rem 1rem;
+	cursor: pointer;
+	box-shadow: 2px 2px 0px var(--text-ink);
+}
+.button:active, .dropdown-trigger:active {
+	transform: translate(2px, 2px);
+	box-shadow: none;
 }
 
-/* --- Horizontal Rules --- */
-hr {
-    border: 0;
-    text-align: center;
-    margin: 3rem 0;
-    color: var(--accent-moss);
+.dropdown { position: relative; }
+.dropdown-menu {
+	display: none;
+	position: absolute;
+	top: 100%;
+	right: 0;
+	background: var(--background-papyrus);
+	border: var(--border-width) solid var(--text-ink);
+	padding: 0.5rem;
+	margin-top: 5px;
+	min-width: 160px;
+	box-shadow: 2px 2px 0px var(--text-ink);
 }
-hr::before {
-    content: "- - - x x x - - -";
-    font-size: 1.2rem;
-    letter-spacing: 0.5em;
+.dropdown:hover .dropdown-menu { display: block; }
+.dropdown-item {
+	padding: 0.5rem;
+	cursor: pointer;
+}
+.dropdown-item:hover {
+	background: var(--link-blue);
+	color: var(--background-papyrus);
 }
 
-/* --- Custom Retro Scrollbar (for Webkit browsers) --- */
-::-webkit-scrollbar { width: 12px; }
-::-webkit-scrollbar-track { background: var(--surface-screen); border-left: 1px solid var(--border-color); }
-::-webkit-scrollbar-thumb { background: var(--text-secondary); }
-::-webkit-scrollbar-thumb:hover { background: var(--accent-moss); }
+
+/* --- Progress Bar & Status Bar --- */
+.progress-bar {
+	position: fixed;
+	top: 0;
+	left: 0;
+	width: 0%;
+	height: 5px;
+	background: var(--accent-moss);
+	z-index: 2000;
+	transition: var(--transition);
+}
+
+.statusbar {
+	position: fixed;
+	bottom: 0;
+	left: 0;
+	width: 100%;
+	display: flex;
+	justify-content: space-between;
+	background: var(--surface-screen);
+	border-top: var(--border-width) solid var(--text-ink);
+	padding: 0.15rem 0.5rem;
+	z-index: 1000;
+}
+
+
+/* --- Posts Grid & Cards --- */
+.grid {
+	display: grid;
+	grid-template-columns: 1fr;
+	gap: 2rem;
+}
+
+.card {
+	border: var(--border-width) solid var(--text-ink);
+	padding: 1.5rem;
+	background: var(--background-papyrus);
+}
+
+.card-title {
+	font-size: 1.5rem;
+	text-decoration: underline;
+	text-decoration-style: dotted;
+	text-decoration-color: var(--border-color);
+	margin-bottom: 0.5rem;
+}
+
+.card-path {
+	font-size: 0.9rem;
+	color: var(--text-secondary);
+	margin-bottom: 1rem;
+	background: var(--surface-screen);
+	padding: 0.2rem 0.4rem;
+	display: inline-block;
+}
+
+.card-meta {
+	font-size: 1rem;
+	margin-bottom: 1.5rem;
+}
+
+.card-actions { text-align: right; }
+.button-read {
+	font-family: var(--font-pixel);
+	font-size: 1.1rem;
+	text-transform: uppercase;
+	color: var(--link-blue);
+	background: transparent;
+	border: none;
+	text-decoration: underline;
+	cursor: pointer;
+}
+.button-read:hover {
+	color: var(--background-papyrus);
+	background: var(--link-blue);
+	text-decoration: none;
+}
+
+
+/* --- Markdown Content Styling --- */
+#content {
+	/* Styles for loaded markdown */
+	line-height: 1.7;
+}
+#content h1, #content h2, #content h3 {
+	margin-top: 2rem;
+	margin-bottom: 1rem;
+	text-transform: uppercase;
+}
+#content a {
+	color: var(--link-blue);
+	text-decoration: underline;
+	font-weight: bold;
+}
+#content a:hover {
+	color: var(--background-papyrus);
+	background: var(--link-blue);
+	text-decoration: none;
+}
+#content p { margin: 1.5rem 0; }
+#content img {
+	max-width: 100%;
+	height: auto;
+	margin: 2rem auto;
+	display: block;
+	border: var(--border-width) solid var(--text-ink);
+	padding: 4px;
+	background: var(--surface-screen);
+	cursor: pointer;
+}
+#content blockquote {
+	margin: 2rem 0;
+	padding: 1.5rem;
+	background: var(--surface-screen);
+	border: 1px dotted var(--border-color);
+	color: var(--text-secondary);
+}
+#content code { font-family: var(--font-pixel); }
+#content p > code { background: var(--surface-screen); padding: 0.1rem 0.3rem; }
+#content pre {
+	background: var(--text-ink);
+	color: var(--background-papyrus);
+	padding: 1.5rem;
+	margin: 2.5rem 0;
+	border: 2px solid var(--text-ink);
+	overflow-x: auto;
+}
+#content hr {
+	border: 0;
+	text-align: center;
+	margin: 3rem 0;
+	color: var(--accent-moss);
+}
+#content hr::before {
+	content: "- - - x x x - - -";
+	font-size: 1.2rem;
+	letter-spacing: 0.5em;
+}
+
+
+/* --- Loading / Error Messages --- */
+.message {
+	text-align: center;
+	padding: 3rem 1rem;
+	font-style: italic;
+	font-size: 1.2rem;
+	border: var(--border-width) dotted var(--border-color);
+	margin: 2rem 0;
+}
+.message-error {
+	color: var(--error-red);
+	background: var(--surface-screen);
+}
+
+
+/* --- Image Modal --- */
+.modal {
+	display: none;
+	position: fixed;
+	z-index: 2000;
+	left: 0;
+	top: 0;
+	width: 100%;
+	height: 100%;
+	align-items: center;
+	justify-content: center;
+}
+.modal.modal-open { display: flex; }
+.modal-overlay {
+	position: absolute;
+	width: 100%;
+	height: 100%;
+	background-color: rgba(42, 37, 32, 0.9);
+}
+.modal-container {
+	position: relative;
+	background: var(--background-papyrus);
+	border: var(--border-width) solid var(--text-ink);
+	padding: 1rem;
+	max-width: 90vw;
+	max-height: 90vh;
+	box-shadow: 8px 8px 0px var(--text-ink);
+}
+.modal-content {
+	max-width: calc(90vw - 2rem);
+	max-height: calc(90vh - 4rem);
+	overflow: auto;
+}
+.modal-content .image {
+	max-width: 100%;
+	max-height: 100%;
+	object-fit: contain;
+}
+.image-caption {
+	color: var(--text-ink);
+	text-align: center;
+	margin-top: 10px;
+	font-style: italic;
+}
+.modal-close {
+	position: absolute;
+	top: -0.5rem;
+	right: -0.5rem;
+	width: 30px;
+	height: 30px;
+	background: var(--error-red);
+	color: var(--background-papyrus);
+	border: var(--border-width) solid var(--text-ink);
+	font-family: var(--font-pixel);
+	font-size: 1.5rem;
+	cursor: pointer;
+	box-shadow: 2px 2px 0px var(--text-ink);
+}
+.modal-close:active {
+	transform: translate(2px, 2px);
+	box-shadow: none;
+}
+.spinner {
+	color: var(--text-ink);
+	font-size: 1.5rem;
+	padding: 4rem;
+	text-align: center;
+}
+.spinner::after {
+	content: 'Loading...';
+}
+
+/* --- Footer --- */
+.footer {
+	text-align: center;
+	margin-top: 3rem;
+	padding: 2rem;
+	color: var(--text-secondary);
+}
