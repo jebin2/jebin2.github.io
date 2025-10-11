@@ -33,6 +33,11 @@
   ],
   "svgs": [
     {
+      "name": "ARM Stack Frame - Complete Lifecycle (PROLOGUE \u2192 EPILOGUE)",
+      "path": "svgs/ARM Stack Frame - Complete Lifecycle (PROLOGUE \u2192 EPILOGUE).svg",
+      "date": "2025-10-11 10:36:07 +0530"
+    },
+    {
       "name": "How CPU Execute Instructions",
       "path": "svgs/How CPU Execute Instructions.svg",
       "date": "2025-10-10 21:02:32 +0530"
