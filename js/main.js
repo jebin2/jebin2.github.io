@@ -3,10 +3,12 @@
    ============================================ */
 
 import { projects } from './projects-data.js';
+import { favoriteWebsites } from './favorites-data.js';
 import { debounce, handleImageError, trapFocus } from './utils.js';
 
 // DOM Elements
 let cardContainer;
+let favoritesContainer;
 let searchBar;
 let iframeModal;
 let iframeContent;
@@ -19,6 +21,7 @@ let bookIcon;
 function init() {
     // Get DOM elements
     cardContainer = document.getElementById('cardContainer');
+    favoritesContainer = document.getElementById('favoritesContainer');
     searchBar = document.querySelector('.search-bar');
     iframeModal = document.getElementById('iframeModal');
     iframeContent = document.getElementById('iframeContent');
@@ -27,6 +30,9 @@ function init() {
 
     // Create project cards
     createCards();
+
+    // Create favorites section
+    createFavorites();
 
     // Setup event listeners
     setupEventListeners();
@@ -233,6 +239,44 @@ function openIframe(url) {
 
     // Focus close button
     setTimeout(() => closeBtn?.focus(), 100);
+}
+
+/**
+ * Create favorites section badges
+ */
+function createFavorites() {
+    if (!favoritesContainer) return;
+
+    favoriteWebsites.forEach(site => {
+        const badge = document.createElement('a');
+        badge.href = site.url;
+        badge.target = '_blank';
+        badge.rel = 'noopener noreferrer';
+        badge.className = 'favorite-badge';
+        badge.setAttribute('aria-label', `Visit ${site.title} - ${site.description}`);
+
+        const emoji = document.createElement('span');
+        emoji.className = 'favorite-emoji';
+        emoji.textContent = site.emoji;
+        emoji.setAttribute('aria-hidden', 'true');
+
+        const info = document.createElement('div');
+        info.className = 'favorite-info';
+
+        const title = document.createElement('span');
+        title.className = 'favorite-title';
+        title.textContent = site.title;
+
+        const description = document.createElement('span');
+        description.className = 'favorite-description';
+        description.textContent = site.description;
+
+        info.appendChild(title);
+        info.appendChild(description);
+        badge.appendChild(emoji);
+        badge.appendChild(info);
+        favoritesContainer.appendChild(badge);
+    });
 }
 
 /**
