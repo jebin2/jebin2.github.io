@@ -32,6 +32,12 @@ body {
     margin: 5vh auto;
     position: relative;
     transform-style: preserve-3d;
+    transition: transform 0.8s cubic-bezier(0.645, 0.045, 0.355, 1);
+}
+
+/* Slide book to the right when opened to center the spine (25% + 25% = 50%) */
+.book-container.book-opened {
+    transform: translateX(25%);
 }
 
 .book {
@@ -50,7 +56,8 @@ body {
     width: 50%;
     height: 100%;
     top: 0;
-    left: 50%;
+    left: 25%;
+    /* Changed from 50% to center the book */
     transform-origin: left center;
     transform-style: preserve-3d;
     transition: transform 1.2s cubic-bezier(0.645, 0.045, 0.355, 1);

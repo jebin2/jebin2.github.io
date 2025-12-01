@@ -202,6 +202,12 @@ function openBook() {
     // Now flip only the cover page
     const coverPageElement = document.getElementById('page-0');
     if (coverPageElement) {
+        // Add slide animation class to container
+        const bookContainer = document.querySelector('.book-container');
+        if (bookContainer) {
+            bookContainer.classList.add('book-opened');
+        }
+
         coverPageElement.classList.add('flipped');
         isBookOpen = true;
         currentPageIndex = 0;
@@ -265,6 +271,12 @@ function closeBook() {
 
     const cssTransitionDuration = 1200;
     const totalClosingTime = (currentPageIndex * delayIncrement) + cssTransitionDuration;
+
+    // Remove slide class to return book to center
+    const bookContainer = document.querySelector('.book-container');
+    if (bookContainer) {
+        bookContainer.classList.remove('book-opened');
+    }
 
     for (let i = currentPageIndex; i >= 0; i--) {
         const pageElement = document.getElementById(`page-${i}`);
