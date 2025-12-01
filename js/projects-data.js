@@ -4,6 +4,12 @@
 
 export const projects = [
     {
+        title: "Paper",
+        url: "https://jebin2-paper.hf.space/",
+        image: "https://huggingface.co/spaces/jebin2/Paper/resolve/main/image.png",
+        description: "Perfect for temporary notes and secure sharing. Deleted after two days."
+    },
+    {
         title: "STT (Speech to Text)",
         url: "https://jebin2-stt.hf.space/",
         image: "https://raw.githubusercontent.com/jebin2/STT/main/image.png",
