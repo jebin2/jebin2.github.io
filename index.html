@@ -4,516 +4,109 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>jebin2</title>
-    <style>
-        @import url('https://fonts.googleapis.com/css2?family=Nunito:wght@400;700;800&display=swap');
+    <meta name="description"
+        content="Portfolio of creative projects by jebin2. Explore tools for subtitle editing, music composition, currency conversion, and more.">
+    <meta name="keywords" content="portfolio, web development, SRTify, music composer, currency converter, python, AI">
+    <meta name="author" content="jebin2">
+    <meta name="theme-color" content="#86c5b8">
 
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: 'Nunito', sans-serif;
-        }
+    <!-- Open Graph Meta Tags -->
+    <meta property="og:title" content="jebin2 - The Art of Overthinking">
+    <meta property="og:description"
+        content="Portfolio of creative projects. Explore tools for subtitle editing, music composition, currency conversion, and more.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://jebin2.github.io/">
+    <meta property="og:image" content="https://jebin2.github.io/assets/images/og-image.png">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
 
-        html,
-        body {
-            height: 100%;
-            scroll-behavior: smooth;
-        }
+    <!-- Twitter Card Meta Tags -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="jebin2 - The Art of Overthinking">
+    <meta name="twitter:description"
+        content="Portfolio of creative projects. Explore tools for subtitle editing, music composition, currency conversion, and more.">
+    <meta name="twitter:image" content="https://jebin2.github.io/assets/images/og-image.png">
 
-        body {
-            background: #e8f4f5;
-            color: #4c6172;
-            line-height: 1.6;
-            overflow-x: hidden;
-            display: flex;
-            flex-direction: column;
-            min-height: 100vh;
-            background-image: url("data:image/svg+xml,%3Csvg width='100' height='100' viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M11 18c3.866 0 7-3.134 7-7s-3.134-7-7-7-7 3.134-7 7 3.134 7 7 7zm48 25c3.866 0 7-3.134 7-7s-3.134-7-7-7-7 3.134-7 7 3.134 7 7 7zm-43-7c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zm63 31c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zM34 90c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zm56-76c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zM12 86c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm28-65c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm23-11c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm-6 60c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm29 22c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zM32 63c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm57-13c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm-9-21c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM60 91c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM35 41c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM12 60c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2z' fill='%2386c5b8' fill-opacity='0.1' fill-rule='evenodd'/%3E%3C/svg%3E");
-        }
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" sizes="32x32" href="assets/icons/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="assets/icons/favicon-16x16.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="assets/icons/apple-touch-icon.png">
+    <link rel="manifest" href="manifest.json">
 
-        .container {
-            flex: 1;
-            width: 100%;
-            margin: 0 auto;
-            padding: 2rem;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-        }
+    <!-- Resource Hints -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="preconnect" href="https://jebin2.github.io">
 
-        .clouds {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 200px;
-            background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1000 200' preserveAspectRatio='none'%3E%3Cpath d='M0,100 C150,180 300,100 500,120 C700,140 800,80 1000,100 L1000,0 L0,0 Z' fill='%23c6e6f5' opacity='0.6'%3E%3C/path%3E%3Cpath d='M0,80 C200,140 300,70 500,90 C700,110 850,60 1000,80 L1000,0 L0,0 Z' fill='%23ddf0f9' opacity='0.4'%3E%3C/path%3E%3C/svg%3E") repeat-x;
-            background-size: 1000px 200px;
-            z-index: -1;
-            animation: moveClouds 60s linear infinite;
-        }
+    <!-- Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;700;800&display=swap" rel="stylesheet">
 
-        @keyframes moveClouds {
-            0% {
-                background-position: 0 0;
-            }
+    <!-- Stylesheets -->
+    <link rel="stylesheet" href="css/main.css">
+    <link rel="stylesheet" href="css/components.css">
+    <link rel="stylesheet" href="css/animations.css">
 
-            100% {
-                background-position: 1000px 0;
-            }
-        }
+    <!-- Structured Data (JSON-LD) -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "Person",
+        "name": "jebin2",
+        "url": "https://jebin2.github.io",
+        "sameAs": [
+            "https://github.com/jebin2"
+        ],
+        "jobTitle": "Developer",
+        "description": "Creative developer building innovative web tools and applications"
+    }
+    </script>
 
-        header {
-            width: 100%;
-            text-align: center;
-            position: relative;
-            z-index: 10;
-            display: flex;
-            /* Make header a flex container */
-            flex-direction: column;
-            /* Stack items vertically */
-            align-items: center;
-            /* Center items horizontally */
-            width: 100%;
-            text-align: center;
-            position: relative;
-            z-index: 10;
-        }
-
-        header h1 {
-            font-size: 3.5rem;
-            margin: 1rem 0;
-            text-transform: uppercase;
-            font-weight: 800;
-            color: #68a4bd;
-            text-shadow: 2px 2px 0 #f0e6a9;
-        }
-
-        .search-container {
-            display: flex;
-            align-items: center;
-            /* Vertically align search and icon */
-            gap: 1rem;
-            /* Space between search bar and icon */
-            margin-top: 0.5rem;
-            /* Adjust spacing as needed */
-            width: 100%;
-            max-width: 600px;
-            /* Slightly wider to accommodate icon */
-            justify-content: center;
-            /* Center the items within the container */
-        }
-
-        .forest-bg {
-            position: fixed;
-            bottom: 0;
-            left: 0;
-            width: 100%;
-            height: 150px;
-            background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1000 150'%3E%3Cpath d='M0,150 L0,80 C30,90 45,60 60,80 C70,40 80,70 100,60 C110,30 120,50 130,70 C150,20 160,60 170,50 C180,30 190,50 200,70 C220,40 230,65 240,55 C250,35 265,55 280,70 C290,50 300,65 310,50 C320,30 330,50 340,70 C355,55 365,65 375,48 C385,30 395,55 405,65 C425,35 435,60 445,45 C460,25 470,50 480,65 C495,40 505,60 515,48 C525,30 535,50 545,70 C560,55 570,65 580,48 C590,30 600,50 610,70 C625,40 635,65 645,55 C655,30 670,50 685,70 C695,50 705,65 715,50 C725,30 735,45 745,70 C760,50 770,65 780,48 C790,30 800,55 810,65 C830,45 840,60 850,45 C860,25 870,45 880,65 C900,40 910,60 920,48 C930,30 940,55 950,65 C970,35 980,55 1000,40 L1000,150 Z' fill='%23608354'/%3E%3Cpath d='M0,150 L0,90 C20,100 30,80 40,95 C50,70 60,90 70,85 C85,70 100,90 115,80 C130,65 145,85 160,90 C175,75 190,85 205,75 C215,60 230,75 245,90 C265,65 280,85 295,75 C315,60 330,75 345,90 C360,75 375,85 390,75 C400,60 415,75 430,90 C450,65 465,85 480,75 C500,60 515,75 530,90 C545,75 560,85 575,75 C585,60 600,75 615,90 C635,65 650,85 665,75 C685,60 700,75 715,90 C730,75 745,85 760,75 C770,60 785,75 800,90 C820,65 835,85 850,75 C870,60 885,75 900,90 C915,75 930,85 945,75 C955,60 970,75 985,90 C1000,75 1000,90 1000,100 L1000,150 Z' fill='%234f6844'/%3E%3Cpath d='M0,150 L0,120 C15,130 25,115 35,125 C45,110 55,125 65,115 C80,105 95,125 110,115 C130,105 145,125 155,115 C175,100 190,120 205,110 C220,100 235,120 250,125 C265,110 280,125 295,115 C315,100 330,120 345,110 C360,100 375,120 390,125 C405,110 420,125 435,115 C455,100 470,120 485,110 C500,100 515,120 530,125 C545,110 560,125 575,115 C595,100 610,120 625,110 C640,100 655,120 670,125 C685,110 700,125 715,115 C735,100 750,120 765,110 C780,100 795,120 810,125 C825,110 840,125 855,115 C875,100 890,120 905,110 C920,100 935,120 950,125 C965,110 980,125 995,115 L1000,150 Z' fill='%233f5436'/%3E%3C/svg%3E") repeat-x;
-            background-size: 1000px 150px;
-            z-index: -1;
-        }
-
-        header nav {
-            display: flex;
-            justify-content: center;
-            gap: 2rem;
-            margin-top: 2rem;
-        }
-
-        header nav a {
-            color: #4c6172;
-            text-decoration: none;
-            border: 3px solid #86c5b8;
-            border-radius: 50px;
-            padding: 0.5rem 1.5rem;
-            text-transform: uppercase;
-            font-weight: bold;
-            transition: all 0.3s;
-            background: #fff;
-            box-shadow: 0 4px 0 #86c5b8;
-            position: relative;
-        }
-
-        header nav a:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 7px 0 #86c5b8;
-            background: #f0e6a9;
-        }
-
-        header nav a:active {
-            transform: translateY(4px);
-            box-shadow: none;
-        }
-
-        .search-bar {
-            flex-grow: 1;
-            width: 100%;
-            max-width: 500px;
-            margin: 0.5rem 0;
-            padding: 1rem 1.5rem;
-            font-size: 1.2rem;
-            font-weight: bold;
-            border: 3px solid #86c5b8;
-            border-radius: 50px;
-            background: #fff;
-            color: #4c6172;
-            box-shadow: 0 4px 0 #86c5b8;
-            transition: all 0.3s;
-        }
-
-        .search-bar:focus {
-            outline: none;
-            box-shadow: 0 7px 0 #86c5b8;
-            transform: translateY(-3px);
-        }
-
-        .search-bar::placeholder {
-            color: #a0c0be;
-        }
-
-        /* Animated Book Icon */
-        .animated-book {
-            width: 100px;
-            /* Adjust size as needed */
-            height: 50px;
-            cursor: pointer;
-            padding: 5px;
-            /* Add some padding around the SVG */
-            /* background-color: #fff; */
-            border-radius: 50%;
-            /* border: 3px solid #86c5b8; */
-            box-shadow: 0 4px 0 #86c5b8;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            transition: all 0.3s ease;
-            animation: openCloseBook 3s ease-in-out infinite;
-            transform-origin: center;
-        }
-
-        .animated-book svg {
-            width: 70%;
-            height: 70%;
-        }
-
-        .animated-book:hover {
-            transform: translateY(-3px) scale(1.05);
-            box-shadow: 0 7px 0 #86c5b8;
-            background-color: #f0e6a9;
-            animation-play-state: paused;
-            /* Optional: pause animation on hover */
-        }
-
-        .animated-book:active {
-            transform: translateY(2px) scale(0.98);
-            box-shadow: 0 2px 0 #86c5b8;
-        }
-
-        .card-container {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-            gap: 2rem;
-            width: 100%;
-            max-width: 1200px;
-            margin-top: 1.5rem;
-            padding: 1rem;
-            z-index: 1;
-        }
-
-        .card {
-            height:250px;
-            border: none;
-            border-radius: 20px;
-            overflow: hidden;
-            cursor: pointer;
-            transition: all 0.3s;
-            background: #fff;
-            position: relative;
-            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
-        }
-
-        .card:before {
-            content: "";
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(to bottom, rgba(255, 255, 255, 0) 0%, rgba(134, 197, 184, 0.5) 100%);
-            opacity: 0;
-            transition: opacity 0.3s;
-            z-index: 1;
-            border-radius: 20px;
-        }
-
-        .card:hover {
-            transform: translateY(-15px);
-            box-shadow: 0 15px 30px rgba(134, 197, 184, 0.4);
-        }
-
-        .card:hover:before {
-            opacity: 1;
-        }
-
-        .card img {
-            width: 100%;
-            height: 180px;
-            object-fit: cover;
-            transition: transform 0.5s;
-        }
-
-        .card:hover img {
-            transform: scale(1.1);
-        }
-
-        .card-title {
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            width: 100%;
-            padding: 1.5rem 1rem;
-            background: linear-gradient(to top, rgba(255, 255, 255, 0.95) 80%, rgba(255, 255, 255, 0) 100%);
-            z-index: 2;
-        }
-
-        .card-title h3 {
-            font-size: 1.3rem;
-            color: #4c6172;
-            text-transform: uppercase;
-            font-weight: 700;
-            margin-bottom: 0.5rem;
-        }
-
-        .card-link {
-            display: inline-block;
-            padding: 0.3rem 1rem;
-            background: #f0e6a9;
-            border-radius: 50px;
-            color: #4c6172;
-            font-weight: bold;
-            text-decoration: none;
-            font-size: 0.9rem;
-            transition: all 0.3s;
-            box-shadow: 0 2px 0 #e5d98f;
-        }
-
-        .card-link:hover {
-            background: #86c5b8;
-            color: #fff;
-            box-shadow: 0 2px 0 #6eafa2;
-        }
-
-        .totoro {
-            position: fixed;
-            bottom: 20px;
-            right: 30px;
-            width: 80px;
-            height: 80px;
-            z-index: 999;
-            animation: float 3s ease-in-out infinite;
-        }
-
-        @keyframes float {
-            0% {
-                transform: translateY(0px);
-            }
-
-            50% {
-                transform: translateY(-15px);
-            }
-
-            100% {
-                transform: translateY(0px);
-            }
-        }
-
-        .totoro svg {
-            width: 100%;
-            height: 100%;
-        }
-
-        .iframe-modal {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(76, 97, 114, 0.95);
-            z-index: 1000;
-            padding: 2rem;
-            backdrop-filter: blur(5px);
-        }
-
-        .modal-content {
-            position: relative;
-            width: 90%;
-            height: 90%;
-            max-width: 1200px;
-            margin: 2% auto;
-            border-radius: 20px;
-            /* overflow: hidden; */
-            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.3);
-            background: #fff;
-            border: 5px solid #f0e6a9;
-        }
-
-        .iframe-modal iframe {
-            border: none;
-            width: 100%;
-            height: 100%;
-            border-radius: 15px;
-        }
-
-        .close-btn {
-            position: absolute;
-            top: -25px;
-            right: -25px;
-            font-size: 2rem;
-            cursor: pointer;
-            background: #f0e6a9;
-            color: #4c6172;
-            width: 50px;
-            height: 50px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            border-radius: 50%;
-            border: 4px solid #fff;
-            transition: all 0.3s;
-            font-weight: bold;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
-            z-index: 1001;
-        }
-
-        .close-btn:hover {
-            transform: rotate(90deg);
-            background: #86c5b8;
-            color: #fff;
-        }
-
-        .dust-spirits {
-            position: fixed;
-            bottom: 20px;
-            left: 20px;
-            opacity: 0.7;
-            z-index: 2;
-            animation: wiggle 4s ease-in-out infinite;
-        }
-
-        @keyframes wiggle {
-
-            0%,
-            100% {
-                transform: translateX(0);
-            }
-
-            25% {
-                transform: translateX(15px) translateY(-5px);
-            }
-
-            75% {
-                transform: translateX(-10px) translateY(5px);
-            }
-        }
-        @keyframes openCloseBook {
-            0%, 100% {
-                transform: scale(1) rotateY(0deg);
-            }
-            20% {
-                 transform: scale(1.05) rotateY(-15deg); /* Slightly open */
-            }
-             40% {
-                transform: scale(1) rotateY(0deg); /* Close */
-            }
-             60% {
-                 transform: scale(1.05) rotateY(15deg); /* Slightly open other way */
-             }
-            80% {
-                transform: scale(1) rotateY(0deg); /* Close */
-            }
-        }
-
-        @media (max-width: 768px) {
-            .card-container {
-                grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-            }
-
-            .close-btn {
-                top: -15px;
-                right: -15px;
-                width: 40px;
-                height: 40px;
-                font-size: 1.5rem;
-            }
-
-            .totoro {
-                width: 60px;
-                height: 60px;
-                bottom: 15px;
-                right: 15px;
-            }
-
-            .dust-spirits {
-                width: 80px;
-                height: 80px;
-            }
-
-            header h1 {
-                font-size: 2.5rem;
-            }
-        }
-        @media (max-width: 480px) {
-            .search-container {
-                flex-direction: column; /* Stack on very small screens */
-                gap: 0.5rem;
-                max-width: 90%;
-            }
-             .search-bar {
-                 width: 100%; /* Take full width when stacked */
-             }
-             .animated-book {
-                 margin-top: 0.5rem; /* Add space when stacked */
-             }
-        }
-    </style>
+    <title>jebin2 - The Art of Overthinking</title>
 </head>
 
 <body>
-    <div class="clouds"></div>
-    <div class="forest-bg"></div>
+    <!-- Skip to Content Link for Accessibility -->
+    <a href="#main-content" class="skip-to-content">Skip to main content</a>
+
+    <!-- Background Decorations -->
+    <div class="clouds" aria-hidden="true"></div>
+    <div class="forest-bg" aria-hidden="true"></div>
 
     <div class="container">
         <header>
             <h1>The Art of Overthinking</h1>
             <div class="search-container">
-                <input type="text" class="search-bar" placeholder="Search for projects...">
-                <div id="bookIcon" class="animated-book" title="Open Book View"
-                    onclick="openIframe('https://jebin2.github.io/book_view.html')">
-                    <!-- Simple Book SVG -->
-                    <img src="book.gif" alt="Animated GIF">
+                <label for="search-bar" class="visually-hidden">Search projects</label>
+                <input type="text" id="search-bar" class="search-bar" placeholder="Search for projects..."
+                    aria-label="Search for projects">
+                <div id="bookIcon" class="animated-book" role="button" tabindex="0" title="Open Book View"
+                    aria-label="Open book view of projects">
+                    <img src="assets/images/book.gif" alt="Animated book icon" width="105" height="52">
                 </div>
             </div>
-            <!-- <nav>
-                <a href="https://github.com/jebin2" target="_blank">Profile</a>
-                <a href="https://github.com/jebin2/blog" target="_blank">Blog</a>
-                <a href="https://github.com/jebin2/about" target="_blank">About Me</a>
-            </nav> -->
+            <nav aria-label="Main navigation">
+                <a href="https://jebin2.github.io/blog" target="_blank" rel="noopener noreferrer">
+                    📝 Blog
+                </a>
+                <a href="https://jebin2.github.io/blog/svgs/view.html" target="_blank" rel="noopener noreferrer">
+                    🎨 Visual Learning
+                </a>
+                <a href="https://github.com/jebin2" target="_blank" rel="noopener noreferrer">
+                    💻 GitHub
+                </a>
+            </nav>
         </header>
 
-        <!-- <input type="text" class="search-bar" placeholder="Search for projects..."> -->
-
-        <div class="card-container" id="cardContainer">
-            <!-- Cards will be inserted here dynamically -->
-        </div>
+        <main id="main-content">
+            <div class="card-container" id="cardContainer" role="list">
+                <!-- Cards will be dynamically inserted here by main.js -->
+            </div>
+        </main>
     </div>
 
-    <!-- Totoro -->
-    <div class="totoro">
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+    <!-- Decorative SVG Characters -->
+    <div class="totoro" aria-hidden="true">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" aria-label="Totoro decoration">
             <g fill="#5A5A5A">
                 <ellipse cx="50" cy="55" rx="35" ry="40" />
                 <ellipse cx="30" cy="25" rx="12" ry="15" />
@@ -533,9 +126,9 @@
         </svg>
     </div>
 
-    <!-- Dust Spirits -->
-    <div class="dust-spirits">
-        <svg xmlns="http://www.w3.org/2000/svg" width="100" height="80" viewBox="0 0 100 80">
+    <div class="dust-spirits" aria-hidden="true">
+        <svg xmlns="http://www.w3.org/2000/svg" width="100" height="80" viewBox="0 0 100 80"
+            aria-label="Dust spirits decoration">
             <g fill="#4c6172" opacity="0.6">
                 <circle cx="20" cy="60" r="15" />
                 <circle cx="40" cy="50" r="12" />
@@ -559,135 +152,25 @@
     </div>
 
     <!-- Iframe Modal -->
-    <div id="iframeModal" class="iframe-modal">
+    <div id="iframeModal" class="iframe-modal" role="dialog" aria-modal="true" aria-labelledby="modal-title">
         <div class="modal-content">
-            <span class="close-btn" onclick="closeIframe()">&times;</span>
-            <iframe id="iframeContent" src=""></iframe>
+            <span class="close-btn" role="button" tabindex="0" aria-label="Close modal">&times;</span>
+            <h2 id="modal-title" class="visually-hidden">Project Preview</h2>
+            <iframe id="iframeContent" src="" title="Project preview iframe"
+                sandbox="allow-same-origin allow-scripts allow-popups allow-forms"></iframe>
         </div>
     </div>
 
-    <script>
-        // Project data array
-        const projects = [
-            {
-                title: "SRTify",
-                url: "https://jebin2.github.io/SRTify",
-                image: "https://jebin2.github.io/SRTify/image.png"
-            },
-            {
-                title: "Music Composer",
-                url: "https://jebin2.github.io/music_composer_py/",
-                image: "https://jebin2.github.io/music_composer_py/image.png"
-            },
-            {
-                title: "Currency Converter",
-                url: "https://jebin2.github.io/currency/",
-                image: "https://jebin2.github.io/currency/image.png"
-            },
-            {
-                title: "Currency APIs",
-                url: "https://jebin2.github.io/apis",
-                image: "https://jebin2.github.io/currency/image.png"
-            },
-            {
-                title: "Text Reader",
-                url: "https://jebin2.github.io/Text-Reader",
-                image: "https://jebin2.github.io/Text-Reader/image.png"
-            },
-            {
-                title: "Python Custom Logger",
-                url: "https://github.com/jebin2/custom_logger",
-                image: "https://raw.githubusercontent.com/jebin2/custom_logger/e9fe0f8aedeaff8209fcfd3ca12b01da816fcb05/image.png",
-                no_page: true
-            },
-            {
-                title: "X Automation with AI",
-                url: "https://github.com/jebin2/XPal",
-                image: "https://raw.githubusercontent.com/jebin2/XPal/f0fdd42ea2e709e403a6985909c0e1a4c5564613/image.png",
-                no_page: true
-            },
-            {
-                title: "Gemini Wrapper",
-                url: "https://github.com/jebin2/gemiwrap",
-                image: "https://raw.githubusercontent.com/jebin2/gemiwrap/3b8e2c1c2922a62519f223bfb8eeb74f2ca64456/image.png",
-                no_page: true
-            },
-            {
-                title: "DateTime Converter",
-                url: "https://jebin2.github.io/datetimeconverter",
-                image: "https://jebin2.github.io/datetimeconverter/image.png"
-            }
-        ];
+    <!-- NoScript Fallback -->
+    <noscript>
+        <div style="padding: 20px; text-align: center; background: #f0e6a9; margin: 20px;">
+            <p style="color: #4c6172; font-weight: bold;">JavaScript is required to view this portfolio. Please enable
+                JavaScript in your browser.</p>
+        </div>
+    </noscript>
 
-        // Function to create cards from array
-        function createCards() {
-            const cardContainer = document.getElementById('cardContainer');
-
-            projects.forEach(project => {
-                const card = document.createElement('div');
-                card.className = 'card';
-                if (project.no_page) {
-                    card.setAttribute('onclick', `window.open('${project.url}', '_blank')`);
-                } else {
-                    card.setAttribute('onclick', `openIframe('${project.url}')`);
-                }
-
-                card.innerHTML = `
-                    <img src="${project.image}" alt="${project.title} Preview">
-                    <div class="card-title">
-                        <h3>${project.title}</h3>
-                        <a href="${project.url}" target="_blank" class="card-link" onclick="event.stopPropagation()">Visit</a>
-                    </div>
-                `;
-
-                cardContainer.appendChild(card);
-            });
-        }
-
-        // Initialize cards when DOM is loaded
-        document.addEventListener('DOMContentLoaded', createCards);
-
-        // Open iframe modal
-        function openIframe(url) {
-            const iframeModal = document.getElementById('iframeModal');
-            const iframeContent = document.getElementById('iframeContent');
-            iframeContent.src = url;
-            iframeModal.style.display = 'block';
-            document.body.style.overflow = 'hidden';
-        }
-
-        // Close iframe modal
-        function closeIframe() {
-            const iframeModal = document.getElementById('iframeModal');
-            const iframeContent = document.getElementById('iframeContent');
-            iframeContent.src = '';
-            iframeModal.style.display = 'none';
-            document.body.style.overflow = 'auto';
-        }
-
-        // Close modal when clicking outside
-        window.onclick = function (event) {
-            const iframeModal = document.getElementById('iframeModal');
-            if (event.target === iframeModal) {
-                closeIframe();
-            }
-        };
-
-        // Search functionality
-        const searchBar = document.querySelector('.search-bar');
-
-        searchBar.addEventListener('input', (e) => {
-            const searchTerm = e.target.value.toLowerCase();
-            document.querySelectorAll('.card').forEach(card => {
-                const title = card.querySelector('h3').textContent.toLowerCase();
-                if (title.includes(searchTerm)) {
-                    card.style.display = 'block';
-                } else {
-                    card.style.display = 'none';
-                }
-            });
-        });
-    </script>
+    <!-- Scripts -->
+    <script type="module" src="js/main.js"></script>
 </body>
 
 </html>

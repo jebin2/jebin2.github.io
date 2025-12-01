@@ -4,513 +4,49 @@
 <head>
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta name="description"
+		content="Interactive 3D book view of jebin2's portfolio projects. Experience a unique way to browse creative web tools and applications.">
+	<meta name="keywords" content="portfolio, book view, 3D interface, web projects">
+	<meta name="author" content="jebin2">
+	<meta name="theme-color" content="#86c5b8">
+
+	<!-- Open Graph Meta Tags -->
+	<meta property="og:title" content="jebin2 Portfolio - Book View">
+	<meta property="og:description" content="Interactive 3D book view of creative projects">
+	<meta property="og:type" content="website">
+	<meta property="og:url" content="https://jebin2.github.io/book_view.html">
+	<meta property="og:image" content="https://jebin2.github.io/assets/images/og-image.png">
+
+	<!-- Twitter Card Meta Tags -->
+	<meta name="twitter:card" content="summary_large_image">
+	<meta name="twitter:title" content="jebin2 Portfolio - Book View">
+	<meta name="twitter:description" content="Interactive 3D book view of creative projects">
+	<meta name="twitter:image" content="https://jebin2.github.io/assets/images/og-image.png">
+
+	<!-- Favicon -->
+	<link rel="icon" type="image/png" sizes="32x32" href="assets/icons/favicon-32x32.png">
+	<link rel="icon" type="image/png" sizes="16x16" href="assets/icons/favicon-16x16.png">
+	<link rel="apple-touch-icon" sizes="180x180" href="assets/icons/apple-touch-icon.png">
+
+	<!-- Resource Hints -->
+	<link rel="preconnect" href="https://fonts.googleapis.com">
+	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+	<!-- Fonts -->
+	<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;700;800&display=swap" rel="stylesheet">
+
+	<!-- Stylesheets -->
+	<link rel="stylesheet" href="css/main.css">
+	<link rel="stylesheet" href="css/book-view.css">
+
 	<title>Jebin2 Book View</title>
-	<style>
-		@import url('https://fonts.googleapis.com/css2?family=Nunito:wght@400;700;800&display=swap');
-
-		* {
-			margin: 0;
-			padding: 0;
-			box-sizing: border-box;
-			font-family: 'Nunito', sans-serif;
-		}
-
-		html {
-			font-size: 100%; /* Establish base for rem units (usually 16px) */
-		}
-
-		html,
-		body {
-			height: 100%;
-			overflow: hidden;
-			/* Prevent body scroll */
-		}
-
-		body {
-			background: #e8f4f5;
-			color: #4c6172;
-			line-height: 1.6;
-			perspective: 1500px;
-			background-image: url("data:image/svg+xml,%3Csvg width='100' height='100' viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M11 18c3.866 0 7-3.134 7-7s-3.134-7-7-7-7 3.134-7 7 3.134 7 7 7zm48 25c3.866 0 7-3.134 7-7s-3.134-7-7-7-7 3.134-7 7 3.134 7 7 7zm-43-7c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zm63 31c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zM34 90c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zm56-76c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zM12 86c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm28-65c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm23-11c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm-6 60c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm29 22c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zM32 63c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm57-13c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm-9-21c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM60 91c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM35 41c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM12 60c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2z' fill='%2386c5b8' fill-opacity='0.1' fill-rule='evenodd'/%3E%3C/svg%3E");
-		}
-
-		.book-container {
-			width: 90%;
-			max-width: 1400px;
-			height: 85vh;
-			margin: 5vh auto;
-			position: relative;
-			transform-style: preserve-3d;
-		}
-
-		.book {
-			position: relative;
-			width: 100%;
-			height: 100%;
-			transform-style: preserve-3d;
-			transform-origin: center;
-		}
-
-		.page {
-			position: absolute;
-			width: 50%;
-			height: 100%;
-			top: 0;
-			left: 50%;
-			transform-origin: left center;
-			transform-style: preserve-3d;
-			transition: transform 1.2s cubic-bezier(0.645, 0.045, 0.355, 1);
-		}
-
-		.page-face {
-			position: absolute;
-			width: 100%;
-			height: 100%;
-			top: 0;
-			left: 0;
-			backface-visibility: hidden;
-			border-radius: 10px;
-			padding: 30px 40px;
-			background: #fff;
-			box-shadow: inset 5px 0px 15px rgba(0, 0, 0, 0.05),
-				0 5px 15px rgba(0, 0, 0, 0.1);
-			overflow-y: auto;
-			display: flex;
-			flex-direction: column;
-			border: 6px solid transparent;
-		}
-
-		.page-front {
-			transform: rotateY(0deg);
-			z-index: 2;
-			background: linear-gradient(to right, #fff, #f8fcfc);
-			border-color: #f0e6a9;
-		}
-
-		.page-back {
-			transform: rotateY(180deg);
-			z-index: 1;
-			background: linear-gradient(to left, #fff, #fcf8f8);
-			border-color: #86c5b8;
-		}
-
-		.page.flipped {
-			transform: rotateY(-180deg);
-		}
-
-		/* --- Special Styling for Cover Faces --- */
-		.cover-face-front {
-			display: flex;
-			flex-direction: column;
-			justify-content: center;
-			align-items: center;
-			text-align: center;
-			background-color: #f0e6a9;
-			background-image: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%2386c5b8' fill-opacity='0.15'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
-			border-color: #e5d98f;
-		}
-
-		.cover-face-front h1 {
-			font-size: 3.4rem; /* Increased slightly */
-			color: #4c6172;
-			margin-bottom: 1.5rem;
-			text-transform: uppercase;
-			font-weight: 800;
-			text-shadow: 2px 2px 0 rgba(134, 197, 184, 0.5);
-		}
-
-		.cover-face-front p {
-			font-size: 1.2rem; /* Increased */
-			margin-bottom: 2rem;
-		}
-
-		.cover-face-front .visit-btn { /* Inherits .visit-btn styles now */
-			background: #86c5b8;
-			color: #fff;
-			box-shadow: 0 3px 0 #6eafa2;
-			align-self: flex-end; /* Retain alignment */
-		}
-
-		.cover-face-front .visit-btn:hover {
-			background: #7ab8ac;
-			box-shadow: 0 3px 0 #5e9a8f;
-		}
-
-		.next-visit-btn {
-			align-self: flex-end !important;
-			border: none;
-			right: 0;
-			position: absolute;
-		}
-
-		/* --- Special Styling for Final Back Page (Thank You) --- */
-		.final-page-back {
-			display: flex;
-			flex-direction: column;
-			justify-content: center;
-			align-items: center;
-			text-align: center;
-			background-color: #86c5b8;
-			background-image: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23f0e6a9' fill-opacity='0.15'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
-			border-color: #6eafa2;
-		}
-
-		.final-page-back h2 {
-			font-size: 2.8rem; /* Increased slightly */
-			color: #f0e6a9;
-			margin-bottom: 1rem;
-			text-shadow: 1px 1px 0 #4c6172;
-		}
-
-		.final-page-back p {
-			color: #fff;
-			margin-bottom: 1.5rem;
-            font-size: 1.1rem; /* Explicit size */
-		}
-
-		.final-page-back .visit-btn { /* Inherits .visit-btn styles now */
-			background: #f0e6a9;
-			color: #4c6172;
-			box-shadow: 0 3px 0 #e5d98f;
-		}
-
-		.final-page-back .visit-btn:hover {
-			background: #eadd85;
-			box-shadow: 0 3px 0 #d8ca7a;
-		}
-
-
-		/* Project Content Styling */
-		.project-content {
-			height: 100%;
-			display: flex;
-			flex-direction: column;
-			justify-content: flex-start;
-		}
-
-		.project-image {
-			width: 100%;
-			height: 55%;
-			overflow: hidden;
-			border-radius: 8px;
-			box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
-			margin-bottom: 15px;
-			background-color: #f0f0f0;
-		}
-
-		.project-image img {
-			width: 100%;
-			height: 100%;
-			object-fit: cover;
-			display: block;
-			transition: transform 0.4s ease;
-		}
-
-		.project-image:hover img {
-			transform: scale(1.03);
-		}
-
-		.project-info {
-			display: flex;
-			flex-direction: column;
-			flex-grow: 1;
-		}
-
-		.project-info h3 {
-			font-size: 1.8rem; /* Increased */
-			color: #4c6172;
-			margin-bottom: 8px;
-			text-transform: uppercase;
-			font-weight: 700;
-		}
-
-		.project-info p {
-			font-size: 1rem; /* Increased (was 0.95rem) */
-			margin-bottom: 15px;
-			color: #5a7285;
-			flex-grow: 1;
-		}
-
-		.visit-btn { /* Base button styles */
-			display: inline-block;
-			padding: 9px 20px; /* Slightly increased padding */
-			background: #f0e6a9;
-			color: #4c6172;
-			border-radius: 50px;
-			text-decoration: none;
-			font-weight: bold;
-			font-size: 1rem; /* Increased (was 0.9rem) */
-			box-shadow: 0 3px 0 #e5d98f;
-			transition: all 0.2s ease-out;
-			align-self: flex-start;
-			margin-top: auto;
-            cursor: pointer; /* Add cursor */
-            border: none; /* Ensure no default border */
-		}
-
-		.visit-btn:hover {
-			background: #86c5b8;
-			color: #fff;
-			box-shadow: 0 3px 0 #6eafa2;
-			transform: translateY(-2px);
-		}
-
-		.visit-btn:active {
-			transform: translateY(1px);
-			box-shadow: 0 1px 0 #6eafa2;
-		}
-
-		/* Navigation */
-		.navigation {
-			position: fixed;
-			bottom: 20px;
-			left: 50%;
-			transform: translateX(-50%);
-			display: flex;
-			justify-content: center;
-			gap: 25px;
-			z-index: 1000;
-			display: none;
-		}
-
-		.navigation button {
-			background: rgba(255, 255, 255, 0.9);
-			border: none;
-			padding: 10px 25px;
-			border-radius: 50px;
-			cursor: pointer;
-			font-weight: bold;
-			color: #4c6172;
-			box-shadow: 0 4px 0 #86c5b8;
-			transition: all 0.2s ease-out;
-			backdrop-filter: blur(2px);
-            font-size: 1rem; /* Increased */
-		}
-
-		.navigation button:hover:not(:disabled) {
-			background: #f0e6a9;
-			transform: translateY(-3px);
-			box-shadow: 0 6px 0 #e5d98f;
-		}
-
-		.navigation button:active:not(:disabled) {
-			transform: translateY(2px);
-			box-shadow: 0 2px 0 #e5d98f;
-		}
-
-		.navigation button:disabled {
-			opacity: 0.6;
-			cursor: not-allowed;
-			box-shadow: 0 4px 0 #a8ccc6;
-			transform: translateY(0);
-			background: rgba(220, 220, 220, 0.8);
-		}
-
-		/* Loading Screen & Decorations */
-		.loading-screen {
-			position: fixed;
-			top: 0;
-			left: 0;
-			width: 100%;
-			height: 100%;
-			background: #86c5b8;
-			z-index: 9999;
-			display: flex;
-			flex-direction: column;
-			justify-content: center;
-			align-items: center;
-			transition: opacity 1s ease, visibility 1s ease;
-			visibility: visible;
-		}
-
-        .loading-screen h2 { /* Style loading text */
-            color: white;
-            margin-top: 20px;
-            font-weight: 700;
-            font-size: 1.5rem; /* Added size */
-        }
-
-		.loading-screen.fade-out {
-			opacity: 0;
-			visibility: hidden;
-		}
-
-		.totoro-loader {
-			width: 150px;
-			height: 150px;
-			animation: bounce 1.5s infinite ease-in-out;
-		}
-
-		@keyframes bounce {
-			0%, 100% { transform: translateY(0); }
-			50% { transform: translateY(-25px); }
-		}
-
-		.dust-spirits {
-			position: fixed;
-			bottom: 15px;
-			left: 15px;
-			opacity: 0.7;
-			z-index: 500;
-			animation: wiggle 4s ease-in-out infinite alternate;
-			pointer-events: none;
-		}
-
-		@keyframes wiggle {
-			0% { transform: translate(0, 0) rotate(0deg); }
-			25% { transform: translate(10px, -5px) rotate(5deg); }
-			50% { transform: translate(5px, 5px) rotate(-3deg); }
-			75% { transform: translate(-8px, -3px) rotate(4deg); }
-			100% { transform: translate(0, 0) rotate(0deg); }
-		}
-
-		/* Page Numbers */
-		.page-number {
-			position: absolute;
-			bottom: 0px;
-			font-size: 0.85rem; /* Kept small as intended */
-			color: #b0c4d4;
-			font-weight: bold;
-		}
-
-		.right-align { right: 25px; }
-		.left-align { left: 25px; }
-
-		/* Profile Link */
-		.profile-link {
-			position: fixed;
-			top: 20px;
-			right: 20px;
-			color: #4c6172;
-			text-decoration: none;
-			border: 3px solid #86c5b8;
-			border-radius: 50px;
-			padding: 8px 18px;
-			text-transform: uppercase;
-			font-weight: bold;
-			transition: all 0.3s;
-			background: rgba(255, 255, 255, 0.8);
-			box-shadow: 0 4px 0 #86c5b8;
-			z-index: 999;
-			backdrop-filter: blur(2px);
-            font-size: 0.95rem; /* Slightly increased */
-		}
-
-		.profile-link:hover {
-			transform: translateY(-3px);
-			box-shadow: 0 7px 0 #86c5b8;
-			background: #f0e6a9;
-		}
-
-		/* Responsive Adjustments */
-		@media (max-width: 1200px) {
-			.book-container {
-				height: 80vh;
-				margin: 10vh auto;
-			}
-			.page-face {
-				padding: 25px 30px;
-			}
-		}
-
-		@media (max-width: 1000px) {
-			body {
-				perspective: 1000px;
-			}
-			.book-container {
-				width: 95%;
-				height: 75vh;
-				margin: 12vh auto 13vh auto;
-			}
-			.cover-face-front h1 {
-				font-size: 2.5rem; /* Adjusted */
-			}
-			.cover-face-front p {
-				font-size: 1.1rem; /* Adjusted */
-			}
-			.final-page-back h2 {
-				font-size: 2rem; /* Adjusted */
-			}
-            .final-page-back p {
-                font-size: 1rem; /* Adjusted */
-            }
-			.project-info h3 {
-				font-size: 1.5rem; /* Adjusted */
-			}
-			/* .project-info p inherits 1rem, which is fine */
-			.page-face {
-				padding: 20px;
-				border-width: 4px;
-			}
-			.page-number {
-				bottom: 0px;
-				font-size: 0.75rem;
-			}
-			.right-align { right: 15px; }
-			.left-align { left: 15px; }
-
-			.navigation {
-				bottom: 15px;
-				gap: 15px;
-			}
-			.navigation button {
-				padding: 8px 20px;
-                font-size: 0.95rem; /* Adjusted */
-			}
-			.profile-link {
-				padding: 6px 14px;
-				font-size: 0.9rem; /* Adjusted */
-				top: 15px;
-				right: 15px;
-			}
-			.dust-spirits {
-				width: 80px;
-				height: 64px;
-				bottom: 10px;
-				left: 10px;
-			}
-		}
-
-		@media (max-width: 480px) {
-			.cover-face-front h1 {
-				font-size: 2rem; /* Adjusted */
-			}
-            .cover-face-front p {
-                font-size: 1rem;
-            }
-            .final-page-back h2 {
-				font-size: 1.8rem;
-			}
-             .final-page-back p {
-                font-size: 0.95rem;
-            }
-			.project-info h3 {
-				font-size: 1.3rem; /* Increased (was 1.1) */
-			}
-			.project-info p {
-				font-size: 0.95rem; /* Increased (was 0.8) */
-				line-height: 1.45; /* Slightly increased line height */
-			}
-			.visit-btn {
-				padding: 7px 14px; /* Adjusted padding */
-				font-size: 0.9rem; /* Increased (was 0.8) */
-			}
-			.navigation button {
-				padding: 7px 16px; /* Adjusted */
-				font-size: 0.9rem; /* Kept */
-			}
-            .profile-link {
-                font-size: 0.85rem; /* Adjusted */
-			}
-		}
-	</style>
 </head>
 
 <body>
+	<!-- Loading Screen -->
 	<div class="loading-screen" id="loadingScreen">
 		<div class="totoro-loader">
-			<!-- SVG Totoro Loader -->
-			<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+			<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" aria-label="Loading indicator">
 				<g fill="#5A5A5A">
 					<ellipse cx="50" cy="55" rx="35" ry="40" />
 					<ellipse cx="30" cy="25" rx="12" ry="15" />
@@ -529,25 +65,29 @@
 				</g>
 			</svg>
 		</div>
-		<h2 style="color: white; margin-top: 20px; font-weight: 700;">Loading Creativity...</h2>
+		<h2>Loading Creativity...</h2>
 	</div>
 
-	<a href="https://github.com/jebin2" target="_blank" class="profile-link">GitHub</a>
+	<!-- Profile Link -->
+	<a href="https://github.com/jebin2" target="_blank" rel="noopener noreferrer" class="profile-link">GitHub</a>
 
+	<!-- Book Container -->
 	<div class="book-container">
-		<div class="book" id="book">
-			<!-- Cover and Pages will be inserted here -->
+		<div class="book" id="book" role="main" aria-label="Project showcase book">
+			<!-- Pages will be dynamically inserted here by book-view.js -->
 		</div>
 	</div>
 
-	<div class="navigation">
-		<button id="prevBtn" onclick="previousPage()" disabled>Previous</button>
-		<button id="nextBtn" onclick="nextPage()" disabled>Next</button>
-	</div>
+	<!-- Navigation Buttons -->
+	<nav class="navigation" aria-label="Book navigation">
+		<button id="prevBtn" disabled aria-label="Go to previous page">Previous</button>
+		<button id="nextBtn" disabled aria-label="Go to next page">Next</button>
+	</nav>
 
-	<div class="dust-spirits">
-		<!-- SVG Dust Spirits -->
-		<svg xmlns="http://www.w3.org/2000/svg" width="100" height="80" viewBox="0 0 100 80">
+	<!-- Decorative Elements -->
+	<div class="dust-spirits" aria-hidden="true">
+		<svg xmlns="http://www.w3.org/2000/svg" width="100" height="80" viewBox="0 0 100 80"
+			aria-label="Dust spirits decoration">
 			<g fill="#4c6172" opacity="0.6">
 				<circle cx="20" cy="60" r="15" />
 				<circle cx="40" cy="50" r="12" />
@@ -570,311 +110,17 @@
 		</svg>
 	</div>
 
-	<script>
-		const projects = [
-			{ title: "SRTify", url: "https://jebin2.github.io/SRTify", image: "https://jebin2.github.io/SRTify/image.png", description: "A versatile offline tool for creating, editing, and synchronizing SRT subtitle files with ease." },
-			{
-                title: "Music Composer",
-                url: "https://jebin2.github.io/music_composer_py/",
-				image: "https://jebin2.github.io/music_composer_py/image.png",
-				description: "Imagine it, hear it. ✨ Music Composer leverages Gemini AI to bring your textual imaginations to life as original audio compositions."
-            },
-			{ title: "Currency Converter", url: "https://jebin2.github.io/currency/", image: "https://jebin2.github.io/currency/image.png", description: "Quickly convert between various world currencies using up-to-date exchange rates." },
-			{ title: "Currency APIs", url: "https://jebin2.github.io/apis", image: "https://jebin2.github.io/currency/image.png", description: "Developer-friendly API providing currency conversion rates and historical data." },
-			{ title: "Text Reader", url: "https://jebin2.github.io/Text-Reader", image: "https://jebin2.github.io/Text-Reader/image.png", description: "An accessible web-based text-to-speech reader with customizable voices and speeds." },
-			{ title: "Python Custom Logger", url: "https://github.com/jebin2/custom_logger", image: "https://raw.githubusercontent.com/jebin2/custom_logger/e9fe0f8aedeaff8209fcfd3ca12b01da816fcb05/image.png", description: "A flexible and customizable logging module for Python projects with enhanced formatting." },
-			{ title: "X Automation (XPal)", url: "https://github.com/jebin2/XPal", image: "https://raw.githubusercontent.com/jebin2/XPal/f0fdd42ea2e709e403a6985909c0e1a4c5564613/image.png", description: "AI-assisted automation tool designed for interacting with the X platform (formerly Twitter)." },
-			{ title: "Gemini Wrapper (gemiwrap)", url: "https://github.com/jebin2/gemiwrap", image: "https://raw.githubusercontent.com/jebin2/gemiwrap/3b8e2c1c2922a62519f223bfb8eeb74f2ca64456/image.png", description: "A Python wrapper library simplifying interactions with Google's Gemini AI models." },
-			{ title: "DateTime Converter", url: "https://jebin2.github.io/datetimeconverter", image: "https://jebin2.github.io/datetimeconverter/image.png", description: "Handy online utility for converting dates, times, and timestamps across different formats and timezones." }
-		];
+	<!-- NoScript Fallback -->
+	<noscript>
+		<div style="padding: 20px; text-align: center; background: #f0e6a9; margin: 20px;">
+			<p style="color: #4c6172; font-weight: bold;">JavaScript is required for the book view. Please enable
+				JavaScript in your browser.</p>
+			<p><a href="index.html" style="color: #4c6172;">Return to main page</a></p>
+		</div>
+	</noscript>
 
-		let currentPageIndex = -1; // Index of the currently *visible* right-hand page face (-1 means cover is closed)
-		const totalProjects = projects.length;
-		// Total physical page elements = Cover(1) + Project Pages(ceil(totalProjects/2))
-		const numPhysicalPages = 1 + Math.ceil(totalProjects / 2);
-		let isBookOpen = false; // Use a more descriptive name
-
-		const book = document.getElementById('book');
-		const prevBtn = document.getElementById('prevBtn');
-		const nextBtn = document.getElementById('nextBtn');
-		const loadingScreen = document.getElementById('loadingScreen');
-
-		function getProjectHTML(project, pageNumber) {
-			if (!project) return '<div class="project-content"><p>Page Error</p></div>'; // Fallback
-			const pageNumHTML = pageNumber ? `<div class="page-number ${pageNumber % 2 !== 0 ? 'right-align' : 'left-align'}">Page ${pageNumber}</div>` : '';
-			return `
-                <div class="project-content">
-                    <div class="project-image">
-                        <img src="${project.image || 'placeholder.jpg'}" alt="${project.title || 'Project'} Preview" loading="lazy" onerror="this.src='https://via.placeholder.com/400x250/e8f4f5/4c6172?text=Image+Not+Found'; this.onerror=null;">
-                    </div>
-                    <div class="project-info">
-                        <h3>${project.title || 'Untitled Project'}</h3>
-                        <p>${project.description || 'No description available.'}</p>
-                        <div style="position:relative">
-							<a href="${project.url || '#'}" target="_blank" rel="noopener noreferrer" class="visit-btn">Visit Project</a>
-						${pageNumber == 1 ? '<button id="closeBtn" class="visit-btn next-visit-btn" onclick="closeBook()">Close</button>' : pageNumber % 2 == 0 ? '<button id="nextBtn" class="visit-btn next-visit-btn" onclick="nextPage()">Next</button>' : '<button id="prevBtn" class="visit-btn next-visit-btn" onclick="previousPage()">Previous</button>'}
-						</div>
-						
-                    </div>
-                    ${pageNumHTML}
-                </div>`;
-		}
-
-		function getFinalPageHTML(pageNumber) {
-			const pageNumHTML = `<div class="page-number left-align">Page ${pageNumber}</div>`;
-			return `
-                <h2>Thank You</h2>
-                <p>Thanks for exploring my projects!</p>
-                <p>Feel free to reach out or check my GitHub.</p>
-				<button id="closeBtn" class="visit-btn" onclick="closeBook()">Close</button>
-            `;
-		}
-
-
-		function createBookElements() {
-			book.innerHTML = ''; // Clear existing book content
-
-			// --- 1. Create Cover Page (Page 0) ---
-			const coverPage = document.createElement('div');
-			coverPage.className = 'page';
-			coverPage.id = 'page-0'; // Cover is the first physical page
-			coverPage.style.zIndex = numPhysicalPages + 1; // Highest z-index initially
-
-			const coverFront = document.createElement('div');
-			coverFront.className = 'page-face page-front cover-face-front';
-			coverFront.innerHTML = `
-                <h1>My Creations</h1>
-                <p>Welcome to my chaos</p>
-                <button class="visit-btn" onclick="openBook()">Open</button>
-                <!-- No page number on cover front -->
-            `;
-
-			const coverBack = document.createElement('div');
-			coverBack.className = 'page-face page-back cover-face-back';
-			// The back of the cover shows the first project (if exists)
-			coverBack.innerHTML = getProjectHTML(projects[0], 1); // Logical page 1
-
-			coverPage.appendChild(coverFront);
-			coverPage.appendChild(coverBack);
-			book.appendChild(coverPage);
-
-			// --- 2. Create Project Pages (Starting from Page 1) ---
-			// Loop through the *physical pages needed* after the cover
-			let projectIndex = 1; // Start with the second project (index 1)
-			for (let i = 1; i < numPhysicalPages; i++) {
-				const page = document.createElement('div');
-				page.className = 'page';
-				page.id = `page-${i}`;
-				// Initial Z-index: Pages further back have lower z-index
-				page.style.zIndex = numPhysicalPages - i;
-
-				const pageFront = document.createElement('div');
-				pageFront.className = 'page-face page-front';
-				const projectFront = projects[projectIndex];
-				const logicalPageFront = projectIndex + 1; // Page num starts from 1
-				pageFront.innerHTML = getProjectHTML(projectFront, logicalPageFront);
-				projectIndex++;
-
-
-				const pageBack = document.createElement('div');
-				pageBack.className = 'page-face page-back';
-				const projectBack = projects[projectIndex];
-				const logicalPageBack = projectIndex + 1;
-
-				// Special case: If this is the *last physical page* and there's no more project, show "Thank You"
-				if (i === numPhysicalPages - 1 && !projectBack) {
-					pageBack.innerHTML = getFinalPageHTML(logicalPageBack);
-					pageBack.classList.add('final-page-back'); // Add special class for styling
-				} else {
-					pageBack.innerHTML = getProjectHTML(projectBack, logicalPageBack);
-				}
-				projectIndex++;
-
-
-				page.appendChild(pageFront);
-				page.appendChild(pageBack);
-				book.appendChild(page);
-			}
-		}
-
-		// Update navigation button states based on currentPageIndex
-		function updateButtons() {
-			if (!isBookOpen) {
-				prevBtn.disabled = true;
-				nextBtn.disabled = true;
-				return;
-			}
-			// Can go previous if not viewing the cover's back (index 0)
-			prevBtn.disabled = (currentPageIndex <= 0);
-			// Can go next if not viewing the last physical page's back
-			nextBtn.disabled = (currentPageIndex >= numPhysicalPages - 1);
-		}
-
-
-		document.addEventListener('DOMContentLoaded', () => {
-			createBookElements();
-			updateButtons(); // Initialize buttons (disabled)
-
-			setTimeout(() => {
-				if (loadingScreen) {
-					loadingScreen.classList.add('fade-out');
-				}
-			}, 100);
-		});
-
-		function openBook() {
-			if (isBookOpen) return; // Already open
-
-			const coverPageElement = document.getElementById('page-0');
-			if (coverPageElement) {
-				coverPageElement.classList.add('flipped');
-				// Lower cover's z-index so next page is on top
-				isBookOpen = true;
-				currentPageIndex = 0; // We are now viewing the cover's back (logical page 1)
-				updateButtons();
-				setTimeout(() => {
-					coverPageElement.style.zIndex = 0; // Send it to the back of flipped pages
-				}, 100);
-			}
-		}
-
-		function nextPage() {
-			// Calculate the index of the *next physical page* to flip
-			const nextPageToFlipIndex = currentPageIndex + 1;
-			if (!isBookOpen || nextPageToFlipIndex >= numPhysicalPages) return; // Check bounds
-
-			const pageElement = document.getElementById(`page-${nextPageToFlipIndex}`);
-			if (pageElement) {
-				pageElement.classList.add('flipped');
-				// Increase z-index so it stays on top of subsequent pages during/after flip
-				// Make it higher than previously flipped pages
-				currentPageIndex++; // Update the index of the page we are looking at
-				updateButtons();
-
-				setTimeout(() => {
-					pageElement.style.zIndex = nextPageToFlipIndex + 1; // Simple increment should work
-				}, 100);
-			} else {
-				console.error(`Page element page-${nextPageToFlipIndex} not found.`);
-			}
-		}
-
-		function previousPage() {
-			// Calculate the index of the *physical page to un-flip*
-			const pageToUnflipIndex = currentPageIndex;
-			if (!isBookOpen || pageToUnflipIndex <= 0) return; // Can't unflip the cover visually this way
-
-			const pageElement = document.getElementById(`page-${pageToUnflipIndex}`);
-			if (pageElement) {
-				pageElement.classList.remove('flipped');
-				currentPageIndex--; // Update the index of the page we are looking at
-				updateButtons();
-				// Reset z-index to its original calculated value based on position
-				setTimeout(() => {
-					pageElement.style.zIndex = numPhysicalPages - pageToUnflipIndex;
-				}, 100);
-
-				// Special case: If we flipped back to the cover's back (index 0),
-				// and want to close the book, we'd need a separate closeBook function.
-				// For now, previous stops at the inside cover.
-			} else {
-				console.error(`Page element page-${pageToUnflipIndex} not found.`);
-			}
-		}
-
-		// Optional: Add a function to close the book
-		// Function to close the book from any page
-		function closeBook() {
-    // Only proceed if the book is actually open
-    if (!isBookOpen) return;
-
-    const delayIncrement = 50; // Staggering delay (50-150ms is usually good)
-    let currentDelay = 0;
-
-    // Disable buttons immediately
-    prevBtn.disabled = true;
-    nextBtn.disabled = true;
-    // const closeBtn = document.getElementById('closeBtn'); // Assuming you have a close button
-    // if (closeBtn) closeBtn.disabled = true;
-
-    // Calculate total expected closing time for the final state update
-    // (Last page start delay + CSS transition duration)
-    const cssTransitionDuration = 1200; // Duration from your CSS '.page' rule (1.2s)
-    const totalClosingTime = (currentPageIndex * delayIncrement) + cssTransitionDuration;
-
-    // Iterate backwards from the currently viewed page index down to 0
-    for (let i = currentPageIndex; i >= 0; i--) {
-        const pageElement = document.getElementById(`page-${i}`);
-        if (pageElement) {
-
-            // Use setTimeout to stagger the *start* of each un-flip animation
-            setTimeout(() => {
-
-                if (i === 0) { // --- Special handling for the Cover Page (page-0) ---
-                    // 1. Set the final (highest) z-index *immediately* before animating
-                    pageElement.style.zIndex = numPhysicalPages + 1;
-                    // 2. Remove 'flipped' class to trigger the closing animation
-                    pageElement.classList.remove('flipped');
-                    // No transitionend listener needed for z-index on the cover during close
-
-                } else { // --- Handling for all other pages (i > 0) ---
-                    // Define the function to run AFTER the transition ends for this specific page
-                    const restoreZIndexOnTransitionEnd = (event) => {
-                        // Make sure the transition that ended was the 'transform'
-                        if (event.target === pageElement && event.propertyName === 'transform') {
-                            // Restore original z-index based on its position
-                            pageElement.style.zIndex = numPhysicalPages - i;
-                            // Listener is automatically removed because of { once: true }
-                        }
-                    };
-
-                    // Add the event listener BEFORE triggering the transition
-                    pageElement.addEventListener('transitionend', restoreZIndexOnTransitionEnd, { once: true });
-
-                    // Trigger the transition by removing the 'flipped' class
-                    pageElement.classList.remove('flipped');
-                }
-
-            }, currentDelay);
-
-            // Increase the delay for the start of the next page's animation
-            currentDelay += delayIncrement;
-        }
-    }
-
-    // Schedule the final state update AFTER all animations have likely completed
-    setTimeout(() => {
-        isBookOpen = false;
-        currentPageIndex = -1; // Reset to closed state index
-        updateButtons(); // Update button states (will disable nav/close buttons)
-    }, totalClosingTime + 100); // Add a small buffer (100ms) to be safe
-}
-
-		// --- IMPORTANT ---
-		// You need a way to *call* this closeBook function.
-		// Example: Add a close button somewhere, maybe near the navigation:
-		/*
-		 HTML (in the navigation area):
-		 <button id="closeBtn" onclick="closeBook()" disabled>Close Book</button>
-
-		 JavaScript (in updateButtons):
-		 function updateButtons() {
-			 const closeBtn = document.getElementById('closeBtn'); // Get close button
-			 if (!isBookOpen) {
-				 prevBtn.disabled = true;
-				 nextBtn.disabled = true;
-				 if (closeBtn) closeBtn.disabled = true; // Disable close when already closed
-				 return;
-			 }
-			 // Can go previous if not viewing the cover's back (index 0)
-			 prevBtn.disabled = (currentPageIndex <= 0);
-			 // Can go next if not viewing the last physical page's back
-			 nextBtn.disabled = (currentPageIndex >= numPhysicalPages - 1);
-			  if (closeBtn) closeBtn.disabled = false; // Enable close when book is open
-		 }
-		*/
-
-	</script>
+	<!-- Scripts -->
+	<script type="module" src="js/book-view.js"></script>
 </body>
 
 </html>

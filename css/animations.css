@@ -1,0 +1,203 @@
+/* ============================================
+   Animations & Keyframes
+   ============================================ */
+
+/* ============================================
+   Background Decorations
+   ============================================ */
+.clouds {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 200px;
+    background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1000 200' preserveAspectRatio='none'%3E%3Cpath d='M0,100 C150,180 300,100 500,120 C700,140 800,80 1000,100 L1000,0 L0,0 Z' fill='%23c6e6f5' opacity='0.6'%3E%3C/path%3E%3Cpath d='M0,80 C200,140 300,70 500,90 C700,110 850,60 1000,80 L1000,0 L0,0 Z' fill='%23ddf0f9' opacity='0.4'%3E%3C/path%3E%3C/svg%3E") repeat-x;
+    background-size: 1000px 200px;
+    z-index: -1;
+    animation: moveClouds 60s linear infinite;
+    pointer-events: none;
+}
+
+.forest-bg {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 150px;
+    background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1000 150'%3E%3Cpath d='M0,150 L0,80 C30,90 45,60 60,80 C70,40 80,70 100,60 C110,30 120,50 130,70 C150,20 160,60 170,50 C180,30 190,50 200,70 C220,40 230,65 240,55 C250,35 265,55 280,70 C290,50 300,65 310,50 C320,30 330,50 340,70 C355,55 365,65 375,48 C385,30 395,55 405,65 C425,35 435,60 445,45 C460,25 470,50 480,65 C495,40 505,60 515,48 C525,30 535,50 545,70 C560,55 570,65 580,48 C590,30 600,50 610,70 C625,40 635,65 645,55 C655,30 670,50 685,70 C695,50 705,65 715,50 C725,30 735,45 745,70 C760,50 770,65 780,48 C790,30 800,55 810,65 C830,45 840,60 850,45 C860,25 870,45 880,65 C900,40 910,60 920,48 C930,30 940,55 950,65 C970,35 980,55 1000,40 L1000,150 Z' fill='%23608354'/%3E%3Cpath d='M0,150 L0,90 C20,100 30,80 40,95 C50,70 60,90 70,85 C85,70 100,90 115,80 C130,65 145,85 160,90 C175,75 190,85 205,75 C215,60 230,75 245,90 C265,65 280,85 295,75 C315,60 330,75 345,90 C360,75 375,85 390,75 C400,60 415,75 430,90 C450,65 465,85 480,75 C500,60 515,75 530,90 C545,75 560,85 575,75 C585,60 600,75 615,90 C635,65 650,85 665,75 C685,60 700,75 715,90 C730,75 745,85 760,75 C770,60 785,75 800,90 C820,65 835,85 850,75 C870,60 885,75 900,90 C915,75 930,85 945,75 C955,60 970,75 985,90 C1000,75 1000,90 1000,100 L1000,150 Z' fill='%234f6844'/%3E%3Cpath d='M0,150 L0,120 C15,130 25,115 35,125 C45,110 55,125 65,115 C80,105 95,125 110,115 C130,105 145,125 155,115 C175,100 190,120 205,110 C220,100 235,120 250,125 C265,110 280,125 295,115 C315,100 330,120 345,110 C360,100 375,120 390,125 C405,110 420,125 435,115 C455,100 470,120 485,110 C500,100 515,120 530,125 C545,110 560,125 575,115 C595,100 610,120 625,110 C640,100 655,120 670,125 C685,110 700,125 715,115 C735,100 750,120 765,110 C780,100 795,120 810,125 C825,110 840,125 855,115 C875,100 890,120 905,110 C920,100 935,120 950,125 C965,110 980,125 995,115 L1000,150 Z' fill='%233f5436'/%3E%3C/svg%3E") repeat-x;
+    background-size: 1000px 150px;
+    z-index: -1;
+    pointer-events: none;
+}
+
+/* ============================================
+   Keyframe Animations
+   ============================================ */
+@keyframes moveClouds {
+    0% {
+        background-position: 0 0;
+    }
+
+    100% {
+        background-position: 1000px 0;
+    }
+}
+
+@keyframes float {
+    0% {
+        transform: translateY(0px);
+    }
+
+    50% {
+        transform: translateY(-15px);
+    }
+
+    100% {
+        transform: translateY(0px);
+    }
+}
+
+@keyframes wiggle {
+
+    0%,
+    100% {
+        transform: translateX(0);
+    }
+
+    25% {
+        transform: translateX(15px) translateY(-5px);
+    }
+
+    75% {
+        transform: translateX(-10px) translateY(5px);
+    }
+}
+
+@keyframes openCloseBook {
+
+    0%,
+    100% {
+        transform: scale(1) rotateY(0deg);
+    }
+
+    20% {
+        transform: scale(1.05) rotateY(-15deg);
+    }
+
+    40% {
+        transform: scale(1) rotateY(0deg);
+    }
+
+    60% {
+        transform: scale(1.05) rotateY(15deg);
+    }
+
+    80% {
+        transform: scale(1) rotateY(0deg);
+    }
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
+}
+
+@keyframes slideInUp {
+    from {
+        transform: translateY(30px);
+        opacity: 0;
+    }
+
+    to {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
+
+/* ============================================
+   Animation Classes
+   ============================================ */
+.animated-book {
+    animation: openCloseBook 3s ease-in-out infinite;
+}
+
+.totoro {
+    animation: float 3s ease-in-out infinite;
+}
+
+.dust-spirits {
+    animation: wiggle 4s ease-in-out infinite;
+}
+
+.fade-in {
+    animation: fadeIn 0.5s ease-in;
+}
+
+.slide-in-up {
+    animation: slideInUp 0.6s ease-out;
+}
+
+/* Card stagger animation */
+.card {
+    animation: slideInUp 0.6s ease-out backwards;
+}
+
+.card:nth-child(1) {
+    animation-delay: 0.05s;
+}
+
+.card:nth-child(2) {
+    animation-delay: 0.1s;
+}
+
+.card:nth-child(3) {
+    animation-delay: 0.15s;
+}
+
+.card:nth-child(4) {
+    animation-delay: 0.2s;
+}
+
+.card:nth-child(5) {
+    animation-delay: 0.25s;
+}
+
+.card:nth-child(6) {
+    animation-delay: 0.3s;
+}
+
+.card:nth-child(7) {
+    animation-delay: 0.35s;
+}
+
+.card:nth-child(8) {
+    animation-delay: 0.4s;
+}
+
+.card:nth-child(9) {
+    animation-delay: 0.45s;
+}
+
+/* Reduced motion for accessibility */
+@media (prefers-reduced-motion: reduce) {
+
+    *,
+    *::before,
+    *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+    }
+
+    .clouds,
+    .totoro,
+    .dust-spirits,
+    .animated-book {
+        animation: none !important;
+    }
+}
