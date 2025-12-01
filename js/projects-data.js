@@ -4,6 +4,12 @@
 
 export const projects = [
     {
+        title: "STT (Speech to Text)",
+        url: "https://jebin2-stt.hf.space/",
+        image: "https://raw.githubusercontent.com/jebin2/STT/main/image.png",
+        description: "Real-time Speech-to-Text application powered by advanced AI models. Convert voice to text instantly."
+    },
+    {
         title: "SRTify",
         url: "https://jebin2.github.io/SRTify",
         image: "https://jebin2.github.io/SRTify/image.png",
