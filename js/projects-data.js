@@ -16,6 +16,12 @@ export const projects = [
         description: "Real-time Speech-to-Text application powered by advanced AI models. Convert voice to text instantly."
     },
     {
+        title: "TTS (Text to Speech)",
+        url: "https://jebin2-tts.hf.space/",
+        image: "https://raw.githubusercontent.com/jebin2/TTS/main/image.png",
+        description: "Real-time Text-to-Speech application powered by advanced AI models. Convert text to voice instantly."
+    },
+    {
         title: "JellyJump",
         url: "https://jebin2.github.io/JellyJump/",
         image: "https://raw.githubusercontent.com/jebin2/JellyJump/main/assets/icons/jelly_jump_logo.gif",
