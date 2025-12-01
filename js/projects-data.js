@@ -23,7 +23,7 @@ export const projects = [
     },
     {
         title: "Music Composer",
-        url: "https://jebin2.github.io/music_composer_py/",
+        url: "https://jebin2-music-composer.hf.space/",
         image: "https://jebin2.github.io/music_composer_py/image.png",
         description: "Imagine it, hear it. ✨ Music Composer leverages Gemini AI to bring your textual imaginations to life as original audio compositions."
     },
