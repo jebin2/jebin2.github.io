@@ -71,7 +71,9 @@ function getFinalPageHTML(pageNumber) {
         <h2>Thank You</h2>
         <p>Thanks for exploring my projects!</p>
         <p>Feel free to reach out or check my GitHub.</p>
-        <button id="closeBtn" class="visit-btn">Close</button>
+        <div style="text-align: right;">
+            <button id="closeBtn" class="visit-btn">Close</button>
+        </div>
     `;
 }
 
@@ -93,7 +95,9 @@ function createBookElements() {
     coverFront.innerHTML = `
         <h1>My Creations</h1>
         <p>Welcome to my chaos</p>
-        <button class="visit-btn" id="openBookBtn">Open</button>
+        <div style="text-align: right;">
+            <button class="visit-btn" id="openBookBtn">Open</button>
+        </div>
     `;
 
     const coverBack = document.createElement('div');
@@ -116,7 +120,14 @@ function createBookElements() {
         pageFront.className = 'page-face page-front';
         const projectFront = projects[projectIndex];
         const logicalPageFront = projectIndex + 1;
-        pageFront.innerHTML = getProjectHTML(projectFront, logicalPageFront);
+
+        // Check if this is the last page and we don't have a project for the front
+        if (i === numPhysicalPages - 1 && !projectFront) {
+            pageFront.innerHTML = getFinalPageHTML(logicalPageFront);
+            pageFront.classList.add('final-page-back');
+        } else {
+            pageFront.innerHTML = getProjectHTML(projectFront, logicalPageFront);
+        }
         projectIndex++;
 
         const pageBack = document.createElement('div');
@@ -180,6 +191,15 @@ function updateButtons() {
 function openBook() {
     if (isBookOpen) return;
 
+    // First, make sure all pages are unflipped (clean state)
+    for (let i = 0; i < numPhysicalPages; i++) {
+        const pageElement = document.getElementById(`page-${i}`);
+        if (pageElement && i !== 0) {
+            pageElement.classList.remove('flipped');
+        }
+    }
+
+    // Now flip only the cover page
     const coverPageElement = document.getElementById('page-0');
     if (coverPageElement) {
         coverPageElement.classList.add('flipped');
