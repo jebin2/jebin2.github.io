@@ -10,6 +10,12 @@ export const projects = [
         description: "Real-time Speech-to-Text application powered by advanced AI models. Convert voice to text instantly."
     },
     {
+        title: "JellyJump",
+        url: "https://jebin2.github.io/JellyJump/",
+        image: "https://raw.githubusercontent.com/jebin2/JellyJump/main/assets/icons/jelly_jump_logo.gif",
+        description: "A simple media player Powered by MediaBunny"
+    },
+    {
         title: "SRTify",
         url: "https://jebin2.github.io/SRTify",
         image: "https://jebin2.github.io/SRTify/image.png",
