@@ -131,6 +131,8 @@ header h1 {
 header nav {
     display: flex;
     justify-content: center;
+    align-items: center;
+    /* Vertically align items */
     gap: var(--spacing-lg);
     margin-top: var(--spacing-lg);
     flex-wrap: wrap;
@@ -148,7 +150,12 @@ header nav a {
     background: var(--color-white);
     box-shadow: var(--shadow-md) var(--color-primary);
     position: relative;
+    display: inline-flex;
+    /* Ensure content is centered */
+    align-items: center;
 }
+
+
 
 header nav a:hover {
     transform: translateY(-3px);
@@ -299,8 +306,8 @@ header nav a:focus {
 
 /* Header Sponsor Button Alignment */
 header nav iframe {
-    vertical-align: middle;
-    margin-left: var(--spacing-sm);
+    /* Remove margin-left as gap handles spacing */
+    border-radius: 6px;
 }
 
 @media (max-width: 480px) {

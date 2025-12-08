@@ -52,12 +52,6 @@ export const projects = [
         description: "Developer-friendly API providing currency conversion rates and historical data."
     },
     {
-        title: "Text Reader",
-        url: "https://jebin2.github.io/Text-Reader",
-        image: "https://jebin2.github.io/Text-Reader/image.png",
-        description: "An accessible web-based text-to-speech reader with customizable voices and speeds."
-    },
-    {
         title: "Python Custom Logger",
         url: "https://github.com/jebin2/custom_logger",
         image: "https://raw.githubusercontent.com/jebin2/custom_logger/e9fe0f8aedeaff8209fcfd3ca12b01da816fcb05/image.png",
