@@ -17,26 +17,26 @@
     --color-white: #fff;
     --color-accent: #68a4bd;
     --color-page-num: #b0c4d4;
-    
+
     /* Shadows */
     --shadow-sm: 0 2px 0;
     --shadow-md: 0 4px 0;
     --shadow-lg: 0 10px 20px rgba(0, 0, 0, 0.1);
     --shadow-xl: 0 15px 30px rgba(134, 197, 184, 0.4);
-    
+
     /* Spacing */
     --spacing-xs: 0.5rem;
     --spacing-sm: 1rem;
     --spacing-md: 1.5rem;
     --spacing-lg: 2rem;
     --spacing-xl: 3rem;
-    
+
     /* Border Radius */
     --radius-sm: 8px;
     --radius-md: 10px;
     --radius-lg: 20px;
     --radius-pill: 50px;
-    
+
     /* Transitions */
     --transition-fast: 0.2s ease-out;
     --transition-normal: 0.3s ease;
@@ -271,4 +271,41 @@ header nav a:focus {
 
 .no-scroll {
     overflow: hidden;
+}
+
+/* ============================================
+   Sponsor Section
+   ============================================ */
+.sponsor-section {
+    width: 100%;
+    max-width: 800px;
+    margin: 0 auto;
+    padding: var(--spacing-lg);
+    background: var(--color-white);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-lg);
+    text-align: center;
+}
+
+.sponsor-section h2 {
+    color: var(--color-accent);
+    margin-bottom: var(--spacing-md);
+    font-size: 2rem;
+}
+
+.sponsor-section iframe {
+    max-width: 100%;
+}
+
+/* Header Sponsor Button Alignment */
+header nav iframe {
+    vertical-align: middle;
+    margin-left: var(--spacing-sm);
+}
+
+@media (max-width: 480px) {
+    header nav iframe {
+        display: block;
+        margin: var(--spacing-sm) auto 0;
+    }
 }
