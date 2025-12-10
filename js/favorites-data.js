@@ -62,6 +62,11 @@ export const favoriteWebsites = [
         title: "Graphemica",
         url: "https://graphemica.com",
         emoji: "📝"
+    },
+    {
+        title: "The largest collection of free stuff on the internet!",
+        url: "https://fmhy.net",
+        emoji: "📝"
     }
     // Add more websites here following the same format
 ];
