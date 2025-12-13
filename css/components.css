@@ -152,8 +152,8 @@
 }
 
 .animated-book img {
-    width: 400%;
-    height: 400%;
+    /* width: 400%;
+    height: 400%; */
     object-fit: contain;
 }
 
