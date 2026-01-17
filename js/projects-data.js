@@ -49,7 +49,7 @@ export const projects = [
     {
         title: "Animate Image",
         url: "/animateimage",
-        image: "/animateimage",
+        image: "/animateimage/image.png",
         description: "Run and deploy your AI Studio app for animating images.",
         no_page: true
     },
