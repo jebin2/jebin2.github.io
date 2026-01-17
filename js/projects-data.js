@@ -30,7 +30,7 @@ export const projects = [
     {
         title: "Mini-NVR",
         url: "/Mini-NVR",
-        image: "/Mini-NVR/web/icon-512.png",
+        image: "/Mini-NVR/web-react/public/icon-512.png",
         description: "A comprehensive Network Video Recorder system featuring real-time video streaming, object detection, and secure recording management.",
         no_page: true
     },
