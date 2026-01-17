@@ -4,7 +4,7 @@
 
 import { projects } from './projects-data.js';
 import { favoriteWebsites } from './favorites-data.js';
-import { debounce, handleImageError, trapFocus } from './utils.js';
+import { debounce, handleImageError, trapFocus, resolveUrl } from './utils.js';
 
 // DOM Elements
 let cardContainer;
@@ -60,11 +60,16 @@ function createCardElement(project) {
     card.className = 'card';
     card.setAttribute('role', 'article');
     card.setAttribute('tabindex', '0');
-    card.dataset.url = project.url;
+
+    // Resolve URLs
+    const resolvedUrl = resolveUrl(project.url);
+    const resolvedImage = resolveUrl(project.image);
+
+    card.dataset.url = resolvedUrl;
     card.dataset.noPage = project.no_page || false;
 
     const img = document.createElement('img');
-    img.src = project.image;
+    img.src = resolvedImage;
     img.alt = `${project.title} Preview`;
     img.loading = 'lazy';
     img.onerror = () => handleImageError(img);
@@ -76,7 +81,7 @@ function createCardElement(project) {
     h3.textContent = project.title;
 
     const link = document.createElement('a');
-    link.href = project.url;
+    link.href = resolvedUrl;
     link.target = '_blank';
     link.rel = 'noopener noreferrer';
     link.className = 'card-link';

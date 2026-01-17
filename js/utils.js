@@ -109,3 +109,19 @@ export function sanitizeHTML(str) {
 export function prefersReducedMotion() {
     return window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 }
+
+/**
+ * Resolve a URL against the current origin.
+ * Handles both absolute URLs (returns as is) and relative paths (prepends origin).
+ * @param {string} url - The URL or path to resolve
+ * @returns {string} The resolved absolute URL
+ */
+export function resolveUrl(url) {
+    if (!url) return '';
+    try {
+        return new URL(url, window.location.origin).href;
+    } catch (e) {
+        console.error('Invalid URL:', url, e);
+        return url;
+    }
+}

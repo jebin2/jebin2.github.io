@@ -5,46 +5,40 @@
 export const projects = [
     {
         title: "JellyJump",
-        url: "https://jebin2.github.io/JellyJump/",
-        image: "https://raw.githubusercontent.com/jebin2/JellyJump/main/assets/icons/jelly_jump_logo.gif",
+        url: "/JellyJump/",
+        image: "/JellyJump/assets/icons/jelly_jump_logo.gif",
         description: "A simple media player Powered by MediaBunny"
     },
     {
         title: "Paper",
         url: "https://jebin2-paper.hf.space/",
-        image: "https://huggingface.co/spaces/jebin2/Paper/resolve/main/image.png",
+        image: "/Paper/image.png",
         description: "Perfect for temporary notes and secure sharing. Deleted after two days."
     },
     {
         title: "STT (Speech to Text)",
         url: "https://jebin2-stt.hf.space/",
-        image: "https://raw.githubusercontent.com/jebin2/STT/main/image.png",
+        image: "/STT/image.png",
         description: "Real-time Speech-to-Text application powered by advanced AI models. Convert voice to text instantly."
     },
     {
         title: "TTS (Text to Speech)",
         url: "https://jebin2-tts.hf.space/",
-        image: "https://raw.githubusercontent.com/jebin2/TTS/main/image.png",
+        image: "/TTS/image.png",
         description: "Real-time Text-to-Speech application powered by advanced AI models. Convert text to voice instantly."
     },
     {
         title: "Mini-NVR",
-        url: "https://github.com/jebin2/Mini-NVR",
-        image: "https://raw.githubusercontent.com/jebin2/Mini-NVR/main/web/icon-512.png",
+        url: "/Mini-NVR",
+        image: "/Mini-NVR/web/icon-512.png",
         description: "A comprehensive Network Video Recorder system featuring real-time video streaming, object detection, and secure recording management.",
         no_page: true
     },
     {
         title: "SRTify",
-        url: "https://jebin2.github.io/SRTify",
-        image: "https://jebin2.github.io/SRTify/image.png",
+        url: "/SRTify",
+        image: "/SRTify/image.png",
         description: "A versatile offline tool for creating, editing, and synchronizing SRT subtitle files with ease."
-    },
-    {
-        title: "Music Composer",
-        url: "https://jebin2-music-composer.hf.space/",
-        image: "https://jebin2.github.io/music_composer_py/image.png",
-        description: "Imagine it, hear it. ✨ Music Composer leverages Gemini AI to bring your textual imaginations to life as original audio compositions."
     },
     {
         title: "Comic Panel Extractor",
@@ -54,8 +48,8 @@ export const projects = [
     },
     {
         title: "Animate Image",
-        url: "https://ai.studio/apps/drive/13QwUZsL9u0-Wn5uedIlTi98W-oPTS9OS",
-        image: "https://github.com/user-attachments/assets/0aa67016-6eaf-458a-adb2-6e31a0763ed6",
+        url: "/animateimage",
+        image: "/animateimage",
         description: "Run and deploy your AI Studio app for animating images.",
         no_page: true
     },
