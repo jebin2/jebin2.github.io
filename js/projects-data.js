@@ -43,7 +43,7 @@ export const projects = [
     {
         title: "Comic Panel Extractor",
         url: "https://jebin2-comic-panel-extractor.hf.space/",
-        image: "/ComicPanelExtractor/image.png",
+        image: "/comic-panel-extractor/image.png",
         description: "Automatically extract panels from comic pages using YOLO segmentation and image processing."
     },
     {
