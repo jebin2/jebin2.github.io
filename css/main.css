@@ -292,6 +292,7 @@ header nav a:focus {
     border-radius: var(--radius-lg);
     box-shadow: var(--shadow-lg);
     text-align: center;
+    margin-top: var(--spacing-lg);
 }
 
 .sponsor-section h2 {
