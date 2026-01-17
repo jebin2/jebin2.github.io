@@ -4,6 +4,12 @@
 
 export const projects = [
     {
+        title: "JellyJump",
+        url: "https://jebin2.github.io/JellyJump/",
+        image: "https://raw.githubusercontent.com/jebin2/JellyJump/main/assets/icons/jelly_jump_logo.gif",
+        description: "A simple media player Powered by MediaBunny"
+    },
+    {
         title: "Paper",
         url: "https://jebin2-paper.hf.space/",
         image: "https://huggingface.co/spaces/jebin2/Paper/resolve/main/image.png",
@@ -22,10 +28,11 @@ export const projects = [
         description: "Real-time Text-to-Speech application powered by advanced AI models. Convert text to voice instantly."
     },
     {
-        title: "JellyJump",
-        url: "https://jebin2.github.io/JellyJump/",
-        image: "https://raw.githubusercontent.com/jebin2/JellyJump/main/assets/icons/jelly_jump_logo.gif",
-        description: "A simple media player Powered by MediaBunny"
+        title: "Mini-NVR",
+        url: "https://github.com/jebin2/Mini-NVR",
+        image: "https://raw.githubusercontent.com/jebin2/Mini-NVR/main/web/icon-512.png",
+        description: "A comprehensive Network Video Recorder system featuring real-time video streaming, object detection, and secure recording management.",
+        no_page: true
     },
     {
         title: "SRTify",
@@ -40,10 +47,55 @@ export const projects = [
         description: "Imagine it, hear it. ✨ Music Composer leverages Gemini AI to bring your textual imaginations to life as original audio compositions."
     },
     {
+        title: "Comic Panel Extractor",
+        url: "https://jebin2-comic-panel-extractor.hf.space/",
+        image: "https://placehold.co/600x400?text=Comic+Panel+Extractor",
+        description: "Automatically extract panels from comic pages using YOLO segmentation and image processing."
+    },
+    {
+        title: "Animate Image",
+        url: "https://ai.studio/apps/drive/13QwUZsL9u0-Wn5uedIlTi98W-oPTS9OS",
+        image: "https://github.com/user-attachments/assets/0aa67016-6eaf-458a-adb2-6e31a0763ed6",
+        description: "Run and deploy your AI Studio app for animating images.",
+        no_page: true
+    },
+    {
+        title: "X Automation with AI",
+        url: "https://github.com/jebin2/XPal",
+        image: "https://raw.githubusercontent.com/jebin2/XPal/f0fdd42ea2e709e403a6985909c0e1a4c5564613/image.png",
+        description: "AI-assisted automation tool designed for interacting with the X platform (formerly Twitter).",
+        no_page: true
+    },
+    {
+        title: "Google Auth Service",
+        url: "https://github.com/jebin2/googleauthservice",
+        image: "https://placehold.co/600x400?text=Google+Auth+Service",
+        description: "A batteries-included Google Sign-In and session management library for modern web applications.",
+        no_page: true
+    },
+    {
+        title: "SQLite Viewer",
+        url: "https://jebin2.github.io/sqlviewer/",
+        image: "https://placehold.co/600x400?text=SQLite+Viewer",
+        description: "Browser-based SQLite database viewer to explore, search, and edit database files."
+    },
+    {
         title: "Currency Converter",
         url: "https://jebin2.github.io/currency/",
         image: "https://jebin2.github.io/currency/image.png",
         description: "Quickly convert between various world currencies using up-to-date exchange rates."
+    },
+    {
+        title: "Greek Symbol",
+        url: "https://jebin2.github.io/greek_symbol/",
+        image: "https://placehold.co/600x400?text=Greek+Symbol",
+        description: "A simple utility to copy and paste Greek symbols."
+    },
+    {
+        title: "SVGify",
+        url: "https://jebin2.github.io/svgify",
+        image: "https://placehold.co/600x400?text=SVGify",
+        description: "Client side SVG to Image converter."
     },
     {
         title: "Currency APIs",
@@ -56,13 +108,6 @@ export const projects = [
         url: "https://github.com/jebin2/custom_logger",
         image: "https://raw.githubusercontent.com/jebin2/custom_logger/e9fe0f8aedeaff8209fcfd3ca12b01da816fcb05/image.png",
         description: "A flexible and customizable logging module for Python projects with enhanced formatting.",
-        no_page: true
-    },
-    {
-        title: "X Automation with AI",
-        url: "https://github.com/jebin2/XPal",
-        image: "https://raw.githubusercontent.com/jebin2/XPal/f0fdd42ea2e709e403a6985909c0e1a4c5564613/image.png",
-        description: "AI-assisted automation tool designed for interacting with the X platform (formerly Twitter).",
         no_page: true
     },
     {
