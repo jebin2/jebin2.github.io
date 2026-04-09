@@ -3,133 +3,114 @@
         "title": "Comic Panel Extractor",
         "url": "https://jebin2-comic-panel-extractor.hf.space/",
         "description": "Extract panels from comic pages using YOLO segmentation.",
-        "category": "ai",
-        "featured": true
+        "category": "ai"
     },
     {
         "title": "Mini-NVR",
         "url": "https://jebin2.github.io/Mini-NVR",
         "description": "Network video recorder with real-time streaming and object detection.",
-        "category": "tool",
-        "featured": true
+        "category": "tool"
     },
     {
         "title": "STT",
         "url": "https://jebin2-stt.hf.space/",
         "description": "Real-time speech-to-text powered by advanced AI models.",
-        "category": "ai",
-        "featured": true
+        "category": "ai"
     },
     {
         "title": "SRTify",
         "url": "https://jebin2.github.io/SRTify",
         "description": "Offline tool for creating, editing, and syncing SRT subtitle files.",
-        "category": "tool",
-        "featured": true
+        "category": "tool"
     },
     {
         "title": "SQLite Viewer",
         "url": "https://jebin2.github.io/sqlviewer",
         "description": "Browser-based SQLite viewer to explore, search, and edit databases.",
-        "category": "tool",
-        "featured": true
+        "category": "tool"
     },
     {
         "title": "TTS",
         "url": "https://jebin2-tts.hf.space/",
         "description": "Real-time text-to-speech powered by advanced AI models.",
-        "category": "ai",
-        "featured": false
+        "category": "ai"
     },
     {
         "title": "Gemini Music",
         "url": "https://jebin2.github.io/gemini_music",
-        "description": "AI music composer — analyzes text and writes MIDI-style compositions.",
-        "category": "ai",
-        "featured": false
+        "description": "AI music composer \u2014 analyzes text and writes MIDI-style compositions.",
+        "category": "ai"
     },
     {
         "title": "Animate Image",
         "url": "https://jebin2.github.io/animateimage",
         "description": "AI-powered image animation app built on Google AI Studio.",
-        "category": "ai",
-        "featured": false
+        "category": "ai"
     },
     {
         "title": "X Automation",
         "url": "https://jebin2.github.io/XPal",
         "description": "AI-assisted automation tool for interacting with the X platform.",
-        "category": "ai",
-        "featured": false
+        "category": "ai"
     },
     {
         "title": "JellyJump",
         "url": "https://jebin2.github.io/JellyJump/",
         "description": "A simple media player powered by MediaBunny.",
-        "category": "tool",
-        "featured": false
+        "category": "tool"
     },
     {
         "title": "Paper",
         "url": "https://jebin2-paper.hf.space/",
         "description": "Temporary notes and secure sharing. Deleted after two days.",
-        "category": "tool",
-        "featured": false
+        "category": "tool"
     },
     {
         "title": "Google Auth Service",
         "url": "https://jebin2.github.io/googleauthservice",
         "description": "Batteries-included Google Sign-In and session management library.",
-        "category": "dev",
-        "featured": false
+        "category": "dev"
     },
     {
         "title": "Gemini Wrapper",
         "url": "https://jebin2.github.io/gemiwrap",
         "description": "Python wrapper simplifying interactions with Google's Gemini AI models.",
-        "category": "dev",
-        "featured": false
+        "category": "dev"
     },
     {
         "title": "Python Custom Logger",
         "url": "https://jebin2.github.io/custom_logger",
         "description": "Flexible customizable logging module for Python with enhanced formatting.",
-        "category": "dev",
-        "featured": false
+        "category": "dev"
     },
     {
         "title": "Currency APIs",
         "url": "https://jebin2.github.io/apis",
         "description": "Developer-friendly API for currency conversion rates and historical data.",
-        "category": "dev",
-        "featured": false
+        "category": "dev"
     },
     {
         "title": "Currency Converter",
         "url": "https://jebin2.github.io/currency",
         "description": "Convert between world currencies using up-to-date exchange rates.",
-        "category": "util",
-        "featured": false
+        "category": "util"
     },
     {
         "title": "DateTime Converter",
         "url": "https://jebin2.github.io/datetimeconverter",
         "description": "Convert dates, times, and timestamps across formats and timezones.",
-        "category": "util",
-        "featured": false
+        "category": "util"
     },
     {
         "title": "SVGify",
         "url": "https://jebin2.github.io/svgify",
         "description": "Client-side SVG to image converter.",
-        "category": "util",
-        "featured": false
+        "category": "util"
     },
     {
         "title": "Greek Symbol",
         "url": "https://jebin2.github.io/greek_symbol",
         "description": "Simple utility to copy and paste Greek symbols.",
-        "category": "util",
-        "featured": false
+        "category": "util"
     }
 ]

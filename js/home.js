@@ -101,14 +101,12 @@ async function init() {
 function renderFeatured(projects, container, recentCounts, allTimeCounts) {
     if (!container) return;
 
-    const featured = projects.filter(p => p.featured);
-
-    if (!featured.length) {
-        container.innerHTML = '<p class="state-msg">no featured projects.</p>';
+    if (!projects.length) {
+        container.innerHTML = '<p class="state-msg">no projects.</p>';
         return;
     }
 
-    const sorted = smartSort(featured, recentCounts, allTimeCounts, 'title');
+    const sorted = smartSort(projects, recentCounts, allTimeCounts, 'title');
 
     container.innerHTML = sorted.map((p, i) => `
         <a class="project-row" href="${p.url}" target="_blank" rel="noopener noreferrer"
