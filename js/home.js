@@ -58,21 +58,20 @@ function renderLatestPosts(manifest, container) {
     const posts = (manifest.posts || [])
         .slice()
         .sort((a, b) => new Date(b.date) - new Date(a.date))
-        .slice(0, 3);
+        .slice(0, 5);
 
     if (!posts.length) {
         container.innerHTML = '<p class="state-msg">no posts yet.</p>';
         return;
     }
 
-    container.innerHTML = posts.map(p => {
+    container.innerHTML = posts.map((p, i) => {
         const slug = encodeURIComponent(p.path);
         return `
-            <a class="blog-row" href="/writing?post=${slug}">
-                <span class="blog-title">${p.title}</span>
-                <span class="blog-meta">
-                    <span class="blog-date">${formatDateShort(p.date)}</span>
-                </span>
+            <a class="project-row" href="/writing?post=${slug}">
+                <span class="project-num">${String(i + 1).padStart(2, '0')}.</span>
+                <span class="project-name">${p.title}</span>
+                <span class="blog-date">${formatDateShort(p.date)}</span>
             </a>
         `;
     }).join('');
