@@ -23,7 +23,7 @@ async function init() {
    ============================================ */
 async function initListingView() {
     const config = await initPage('blog');
-    document.title = 'jebin2 — blog';
+    document.title = 'jebin2 — writing';
 
     const main = document.querySelector('main.container');
     main.innerHTML = `
@@ -100,7 +100,7 @@ async function initPostView(postPath) {
         const prevPost   = idx < posts.length - 1 ? posts[idx + 1] : null;
         const nextPost   = idx > 0                ? posts[idx - 1] : null;
 
-        document.title = meta ? `jebin2 — ${meta.title}` : 'jebin2 — blog';
+        document.title = meta ? `jebin2 — ${meta.title}` : 'jebin2 — writing';
 
         renderPost(mdText, meta, prevPost, nextPost, main);
     } catch (err) {

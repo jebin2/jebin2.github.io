@@ -17,7 +17,7 @@ export function renderHeader(activePage = '') {
     const links = [
         { key: 'projects',   href: '/projects',   label: 'projects' },
         { key: 'links',      href: '/linksilike',  label: 'links' },
-        { key: 'blog',       href: '/writing',     label: 'blog ↗' },
+        { key: 'blog',       href: '/writing',     label: 'writing' },
         { key: 'sponsor',    href: 'https://github.com/sponsors/jebin2', label: 'sponsor ↗' },
     ];
 
