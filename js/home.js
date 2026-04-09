@@ -5,6 +5,7 @@
 import { initPage, renderSkeletonRows } from './shared.js';
 import { fetchCached } from './cache.js';
 import { formatDateShort } from './utils.js';
+import { trackEvent } from './analytics.js';
 
 async function init() {
     const config = await initPage('');
@@ -43,13 +44,18 @@ function renderFeatured(projects, container) {
 
     container.innerHTML = featured.map((p, i) => `
         <a class="project-row" href="${p.url}" target="_blank" rel="noopener noreferrer"
-           title="${p.description}">
+           title="${p.description}" data-track="${p.title}">
             <span class="project-num">${String(i + 1).padStart(2, '0')}.</span>
             <span class="project-name">${p.title}</span>
             <span class="project-desc">${p.description}</span>
             <span class="project-tag">[ ${p.category} ]</span>
         </a>
     `).join('');
+
+    container.addEventListener('click', e => {
+        const row = e.target.closest('[data-track]');
+        if (row) trackEvent('project_click', row.dataset.track);
+    });
 }
 
 function renderLatestPosts(manifest, container) {
@@ -68,13 +74,18 @@ function renderLatestPosts(manifest, container) {
     container.innerHTML = posts.map((p, i) => {
         const slug = encodeURIComponent(p.path);
         return `
-            <a class="project-row" href="/writing?post=${slug}">
+            <a class="project-row" href="/writing?post=${slug}" data-track="${p.title}">
                 <span class="project-num">${String(i + 1).padStart(2, '0')}.</span>
                 <span class="project-name">${p.title}</span>
                 <span class="blog-date">${formatDateShort(p.date)}</span>
             </a>
         `;
     }).join('');
+
+    container.addEventListener('click', e => {
+        const row = e.target.closest('[data-track]');
+        if (row) trackEvent('post_read', row.dataset.track);
+    });
 }
 
 init();

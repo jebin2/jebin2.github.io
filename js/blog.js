@@ -6,6 +6,7 @@
 import { initPage, renderSkeletonRows } from './shared.js';
 import { fetchCached, fetchTextCached } from './cache.js';
 import { formatDate, formatDateShort } from './utils.js';
+import { trackEvent } from './analytics.js';
 
 async function init() {
     const params   = new URLSearchParams(window.location.search);
@@ -35,6 +36,11 @@ async function initListingView() {
     try {
         const manifest = await fetchCached(config.blog_manifest);
         renderListing(manifest.posts || [], document.getElementById('posts-list'));
+        // Track post clicks from listing
+        document.getElementById('posts-list')?.addEventListener('click', e => {
+            const row = e.target.closest('[data-track]');
+            if (row) trackEvent('post_read', row.dataset.track);
+        });
     } catch (err) {
         console.error(err);
         document.getElementById('posts-list').innerHTML =
@@ -66,7 +72,8 @@ function renderListing(posts, container) {
             <div class="group-label">— ${cat} —</div>
             <div class="project-group-items">
                 ${items.map(p => `
-                    <a class="blog-row" href="/writing?post=${encodeURIComponent(p.path)}">
+                    <a class="blog-row" href="/writing?post=${encodeURIComponent(p.path)}"
+                       data-track="${p.title}">
                         <span class="blog-title">${p.title}</span>
                         <span class="blog-meta">
                             <span class="blog-cat">[ ${cat} ]</span>
@@ -101,6 +108,7 @@ async function initPostView(postPath) {
         const nextPost   = idx > 0                ? posts[idx - 1] : null;
 
         document.title = meta ? `jebin2 — ${meta.title}` : 'jebin2 — writing';
+        if (meta?.title) trackEvent('post_read', meta.title);
 
         renderPost(mdText, meta, prevPost, nextPost, main);
     } catch (err) {

@@ -3,6 +3,7 @@
    ============================================ */
 
 import { fetchCached } from './cache.js';
+import { trackPageView } from './analytics.js';
 
 let _config = null;
 
@@ -95,5 +96,6 @@ export async function initPage(activePage = '') {
     if (footerEl) footerEl.innerHTML = renderFooter(config);
 
     initNav();
+    trackPageView();
     return config;
 }

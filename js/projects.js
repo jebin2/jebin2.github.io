@@ -4,6 +4,7 @@
 
 import { initPage, renderSkeletonRows } from './shared.js';
 import { fetchCached } from './cache.js';
+import { trackEvent } from './analytics.js';
 
 const GROUPS = [
     { key: 'ai',   label: '— ai —' },
@@ -24,6 +25,7 @@ async function init() {
         allProjects = await fetchCached(config.projects);
         render('all');
         initFilter();
+        initTracking();
     } catch (err) {
         console.error(err);
         if (listEl) listEl.innerHTML = '<p class="state-msg">failed to load projects.</p>';
@@ -75,12 +77,21 @@ function projectRow(p) {
            href="${p.url}"
            target="_blank"
            rel="noopener noreferrer"
-           title="${p.description}">
+           title="${p.description}"
+           data-track="${p.title}">
             <span class="project-name">${p.title}</span>
             <span class="project-desc">${p.description}</span>
             <span class="project-tag">[ ${p.category} ]</span>
         </a>
     `;
+}
+
+/* ---- Track project clicks ---- */
+function initTracking() {
+    document.getElementById('project-list')?.addEventListener('click', e => {
+        const row = e.target.closest('[data-track]');
+        if (row) trackEvent('project_click', row.dataset.track);
+    });
 }
 
 /* ---- Filter buttons ---- */
