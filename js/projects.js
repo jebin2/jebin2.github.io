@@ -7,17 +7,17 @@ import { fetchCached } from './cache.js';
 import { trackEvent } from './analytics.js';
 
 const GROUPS = [
-    { key: 'ai',   label: '— ai —' },
+    { key: 'ai', label: '— ai —' },
     { key: 'tool', label: '— tools —' },
-    { key: 'dev',  label: '— dev —' },
+    { key: 'dev', label: '— dev —' },
     { key: 'util', label: '— utilities —' },
 ];
 
 let allProjects = [];
 
 async function init() {
-    const config  = await initPage('projects');
-    const listEl  = document.getElementById('project-list');
+    const config = await initPage('projects');
+    const listEl = document.getElementById('project-list');
 
     if (listEl) listEl.innerHTML = renderSkeletonRows(8);
 
@@ -78,7 +78,6 @@ function projectRow(p) {
            target="_blank"
            rel="noopener noreferrer"
            title="${p.description}"
-           data-track="${p.title}">
             <span class="project-name">${p.title}</span>
             <span class="project-desc">${p.description}</span>
             <span class="project-tag">[ ${p.category} ]</span>
