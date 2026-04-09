@@ -36,7 +36,7 @@ jobs:
                   if f.startswith("__"):
                       continue
 
-                  # Get creation date and time (first commit) from git history
+                  # Get creation date (first commit) from git history
                   try:
                       result = subprocess.run(
                           ["git", "log", "--reverse", "--format=%ci", "--", path],
@@ -47,15 +47,22 @@ jobs:
                   except:
                       datetime_str = "2025-09-22 00:00:00 +0000"
 
-                  # Collect .md files
                   if f.endswith(".md") and f not in ["README.md", "index.md", "manifest.json", "prompt.md"]:
+                      title = os.path.splitext(f)[0]
+                      parent_folder = os.path.basename(root)
+
+                      # Post convention: md filename must match its parent folder name
+                      # e.g. C/Bitfields/Bitfields.md  ← valid post
+                      #      C/Bitfields/notes.md       ← skipped (related file)
+                      if title != parent_folder:
+                          continue
+
                       posts.append({
-                          "title": os.path.splitext(os.path.basename(f))[0],
+                          "title": title,
                           "path": path,
                           "date": datetime_str
                       })
 
-                  # Collect .svg files
                   elif f.endswith(".svg"):
                       svgs.append({
                           "name": os.path.splitext(f)[0],
