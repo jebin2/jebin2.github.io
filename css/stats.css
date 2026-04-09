@@ -1,0 +1,82 @@
+/* ============================================
+   Stats Page
+   ============================================ */
+
+.stats-summary {
+    display: flex;
+    gap: 3rem;
+    flex-wrap: wrap;
+    margin-bottom: 1rem;
+}
+
+.stat-card {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+}
+
+.stat-card-value {
+    font-size: 2rem;
+    font-weight: 700;
+    color: var(--primary);
+    line-height: 1;
+}
+
+.stat-card-label {
+    font-size: 0.68rem;
+    color: var(--on-surface-dim);
+    opacity: 0.6;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+
+/* ---- Stat rows ---- */
+.stat-row {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    padding: 0.4rem 0;
+    font-size: 0.875rem;
+}
+
+.stat-row-label {
+    color: var(--primary);
+    min-width: 180px;
+    flex-shrink: 0;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.stat-bar-wrap {
+    flex-grow: 1;
+    height: 2px;
+    background: var(--surface-low);
+    position: relative;
+    min-width: 60px;
+}
+
+.stat-bar {
+    position: absolute;
+    left: 0; top: 0; bottom: 0;
+    background: var(--primary);
+    opacity: 0.5;
+    transition: width 0.4s ease;
+}
+
+.stat-row-value {
+    font-size: 0.75rem;
+    color: var(--on-surface-dim);
+    min-width: 2rem;
+    text-align: right;
+    flex-shrink: 0;
+}
+
+@media (max-width: 640px) {
+    .stat-row-label {
+        min-width: 120px;
+    }
+    .stats-summary {
+        gap: 1.5rem;
+    }
+}
