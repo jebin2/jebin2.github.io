@@ -25,7 +25,6 @@ async function init() {
         allProjects = await fetchCached(config.projects);
         render('all');
         initFilter();
-        initTracking();
     } catch (err) {
         console.error(err);
         if (listEl) listEl.innerHTML = '<p class="state-msg">failed to load projects.</p>';
@@ -83,14 +82,6 @@ function projectRow(p) {
             <span class="project-tag">[ ${p.category} ]</span>
         </a>
     `;
-}
-
-/* ---- Track project clicks ---- */
-function initTracking() {
-    document.getElementById('project-list')?.addEventListener('click', e => {
-        const row = e.target.closest('[data-track]');
-        if (row) trackEvent('project_click', row.dataset.track);
-    });
 }
 
 /* ---- Filter buttons ---- */

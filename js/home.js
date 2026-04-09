@@ -134,18 +134,13 @@ function renderLatestPosts(manifest, container, recentCounts, allTimeCounts) {
     container.innerHTML = sorted.map((p, i) => {
         const slug = encodeURIComponent(p.path);
         return `
-            <a class="project-row" href="/writing?post=${slug}" data-track="${p.title}">
+            <a class="project-row" href="/writing?post=${slug}">
                 <span class="project-num">${String(i + 1).padStart(2, '0')}.</span>
                 <span class="project-name">${p.title}</span>
                 <span class="blog-date">${formatDateShort(p.date)}</span>
             </a>
         `;
     }).join('');
-
-    container.addEventListener('click', e => {
-        const row = e.target.closest('[data-track]');
-        if (row) trackEvent('post_read', row.dataset.track);
-    });
 }
 
 init();
