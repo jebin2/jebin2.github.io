@@ -68,7 +68,7 @@ function renderLatestPosts(manifest, container) {
     container.innerHTML = posts.map(p => {
         const slug = encodeURIComponent(p.path);
         return `
-            <a class="blog-row" href="/blog?post=${slug}">
+            <a class="blog-row" href="/writing?post=${slug}">
                 <span class="blog-title">${p.title}</span>
                 <span class="blog-meta">
                     <span class="blog-date">${formatDateShort(p.date)}</span>

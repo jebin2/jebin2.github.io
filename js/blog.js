@@ -66,7 +66,7 @@ function renderListing(posts, container) {
             <div class="group-label">— ${cat} —</div>
             <div class="project-group-items">
                 ${items.map(p => `
-                    <a class="blog-row" href="?post=${encodeURIComponent(p.path)}">
+                    <a class="blog-row" href="/writing?post=${encodeURIComponent(p.path)}">
                         <span class="blog-title">${p.title}</span>
                         <span class="blog-meta">
                             <span class="blog-cat">[ ${cat} ]</span>
@@ -114,7 +114,7 @@ function renderPost(mdText, meta, prevPost, nextPost, container) {
     const htmlContent = window.marked.parse(mdText);
 
     container.innerHTML = `
-        <a class="back-link" href="/blog">← writing</a>
+        <a class="back-link" href="/writing">← writing</a>
 
         <div class="post-header">
             <h1 class="post-title">${meta?.title || 'untitled'}</h1>
