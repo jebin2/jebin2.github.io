@@ -22,6 +22,8 @@ export async function trackEvent(event_type, label = null) {
 }
 
 export function trackPageView(label = null) {
-    const pageLabel = label ?? document.title.replace('jebin2 — ', '') || 'home';
+    const pageLabel = label !== null && label !== undefined
+        ? label
+        : (document.title.replace('jebin2 — ', '') || 'home');
     trackEvent('page_view', pageLabel);
 }
