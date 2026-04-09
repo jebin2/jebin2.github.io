@@ -29,7 +29,7 @@
     --font:             'JetBrains Mono', 'Fira Code', 'Courier New', monospace;
 
     /* Layout */
-    --max-width:        680px;
+    --max-width:        960px;
     --nav-height:       65px;
     --footer-height:    50px;
 }
@@ -625,6 +625,31 @@ main.container {
 .hljs {
     background: var(--surface-low) !important;
     color: var(--on-surface-dim) !important;
+}
+
+/* ============================================
+   Scrollbar — dark theme
+   ============================================ */
+
+/* Firefox */
+main.container {
+    scrollbar-width: thin;
+    scrollbar-color: var(--surface-high) var(--surface);
+}
+
+/* Chrome / Safari / Edge */
+main.container::-webkit-scrollbar {
+    width: 6px;
+}
+main.container::-webkit-scrollbar-track {
+    background: var(--surface);
+}
+main.container::-webkit-scrollbar-thumb {
+    background: var(--surface-high);
+    border-radius: 0;
+}
+main.container::-webkit-scrollbar-thumb:hover {
+    background: var(--outline);
 }
 
 /* ============================================
