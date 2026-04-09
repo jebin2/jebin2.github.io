@@ -29,7 +29,7 @@
     --font:             'JetBrains Mono', 'Fira Code', 'Courier New', monospace;
 
     /* Layout */
-    --max-width:        960px;
+    --max-width:        80%;
     --nav-height:       65px;
     --footer-height:    50px;
 }
