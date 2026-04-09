@@ -86,8 +86,9 @@ export function renderSkeletonRows(count = 5) {
 }
 
 /* ---- Inject header + footer and init nav ---- */
-export async function initPage(activePage = '') {
+export async function initPage(activePage = '', options = {}) {
     const config = await loadConfig();
+    const { skipTrackPageView = false } = options;
 
     const headerEl = document.getElementById('site-header');
     const footerEl = document.getElementById('site-footer');
@@ -96,6 +97,6 @@ export async function initPage(activePage = '') {
     if (footerEl) footerEl.innerHTML = renderFooter(config);
 
     initNav();
-    trackPageView();
+    if (!skipTrackPageView) trackPageView();
     return config;
 }

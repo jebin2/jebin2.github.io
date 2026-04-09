@@ -4,7 +4,6 @@
 
 import { initPage, renderSkeletonRows } from './shared.js';
 import { fetchCached } from './cache.js';
-import { trackEvent } from './analytics.js';
 
 const GROUPS = [
     { key: 'ai', label: '— ai —' },
@@ -76,7 +75,7 @@ function projectRow(p) {
            href="${p.url}"
            target="_blank"
            rel="noopener noreferrer"
-           title="${p.description}"
+           title="${p.description}">
             <span class="project-name">${p.title}</span>
             <span class="project-desc">${p.description}</span>
             <span class="project-tag">[ ${p.category} ]</span>

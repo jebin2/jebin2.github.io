@@ -5,30 +5,20 @@
 import { initPage, renderSkeletonRows } from './shared.js';
 import { fetchCached } from './cache.js';
 import { formatDateShort } from './utils.js';
-import { trackEvent } from './analytics.js';
-
-const SUPABASE_URL = 'https://bfqcfhvpauvvakgmeuhr.supabase.co';
-const SUPABASE_KEY = 'sb_publishable_yH1CSzF3YQ8FpU-hF-QEtg_ZWaKDLsR';
-const HEADERS = {
-    'apikey': SUPABASE_KEY,
-    'Authorization': `Bearer ${SUPABASE_KEY}`
-};
+import { fetchSupabaseJson } from './supabase.js';
 
 async function fetchStats(view) {
     try {
-        const res = await fetch(`${SUPABASE_URL}/rest/v1/${view}?select=*`, { headers: HEADERS });
-        if (!res.ok) return [];
-        return res.json();
+        return await fetchSupabaseJson(`${view}?select=*`);
     } catch { return []; }
 }
 
 async function fetchRecentEvents(eventType) {
     try {
         const twoWeeksAgo = new Date(Date.now() - 14 * 24 * 60 * 60 * 1000).toISOString();
-        const url = `${SUPABASE_URL}/rest/v1/events?select=label&event_type=eq.${eventType}&created_at=gte.${twoWeeksAgo}`;
-        const res = await fetch(url, { headers: HEADERS });
-        if (!res.ok) return {};
-        const rows = await res.json();
+        const rows = await fetchSupabaseJson(
+            `events?select=label&event_type=eq.${eventType}&created_at=gte.${twoWeeksAgo}`
+        );
         // Count occurrences per label
         return rows.reduce((acc, r) => {
             acc[r.label] = (acc[r.label] || 0) + 1;

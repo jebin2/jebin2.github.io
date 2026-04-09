@@ -3,21 +3,10 @@
    ============================================ */
 
 import { initPage } from './shared.js';
-
-const SUPABASE_URL = 'https://bfqcfhvpauvvakgmeuhr.supabase.co';
-const SUPABASE_KEY = 'sb_publishable_yH1CSzF3YQ8FpU-hF-QEtg_ZWaKDLsR';
-
-const HEADERS = {
-    'apikey':        SUPABASE_KEY,
-    'Authorization': `Bearer ${SUPABASE_KEY}`
-};
+import { fetchSupabaseJson } from './supabase.js';
 
 async function fetchView(view) {
-    const res = await fetch(`${SUPABASE_URL}/rest/v1/${view}?select=*`, {
-        headers: HEADERS
-    });
-    if (!res.ok) throw new Error(`${view} → ${res.status}`);
-    return res.json();
+    return fetchSupabaseJson(`${view}?select=*`);
 }
 
 async function init() {

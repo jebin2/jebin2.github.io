@@ -5,8 +5,8 @@
 
 import { initPage, renderSkeletonRows } from './shared.js';
 import { fetchCached, fetchTextCached } from './cache.js';
-import { formatDate, formatDateShort } from './utils.js';
-import { trackEvent } from './analytics.js';
+import { formatDate, formatDateShort, sanitizeRenderedHTML } from './utils.js';
+import { trackEvent, trackPageView } from './analytics.js';
 
 async function init() {
     const params = new URLSearchParams(window.location.search);
@@ -23,8 +23,9 @@ async function init() {
    Listing view  (/blog/)
    ============================================ */
 async function initListingView() {
-    const config = await initPage('blog');
     document.title = 'jebin2 — writing';
+    const config = await initPage('blog', { skipTrackPageView: true });
+    trackPageView('writing');
 
     const main = document.querySelector('main.container');
     main.innerHTML = `
@@ -84,7 +85,7 @@ function renderListing(posts, container) {
    Post view  (/blog/?post=path/to/post.md)
    ============================================ */
 async function initPostView(postPath) {
-    const config = await initPage('blog');
+    const config = await initPage('blog', { skipTrackPageView: true });
 
     const main = document.querySelector('main.container');
     main.innerHTML = `<div class="post-skeleton">${renderSkeletonRows(10)}</div>`;
@@ -102,6 +103,7 @@ async function initPostView(postPath) {
         const nextPost = idx > 0 ? posts[idx - 1] : null;
 
         document.title = meta ? `jebin2 — ${meta.title}` : 'jebin2 — writing';
+        trackPageView(meta?.title || 'writing');
         if (meta?.title) trackEvent('post_read', meta.title);
 
         renderPost(mdText, meta, prevPost, nextPost, main);
@@ -120,7 +122,7 @@ function renderPost(mdText, meta, prevPost, nextPost, container) {
     const rewritten = baseUrl
         ? mdText.replace(/\]\((?!https?:\/\/)([^)]+)\)/g, `](${baseUrl}$1)`)
         : mdText;
-    const htmlContent = window.marked.parse(rewritten);
+    const htmlContent = sanitizeRenderedHTML(window.marked.parse(rewritten));
 
     container.innerHTML = `
         <a class="back-link" href="/writing">← writing</a>
