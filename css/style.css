@@ -152,23 +152,26 @@ main.container {
    Footer
    ============================================ */
 .site-footer {
+    border-top: 1px solid var(--border);
+}
+
+.footer-inner {
     max-width: var(--max-width);
     margin: 0 auto;
-    padding: 2.5rem 1.25rem;
+    padding: 2rem 1.25rem;
     display: flex;
     gap: 1.25rem;
     align-items: center;
     font-size: 0.68rem;
     color: var(--on-surface-dim);
-    border-top: 1px solid var(--border);
 }
 
-.site-footer a {
+.footer-inner a {
     color: var(--on-surface-dim);
     text-decoration: underline;
     text-underline-offset: 3px;
 }
-.site-footer a:hover {
+.footer-inner a:hover {
     color: var(--primary);
     background: none;
 }

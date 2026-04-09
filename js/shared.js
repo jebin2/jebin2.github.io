@@ -42,9 +42,11 @@ export function renderFooter(config) {
     const sponsor = config?.sponsor || 'https://github.com/sponsors/jebin2';
     return `
         <footer class="site-footer">
-            <span class="footer-name">jebin2</span>
-            <a href="${gh}" target="_blank" rel="noopener noreferrer">github ↗</a>
-            <a href="${sponsor}" target="_blank" rel="noopener noreferrer">sponsor ↗</a>
+            <div class="footer-inner">
+                <span class="footer-name">jebin2</span>
+                <a href="${gh}" target="_blank" rel="noopener noreferrer">github ↗</a>
+                <a href="${sponsor}" target="_blank" rel="noopener noreferrer">sponsor ↗</a>
+            </div>
         </footer>
     `;
 }
