@@ -4,8 +4,8 @@
     "description": "Portfolio of creative projects and web tools",
     "start_url": "/",
     "display": "standalone",
-    "background_color": "#e8f4f5",
-    "theme_color": "#86c5b8",
+    "background_color": "#131313",
+    "theme_color": "#131313",
     "orientation": "portrait-primary",
     "icons": [
         {

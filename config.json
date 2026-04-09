@@ -1,0 +1,9 @@
+{
+    "name": "jebin2",
+    "github": "https://github.com/jebin2",
+    "sponsor": "https://github.com/sponsors/jebin2",
+    "projects": "/data/projects.json",
+    "links": "/data/links.json",
+    "blog_manifest": "https://raw.githubusercontent.com/jebin2/blog/main/manifest.json",
+    "blog_base_url": "https://raw.githubusercontent.com/jebin2/blog/main/"
+}
