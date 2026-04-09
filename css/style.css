@@ -31,6 +31,7 @@
     /* Layout */
     --max-width:        680px;
     --nav-height:       65px;
+    --footer-height:    50px;
 }
 
 /* ============================================
@@ -44,7 +45,11 @@
 
 html {
     font-size: 16px;
-    scroll-behavior: smooth;
+}
+
+html, body {
+    height: 100%;
+    overflow: hidden;
 }
 
 body {
@@ -53,7 +58,6 @@ body {
     font-family: var(--font);
     -webkit-font-smoothing: antialiased;
     line-height: 1.6;
-    min-height: 100vh;
 }
 
 a {
@@ -81,8 +85,10 @@ button {
 }
 
 main.container {
-    padding-top: calc(var(--nav-height) + 4rem);
-    padding-bottom: 6rem;
+    height: 100vh;
+    overflow-y: auto;
+    padding-top: calc(var(--nav-height) + 3rem);
+    padding-bottom: calc(var(--footer-height) + 3rem);
 }
 
 /* ============================================
@@ -149,16 +155,22 @@ main.container {
 }
 
 /* ============================================
-   Footer
+   Footer — fixed at bottom, matches header
    ============================================ */
 .site-footer {
+    position: fixed;
+    bottom: 0; left: 0; right: 0;
+    z-index: 100;
+    background: var(--surface);
     border-top: 1px solid var(--border);
+    height: var(--footer-height);
 }
 
 .footer-inner {
     max-width: var(--max-width);
     margin: 0 auto;
-    padding: 2rem 1.25rem;
+    padding: 0 1.25rem;
+    height: 100%;
     display: flex;
     gap: 1.25rem;
     align-items: center;
