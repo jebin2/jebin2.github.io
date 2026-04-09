@@ -10,7 +10,7 @@ import { trackEvent } from './analytics.js';
 const SUPABASE_URL = 'https://bfqcfhvpauvvakgmeuhr.supabase.co';
 const SUPABASE_KEY = 'sb_publishable_yH1CSzF3YQ8FpU-hF-QEtg_ZWaKDLsR';
 const HEADERS = {
-    'apikey':        SUPABASE_KEY,
+    'apikey': SUPABASE_KEY,
     'Authorization': `Bearer ${SUPABASE_KEY}`
 };
 
@@ -67,10 +67,10 @@ async function init() {
     const config = await initPage('');
 
     const featuredEl = document.getElementById('featured-list');
-    const blogEl     = document.getElementById('blog-list');
+    const blogEl = document.getElementById('blog-list');
 
     if (featuredEl) featuredEl.innerHTML = renderSkeletonRows(5);
-    if (blogEl)     blogEl.innerHTML     = renderSkeletonRows(3);
+    if (blogEl) blogEl.innerHTML = renderSkeletonRows(3);
 
     try {
         const [projects, manifest, projectStats, postStats, recentProjects, recentPosts] = await Promise.all([
@@ -94,7 +94,7 @@ async function init() {
     } catch (err) {
         console.error(err);
         if (featuredEl) featuredEl.innerHTML = '<p class="state-msg">failed to load projects.</p>';
-        if (blogEl)     blogEl.innerHTML     = '<p class="state-msg">failed to load posts.</p>';
+        if (blogEl) blogEl.innerHTML = '<p class="state-msg">failed to load posts.</p>';
     }
 }
 
@@ -110,18 +110,13 @@ function renderFeatured(projects, container, recentCounts, allTimeCounts) {
 
     container.innerHTML = sorted.map((p, i) => `
         <a class="project-row" href="${p.url}" target="_blank" rel="noopener noreferrer"
-           title="${p.description}" data-track="${p.title}">
+           title="${p.description}">
             <span class="project-num">${String(i + 1).padStart(2, '0')}.</span>
             <span class="project-name">${p.title}</span>
             <span class="project-desc">${p.description}</span>
             <span class="project-tag">[ ${p.category} ]</span>
         </a>
     `).join('');
-
-    container.addEventListener('click', e => {
-        const row = e.target.closest('[data-track]');
-        if (row) trackEvent('project_click', row.dataset.track);
-    });
 }
 
 function renderLatestPosts(manifest, container, recentCounts, allTimeCounts) {
