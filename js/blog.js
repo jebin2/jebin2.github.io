@@ -118,8 +118,15 @@ async function initPostView(postPath) {
 }
 
 function renderPost(mdText, meta, prevPost, nextPost, container) {
-    const cat         = meta ? getCategory(meta.path) : '';
-    const htmlContent = window.marked.parse(mdText);
+    const cat     = meta ? getCategory(meta.path) : '';
+    // Rewrite relative links/images to absolute raw GitHub URLs
+    const baseUrl = meta
+        ? `https://raw.githubusercontent.com/jebin2/blog/main/${getPostDir(meta.path)}/`
+        : '';
+    const rewritten = baseUrl
+        ? mdText.replace(/\]\((?!https?:\/\/)([^)]+)\)/g, `](${baseUrl}$1)`)
+        : mdText;
+    const htmlContent = window.marked.parse(rewritten);
 
     container.innerHTML = `
         <a class="back-link" href="/writing">← writing</a>
@@ -158,6 +165,13 @@ function renderPost(mdText, meta, prevPost, nextPost, container) {
 function getCategory(path) {
     const parts = path.split('/');
     return parts.length > 1 ? parts[0].toLowerCase() : 'misc';
+}
+
+// Returns the directory containing the post MD
+// e.g. "C/Bitfields/Bitfields.md" → "C/Bitfields"
+function getPostDir(path) {
+    const parts = path.split('/');
+    return parts.slice(0, -1).join('/');
 }
 
 init();
