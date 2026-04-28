@@ -98,15 +98,26 @@ function renderFeatured(projects, container, recentCounts, allTimeCounts) {
 
     const sorted = smartSort(projects, recentCounts, allTimeCounts, 'title');
 
-    container.innerHTML = sorted.map((p, i) => `
-        <a class="project-row" href="${p.url}" target="_blank" rel="noopener noreferrer"
-           title="${p.description}">
-            <span class="project-num">${String(i + 1).padStart(2, '0')}.</span>
-            <span class="project-name">${p.title}</span>
-            <span class="project-desc">${p.description}</span>
-            <span class="project-tag">[ ${p.category} ]</span>
-        </a>
-    `).join('');
+    container.innerHTML = `
+        <div class="project-group-items">
+            ${sorted.map((p, i) => {
+                const rotate = (i % 2 === 0 ? 0.5 : -0.5) + (Math.random() * 0.4 - 0.2);
+                const tape = i === 0 ? '<div class="tape"></div>' : '';
+                return `
+                    <a class="project-row sketch-card bg-surface" href="${p.url}" target="_blank" rel="noopener noreferrer"
+                       title="${p.description}" style="--rotate: ${rotate}deg">
+                        ${tape}
+                        <span class="project-num">${String(i + 1).padStart(2, '0')}.</span>
+                        <div class="flex flex-col flex-grow">
+                            <span class="project-name">${p.title}</span>
+                            <span class="project-desc">${p.description}</span>
+                        </div>
+                        <span class="project-tag">${p.category}</span>
+                    </a>
+                `;
+            }).join('')}
+        </div>
+    `;
 }
 
 function renderLatestPosts(manifest, container, recentCounts, allTimeCounts) {
@@ -121,16 +132,26 @@ function renderLatestPosts(manifest, container, recentCounts, allTimeCounts) {
 
     const sorted = smartSort(posts, recentCounts, allTimeCounts, 'title');
 
-    container.innerHTML = sorted.map((p, i) => {
-        const slug = encodeURIComponent(p.path);
-        return `
-            <a class="project-row" href="/writing?post=${slug}">
-                <span class="project-num">${String(i + 1).padStart(2, '0')}.</span>
-                <span class="project-name">${p.title}</span>
-                <span class="blog-date">${formatDateShort(p.date)}</span>
-            </a>
-        `;
-    }).join('');
+    container.innerHTML = `
+        <div class="project-group-items">
+            ${sorted.map((p, i) => {
+                const slug = encodeURIComponent(p.path);
+                const rotate = (i % 2 === 0 ? -0.5 : 0.5) + (Math.random() * 0.4 - 0.2);
+                const tape = i === 1 ? '<div class="tape"></div>' : '';
+                return `
+                    <a class="project-row sketch-card bg-surface" href="/writing?post=${slug}" style="--rotate: ${rotate}deg">
+                        ${tape}
+                        <span class="project-num">${String(i + 1).padStart(2, '0')}.</span>
+                        <div class="flex flex-col flex-grow">
+                            <span class="project-name">${p.title}</span>
+                            <span class="blog-date text-sm opacity-60">${formatDateShort(p.date)}</span>
+                        </div>
+                        <span class="material-symbols-outlined text-crayon-purple">arrow_forward</span>
+                    </a>
+                `;
+            }).join('')}
+        </div>
+    `;
 }
 
 init();

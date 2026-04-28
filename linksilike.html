@@ -3,9 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
     <meta name="description" content="jebin2 — corners of the web i keep returning to.">
     <meta name="author" content="jebin2">
-    <meta name="theme-color" content="#131313">
+    <meta name="theme-color" content="#e6f0fd">
 
     <!-- Open Graph -->
     <meta property="og:title" content="jebin2 — links">
@@ -20,9 +21,10 @@
     <link rel="manifest" href="manifest.json">
 
     <!-- Font -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@300..700&family=Caveat:wght@400..700&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet"
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
 
     <!-- Styles -->
     <link rel="stylesheet" href="css/style.css">
@@ -30,19 +32,59 @@
     <title>jebin2 — links</title>
 </head>
 <body>
+    <!-- Main Background Decorations -->
+    <div class="fixed inset-0 pointer-events-none overflow-hidden -z-10 opacity-40">
+        <span class="material-symbols-outlined absolute text-5xl text-crayon-yellow top-20 left-[10%] rotate-12 crayon-heavy animate-pulse">star</span>
+        <span class="material-symbols-outlined absolute text-7xl text-crayon-blue top-[15%] right-[20%] -rotate-6 crayon-heavy opacity-50">cloud</span>
+    </div>
+
     <div id="site-header"></div>
 
     <main class="container">
 
-        <div class="section-label">// corners of the web i keep returning to</div>
-        <p class="links-subtitle">sites i find myself going back to.</p>
+        <div class="section-label">Corners of the Web</div>
+        
+        <div class="flex flex-col md:flex-row gap-8 mt-8">
+            <div class="flex-1">
+                <p class="links-subtitle mb-6 text-2xl font-bold opacity-70">sites i find myself going back to.</p>
+                
+                <!-- Search Bar -->
+                <div class="relative max-width-md mb-8">
+                    <input type="text" id="links-search" 
+                           placeholder="search for something cool..." 
+                           class="w-full bg-surface-glass border-4 border-crayon-blue rounded-xl p-4 pl-12 text-lg font-bold outline-none focus:ring-4 ring-crayon-blue/10 transition-all organic-shape"
+                           style="filter: url('#crayon-texture');">
+                    <span class="material-symbols-outlined absolute left-4 top-1/2 -translate-y-1/2 text-crayon-blue">search</span>
+                </div>
 
-        <div id="links-list" class="tags-wrap"></div>
+                <div class="divider"></div>
+                <div id="links-list" class="tags-wrap"></div>
+            </div>
+
+            <!-- Sticky Note Decoration -->
+            <div class="w-full md:w-64 flex-shrink-0">
+                <div class="sticky-note rotate-2">
+                    <h3 class="text-xl font-bold mb-2">Note:</h3>
+                    <p>this is a curated list of digital gems. some are useful, some are art, all are interesting.</p>
+                    <div class="mt-4 text-sm opacity-60 italic">— jebin</div>
+                </div>
+            </div>
+        </div>
 
     </main>
 
     <div id="site-footer"></div>
 
     <script type="module" src="js/links.js"></script>
+
+    <!-- SVG Filters -->
+    <svg style="visibility: hidden; position: absolute;" width="0" height="0" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+            <filter id="crayon-texture">
+                <feTurbulence type="fractalNoise" baseFrequency="0.04" numOctaves="5" result="noise" />
+                <feDisplacementMap in="SourceGraphic" in2="noise" scale="2" xChannelSelector="R" yChannelSelector="G" />
+            </filter>
+        </defs>
+    </svg>
 </body>
 </html>

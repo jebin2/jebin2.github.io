@@ -44,13 +44,13 @@ function renderSummary(pages, projects, posts) {
     const totalReads    = posts.reduce((s, r) => s + r.reads, 0);
 
     el.innerHTML = [
-        { value: totalViews,  label: 'page views' },
-        { value: totalClicks, label: 'project clicks' },
-        { value: totalReads,  label: 'post reads' },
+        { value: totalViews,  label: 'page views', color: 'var(--crayon-blue)' },
+        { value: totalClicks, label: 'project clicks', color: 'var(--crayon-purple)' },
+        { value: totalReads,  label: 'post reads', color: 'var(--crayon-orange)' },
     ].map(s => `
-        <div class="stat-card">
-            <span class="stat-card-value">${s.value.toLocaleString()}</span>
-            <span class="stat-card-label">${s.label}</span>
+        <div class="stat-card organic-shape bg-surface p-6 border-4 shadow-md" style="border-color: ${s.color};">
+            <span class="stat-card-value text-3xl font-bold block" style="color: ${s.color};">${s.value.toLocaleString()}</span>
+            <span class="stat-card-label font-accent text-xl opacity-80">${s.label}</span>
         </div>
     `).join('');
 }
@@ -69,15 +69,17 @@ function renderRows(containerId, rows, labelKey, valueKey) {
 
     el.innerHTML = rows.map((r, i) => {
         const pct = max > 0 ? (r[valueKey] / max) * 100 : 0;
+        const rotate = (Math.random() * 0.4 - 0.2);
         return `
-            <div class="stat-row">
-                <span class="stat-row-label" title="${r[labelKey]}">
-                    <span style="color:var(--tertiary);margin-right:0.5rem">${String(i + 1).padStart(2, '0')}.</span>${r[labelKey] || '—'}
-                </span>
-                <div class="stat-bar-wrap">
-                    <div class="stat-bar" style="width:${pct.toFixed(1)}%"></div>
+            <div class="project-row sketch-card bg-surface" style="--rotate: ${rotate}deg; padding: 1rem 1.5rem; margin-bottom: 0.75rem;">
+                <span class="project-num" style="min-width: 2.5rem;">${String(i + 1).padStart(2, '0')}.</span>
+                <div class="flex flex-col flex-grow gap-2">
+                    <span class="project-name text-lg">${r[labelKey] || '—'}</span>
+                    <div class="h-3 bg-slate-100 rounded-full overflow-hidden border-2 border-crayon-light-blue crayon-filter">
+                        <div class="h-full bg-crayon-blue opacity-40" style="width:${pct.toFixed(1)}%"></div>
+                    </div>
                 </div>
-                <span class="stat-row-value">${r[valueKey]}</span>
+                <span class="font-accent text-2xl text-crayon-blue font-bold ml-4">${r[valueKey]}</span>
             </div>
         `;
     }).join('');

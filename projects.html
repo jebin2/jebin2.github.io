@@ -3,9 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
     <meta name="description" content="jebin2 — all projects.">
     <meta name="author" content="jebin2">
-    <meta name="theme-color" content="#131313">
+    <meta name="theme-color" content="#e6f0fd">
 
     <!-- Open Graph -->
     <meta property="og:title" content="jebin2 — projects">
@@ -20,9 +21,10 @@
     <link rel="manifest" href="manifest.json">
 
     <!-- Font -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@300..700&family=Caveat:wght@400..700&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet"
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
 
     <!-- Styles -->
     <link rel="stylesheet" href="css/style.css">
@@ -30,32 +32,80 @@
     <title>jebin2 — projects</title>
 </head>
 <body>
+    <!-- Main Background Decorations -->
+    <div class="fixed inset-0 pointer-events-none overflow-hidden -z-10 opacity-40">
+        <span class="material-symbols-outlined absolute text-5xl text-crayon-yellow top-20 left-[10%] rotate-12 crayon-heavy animate-pulse">star</span>
+        <span class="material-symbols-outlined absolute text-7xl text-crayon-blue top-[15%] right-[20%] -rotate-6 crayon-heavy opacity-50">cloud</span>
+        <span class="material-symbols-outlined absolute text-4xl text-crayon-red top-[25%] left-[30%] rotate-12 crayon-heavy">favorite</span>
+    </div>
+
     <div id="site-header"></div>
 
     <main class="container">
+        <div class="divider"></div>
+        <div class="section-label">Projects</div>
 
-        <div class="section-label">// projects</div>
+        <div class="flex flex-col md:flex-row gap-8 mt-8">
+            <div class="flex-1">
+                <!-- Filter & Search Wrap -->
+                <div class="flex flex-col sm:flex-row gap-4 justify-between items-start sm:items-center mb-8">
+                    <!-- Filter bar -->
+                    <nav class="filter-bar" aria-label="Filter projects by category">
+                        <button class="filter-btn active" data-filter="all">all</button>
+                        <span class="filter-sep">·</span>
+                        <button class="filter-btn" data-filter="ai">ai</button>
+                        <span class="filter-sep">·</span>
+                        <button class="filter-btn" data-filter="tool">tool</button>
+                        <span class="filter-sep">·</span>
+                        <button class="filter-btn" data-filter="dev">dev</button>
+                        <span class="filter-sep">·</span>
+                        <button class="filter-btn" data-filter="util">util</button>
+                    </nav>
 
-        <!-- Filter bar -->
-        <nav class="filter-bar" aria-label="Filter projects by category">
-            <button class="filter-btn active" data-filter="all">all</button>
-            <span class="filter-sep">·</span>
-            <button class="filter-btn" data-filter="ai">ai</button>
-            <span class="filter-sep">·</span>
-            <button class="filter-btn" data-filter="tool">tool</button>
-            <span class="filter-sep">·</span>
-            <button class="filter-btn" data-filter="dev">dev</button>
-            <span class="filter-sep">·</span>
-            <button class="filter-btn" data-filter="util">util</button>
-        </nav>
+                    <!-- Search -->
+                    <div class="relative w-full sm:w-64">
+                        <input type="text" id="project-search" 
+                               placeholder="search projects..." 
+                               class="w-full bg-surface-glass border-3 border-crayon-blue rounded-xl p-2 pl-10 text-lg font-bold outline-none organic-shape"
+                               style="filter: url('#crayon-texture');">
+                        <span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-crayon-blue text-xl">search</span>
+                    </div>
+                </div>
 
-        <!-- Project list -->
-        <div id="project-list"></div>
+                <div class="divider opacity-30"></div>
+
+                <!-- Project list -->
+                <div id="project-list"></div>
+            </div>
+
+            <!-- Sticky Note -->
+            <div class="w-full md:w-64 flex-shrink-0 mt-4 md:mt-12">
+                <div class="sticky-note -rotate-2">
+                    <h3 class="text-xl font-bold mb-2">Portfolio</h3>
+                    <p>a collection of my experiments in AI, web development, and system utilities.</p>
+                    <div class="mt-4 text-sm opacity-60">updated recently!</div>
+                </div>
+            </div>
+        </div>
 
     </main>
 
     <div id="site-footer"></div>
 
     <script type="module" src="js/projects.js"></script>
+
+    <!-- SVG Filters -->
+    <svg style="visibility: hidden; position: absolute;" width="0" height="0" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+            <filter id="crayon-texture">
+                <feTurbulence type="fractalNoise" baseFrequency="0.04" numOctaves="5" result="noise" />
+                <feDisplacementMap in="SourceGraphic" in2="noise" scale="2" xChannelSelector="R" yChannelSelector="G" />
+            </filter>
+            <filter id="crayon-heavy">
+                <feTurbulence type="fractalNoise" baseFrequency="0.03" numOctaves="3" result="noise" />
+                <feDisplacementMap in="SourceGraphic" in2="noise" scale="3" xChannelSelector="R" yChannelSelector="G" />
+            </filter>
+        </defs>
+    </svg>
 </body>
 </html>

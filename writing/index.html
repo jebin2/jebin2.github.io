@@ -3,9 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
     <meta name="description" content="jebin2 — notes on things i build and learn.">
     <meta name="author" content="jebin2">
-    <meta name="theme-color" content="#131313">
+    <meta name="theme-color" content="#e6f0fd">
 
     <!-- Open Graph -->
     <meta property="og:title" content="jebin2 — writing">
@@ -20,9 +21,10 @@
     <link rel="apple-touch-icon" sizes="180x180" href="/assets/icons/apple-touch-icon.png">
 
     <!-- Font -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@300..700&family=Caveat:wght@400..700&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet"
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
 
     <!-- Design system — single source of truth -->
     <link rel="stylesheet" href="/css/style.css">
@@ -33,9 +35,18 @@
     <title>jebin2 — writing</title>
 </head>
 <body>
+    <!-- Main Background Decorations -->
+    <div class="fixed inset-0 pointer-events-none overflow-hidden -z-10 opacity-40">
+        <span class="material-symbols-outlined absolute text-5xl text-crayon-yellow top-20 left-[10%] rotate-12 crayon-heavy animate-pulse">star</span>
+        <span class="material-symbols-outlined absolute text-7xl text-crayon-blue top-[15%] right-[20%] -rotate-6 crayon-heavy opacity-50">cloud</span>
+        <span class="material-symbols-outlined absolute text-4xl text-crayon-red top-[25%] left-[30%] rotate-12 crayon-heavy">favorite</span>
+    </div>
+
     <div id="site-header"></div>
 
     <main class="container">
+        <div class="divider"></div>
+        <div class="section-label">Writing</div>
         <!-- Filled dynamically by /js/blog.js -->
     </main>
 
@@ -49,5 +60,15 @@
 
     <!-- Blog logic -->
     <script type="module" src="/js/blog.js"></script>
+
+    <!-- SVG Filters -->
+    <svg style="visibility: hidden; position: absolute;" width="0" height="0" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+            <filter id="crayon-texture">
+                <feTurbulence type="fractalNoise" baseFrequency="0.04" numOctaves="5" result="noise" />
+                <feDisplacementMap in="SourceGraphic" in2="noise" scale="2" xChannelSelector="R" yChannelSelector="G" />
+            </filter>
+        </defs>
+    </svg>
 </body>
 </html>

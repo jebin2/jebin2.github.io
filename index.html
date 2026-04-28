@@ -4,9 +4,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
     <meta name="description" content="jebin2 — software developer. i build tools.">
     <meta name="author" content="jebin2">
-    <meta name="theme-color" content="#131313">
+    <meta name="theme-color" content="#e6f0fd">
 
     <!-- Open Graph -->
     <meta property="og:title" content="jebin2">
@@ -27,10 +28,10 @@
     <link rel="manifest" href="manifest.json">
 
     <!-- Font -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&display=swap"
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@300..700&family=Caveat:wght@400..700&display=swap"
         rel="stylesheet">
+    <link rel="stylesheet"
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
 
     <!-- Styles -->
     <link rel="stylesheet" href="css/style.css">
@@ -39,17 +40,62 @@
 </head>
 
 <body>
+    <!-- Main Background Decorations -->
+    <div class="fixed inset-0 pointer-events-none overflow-hidden -z-10 opacity-40">
+        <!-- Stars -->
+        <span
+            class="material-symbols-outlined absolute text-5xl text-crayon-yellow top-20 left-[10%] rotate-12 crayon-heavy animate-pulse">star</span>
+        <span
+            class="material-symbols-outlined absolute text-3xl text-crayon-yellow top-[60%] right-[15%] -rotate-12 crayon-heavy">star</span>
+        <span
+            class="material-symbols-outlined absolute text-4xl text-crayon-yellow bottom-20 left-[20%] rotate-45 crayon-heavy">star</span>
+
+        <!-- Clouds -->
+        <span
+            class="material-symbols-outlined absolute text-7xl text-crayon-blue top-[15%] right-[20%] -rotate-6 crayon-heavy opacity-50">cloud</span>
+        <span
+            class="material-symbols-outlined absolute text-8xl text-crayon-blue bottom-[30%] left-[5%] rotate-12 crayon-heavy opacity-30">cloud</span>
+        <span
+            class="material-symbols-outlined absolute text-6xl text-crayon-blue top-[40%] right-[5%] -rotate-12 crayon-heavy opacity-40">cloud</span>
+
+        <!-- Hearts -->
+        <span
+            class="material-symbols-outlined absolute text-4xl text-crayon-red top-[25%] left-[30%] rotate-12 crayon-heavy">favorite</span>
+        <span
+            class="material-symbols-outlined absolute text-5xl text-crayon-red bottom-[15%] right-[30%] -rotate-12 crayon-heavy">favorite</span>
+
+        <!-- Extra Doodles -->
+        <span class="material-symbols-outlined absolute text-6xl text-crayon-orange top-[50%] left-[2%] rotate-45 opacity-20">brush</span>
+        <span class="material-symbols-outlined absolute text-5xl text-crayon-green bottom-[10%] left-[40%] -rotate-12 opacity-20">lightbulb</span>
+    </div>
+
     <div id="site-header"></div>
 
     <main class="container">
 
         <!-- Intro -->
-        <section class="intro section">
-            <p class="intro-line primary-text">learner. developer. builder.</p>
+        <section class="intro section mb-16">
+            <div class="flex flex-col md:flex-row gap-12 items-center">
+                <div class="flex-1">
+                    <p class="intro-line primary-text mb-4">learner. developer. builder.</p>
+                    <p class="text-2xl font-bold opacity-60 font-ui mt-4">building digital tools with care and craft.</p>
+                </div>
+                
+                <div class="w-full md:w-80 flex-shrink-0">
+                    <div class="sticky-note rotate-3 hover:rotate-0 transition-transform cursor-default">
+                        <h2 class="text-3xl font-bold mb-4">Hello! 👋</h2>
+                        <p class="leading-relaxed">i'm jebin. i love exploring the intersections of systems programming, AI, and creative web design.</p>
+                        <div class="mt-6 flex gap-4">
+                            <span class="text-sm px-2 py-1 bg-white/30 rounded border border-black/5 font-bold">Currently: coding</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </section>
 
         <!-- Featured Projects -->
         <section class="section">
+            <div class="divider"></div>
             <div class="section-label">Projects</div>
             <div id="featured-list"></div>
             <a class="view-all" href="/projects">all projects →</a>
@@ -57,6 +103,7 @@
 
         <!-- Latest Writing -->
         <section class="section">
+            <div class="divider"></div>
             <div class="section-label">Writing</div>
             <div id="blog-list"></div>
             <a class="view-all" href="/writing">all posts →</a>
@@ -67,6 +114,21 @@
     <div id="site-footer"></div>
 
     <script type="module" src="js/home.js"></script>
+
+    <!-- SVG Filters for Crayon Effect -->
+    <svg style="visibility: hidden; position: absolute;" width="0" height="0" xmlns="http://www.w3.org/2000/svg"
+        version="1.1">
+        <defs>
+            <filter id="crayon-texture">
+                <feTurbulence type="fractalNoise" baseFrequency="0.04" numOctaves="5" result="noise" />
+                <feDisplacementMap in="SourceGraphic" in2="noise" scale="2" xChannelSelector="R" yChannelSelector="G" />
+            </filter>
+            <filter id="crayon-heavy">
+                <feTurbulence type="fractalNoise" baseFrequency="0.03" numOctaves="3" result="noise" />
+                <feDisplacementMap in="SourceGraphic" in2="noise" scale="3" xChannelSelector="R" yChannelSelector="G" />
+            </filter>
+        </defs>
+    </svg>
 </body>
 
 </html>
