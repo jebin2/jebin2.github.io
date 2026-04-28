@@ -35,6 +35,9 @@ export function renderHeader(activePage = '') {
                         <span class="material-symbols-outlined">menu</span>
                     </button>
                     <ul class="nav-links" id="navLinks">${navItems}</ul>
+                    <button class="theme-toggle ml-4" id="themeToggle" aria-label="Toggle theme">
+                        <span class="material-symbols-outlined">light_mode</span>
+                    </button>
                 </nav>
                 
                 <!-- Header Sketches -->
@@ -123,9 +126,45 @@ export async function initPage(activePage = '', options = {}) {
     if (footerEl) footerEl.innerHTML = renderFooter(config);
 
     initNav();
+    initTheme();
     initParallaxDoodles();
     if (!skipTrackPageView) trackPageView();
     return config;
+}
+
+/* ---- Theme Toggle ---- */
+export function initTheme() {
+    const toggle = document.getElementById('themeToggle');
+    if (!toggle) return;
+
+    const getTheme = () => {
+        const stored = localStorage.getItem('theme');
+        if (stored) return stored;
+        return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+    };
+
+    const setTheme = (theme) => {
+        document.documentElement.setAttribute('data-theme', theme);
+        localStorage.setItem('theme', theme);
+        
+        const icon = theme === 'dark' ? 'light_mode' : 'dark_mode';
+        toggle.querySelector('.material-symbols-outlined').textContent = icon;
+    };
+
+    // Init
+    setTheme(getTheme());
+
+    toggle.addEventListener('click', () => {
+        const current = document.documentElement.getAttribute('data-theme');
+        setTheme(current === 'dark' ? 'light' : 'dark');
+    });
+
+    // Listen for system changes
+    window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', (e) => {
+        if (!localStorage.getItem('theme')) {
+            setTheme(e.matches ? 'dark' : 'light');
+        }
+    });
 }
 /**
  * Injects floating doodles that move slightly on scroll
