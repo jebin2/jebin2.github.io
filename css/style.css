@@ -615,33 +615,102 @@ main.container {
    Blog Post Content
    ============================================ */
 .post-body {
-    font-size: 1.15rem;
+    font-size: 1.2rem;
     line-height: 1.8;
     color: #1a202c;
     font-weight: 500;
     position: relative;
-    padding: 2.5rem;
-    background:
-        linear-gradient(rgba(173, 198, 255, 0.1) 1px, transparent 1px);
-    background-size: 100% 1.8rem;
-    background-color: var(--surface-glass);
-    border: 5px solid var(--crayon-blue);
-    border-radius: 15px 50px 20px 40px / 40px 20px 50px 15px;
-    /* Organic shape */
-    filter: url('#crayon-texture');
-    box-shadow: 12px 12px 0px rgba(37, 99, 235, 0.1);
+    padding: 3.5rem 3rem 4rem 8.5rem !important; /* Significant left padding */
+    background: 
+        linear-gradient(90deg, rgba(239, 68, 68, 0.2) 0px, rgba(239, 68, 68, 0.2) 2px, transparent 2px) 7rem 0,
+        linear-gradient(rgba(173, 198, 255, 0.15) 1px, transparent 1px);
+    background-size: 100% 100%, 100% 1.8rem;
+    background-repeat: no-repeat, repeat;
+    background-color: #ffffff;
+    border: none !important;
+    box-shadow: 15px 15px 35px rgba(0,0,0,0.05);
     margin-top: 3rem;
-    margin-bottom: 3rem;
+    margin-bottom: 4rem;
+    filter: url('#crayon-texture');
+    
+    /* Torn bottom edge */
+    clip-path: polygon(
+        -5% -5%, 105% -5%, 105% 98%, 
+        95% 100%, 90% 98%, 85% 100%, 80% 98%, 75% 100%, 70% 98%, 65% 100%, 60% 98%, 55% 100%, 50% 98%, 45% 100%, 40% 98%, 35% 100%, 30% 98%, 25% 100%, 20% 98%, 15% 100%, 10% 98%, 5% 100%, -5% 98%
+    );
+}
+
+/* Spiral Notebook Holes */
+.post-body::after {
+    content: '';
+    position: absolute;
+    top: 2rem;
+    left: 1.5rem;
+    bottom: 2rem;
+    width: 20px;
+    background-image: radial-gradient(circle, #e2e8f0 6px, transparent 7px);
+    background-size: 20px 2.5rem;
+    opacity: 0.8;
+    z-index: 5;
+}
+
+.post-header {
+    background: #f0f9ff !important; /* Soft Sky Blue */
+    border: 3px solid var(--crayon-blue) !important;
+    border-radius: 4px 20px 5px 15px / 15px 5px 20px 4px !important;
+    transform: rotate(-0.5deg);
+    position: relative;
+    z-index: 10;
+}
+
+.post-header::before {
+    content: '';
+    position: absolute;
+    top: -15px;
+    right: 40px;
+    width: 80px;
+    height: 30px;
+    background: rgba(255, 255, 255, 0.4);
+    backdrop-filter: blur(4px);
+    border: 1px solid rgba(0,0,0,0.05);
+    transform: rotate(5deg);
+}
+
+.post-title {
+    font-family: var(--font-ui) !important;
+    color: var(--on-surface) !important;
+    background: linear-gradient(120deg, rgba(186, 230, 253, 0.5) 0%, rgba(186, 230, 253, 0.5) 100%);
+    background-repeat: no-repeat;
+    background-size: 100% 0.4em;
+    background-position: 0 0.8em;
+    display: inline;
 }
 
 .post-body h1,
 .post-body h2,
 .post-body h3 {
     font-family: var(--font-ui);
-    color: var(--crayon-blue);
-    margin: 2.5rem 0 1rem;
+    color: var(--on-surface);
+    margin: 3rem 0 1.5rem;
     font-weight: 700;
     filter: url('#crayon-texture');
+}
+
+.post-body h2 {
+    border-bottom: 2px solid var(--crayon-light-blue);
+    padding-bottom: 0.3rem;
+    position: relative;
+}
+
+.post-body h2::after {
+    content: '';
+    position: absolute;
+    bottom: -5px;
+    left: 0;
+    width: 40px;
+    height: 4px;
+    background: var(--crayon-red);
+    border-radius: 2px;
 }
 
 .post-body p {
@@ -670,20 +739,30 @@ main.container {
 
 /* Upgraded Code Blocks */
 .post-body pre {
-    background: #ffffff;
-    background-image:
-        linear-gradient(rgba(173, 198, 255, 0.1) 1px, transparent 1px),
-        linear-gradient(90deg, rgba(173, 198, 255, 0.1) 1px, transparent 1px);
-    background-size: 20px 20px;
-    /* Graph paper texture */
-    border: 4px solid var(--crayon-blue);
+    background: #0f172a; /* Deep Blueprint Blue */
+    background-image: 
+        linear-gradient(rgba(56, 189, 248, 0.1) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(56, 189, 248, 0.1) 1px, transparent 1px);
+    background-size: 15px 15px;
+    border: 3px solid var(--crayon-blue);
     border-radius: 4px 15px 4px 12px / 12px 4px 15px 4px;
-    padding: 2rem 1.5rem;
-    margin: 2.5rem 0;
+    padding: 2.5rem 2rem;
+    margin: 3rem 0;
     overflow-x: auto;
     filter: url('#crayon-texture');
-    box-shadow: 10px 10px 0px rgba(37, 99, 235, 0.05);
+    box-shadow: 12px 12px 0px rgba(15, 23, 42, 0.1);
     position: relative;
+}
+
+.post-body pre::after {
+    content: 'SCHEMATIC // 01';
+    position: absolute;
+    top: 8px;
+    left: 20px;
+    font-family: var(--font-accent);
+    font-size: 0.8rem;
+    color: rgba(56, 189, 248, 0.4);
+    letter-spacing: 0.1em;
 }
 
 .post-body pre::before {
@@ -772,67 +851,67 @@ main.container {
 }
 
 /* Margin Decorations */
-.post-body {
-    position: relative;
-}
-
-.post-body::after {
-    content: '✏️';
-    position: absolute;
-    right: -1rem;
-    top: 5rem;
-    font-size: 2rem;
-    opacity: 0.3;
-    transform: rotate(15deg);
-    pointer-events: none;
-}
-
 .post-body::before {
-    content: '✨';
+    content: '📌';
     position: absolute;
-    left: -1rem;
-    bottom: 10rem;
-    font-size: 1.5rem;
-    opacity: 0.2;
-    pointer-events: none;
+    right: 1rem;
+    top: 1rem; /* Moved inside the paper area */
+    font-size: 2rem;
+    z-index: 20;
+    filter: drop-shadow(2px 4px 4px rgba(0,0,0,0.2));
 }
 
-/* Blockquotes */
+/* Blockquotes unified as sticky notes */
 .post-body blockquote {
-    border-left: 6px solid var(--crayon-orange);
-    padding: 1rem 2rem;
-    margin: 2rem 0;
-    background: rgba(234, 88, 12, 0.05);
-    font-family: var(--font-accent);
-    font-size: 1.5rem;
-    border-radius: 0 15px 15px 0;
+    background: #fff9c4 !important; /* Lighter yellow */
+    padding: 2rem 2.5rem !important;
+    border-radius: 2px !important;
+    transform: rotate(-1deg);
+    box-shadow: 5px 10px 20px rgba(0,0,0,0.05);
+    border: none !important;
+    font-family: var(--font-accent) !important;
+    font-size: 1.4rem !important;
+    color: #4b5563 !important;
+    margin: 3rem 0 !important;
+    position: relative;
+    clip-path: polygon(0% 0%, 100% 0%, 100% 95%, 95% 100%, 0% 100%);
+}
+
+.post-body blockquote::after {
+    content: '';
+    position: absolute;
+    top: -10px;
+    left: 40px;
+    width: 60px;
+    height: 20px;
+    background: rgba(255,255,255,0.4);
+    backdrop-filter: blur(2px);
+    transform: rotate(-2deg);
 }
 
 .back-link {
     display: inline-flex;
     align-items: center;
-    gap: 0.5rem;
-    color: var(--crayon-purple);
+    gap: 0.8rem;
+    color: var(--crayon-blue);
     font-family: var(--font-accent);
-    font-size: 1.5rem;
+    font-size: 1.8rem;
     text-decoration: none;
     transition: all 0.3s;
-    margin-bottom: 2rem;
-}
-
-.back-link::before {
-    content: '←';
-    font-size: 2rem;
-    transition: transform 0.3s;
+    margin-bottom: 3rem;
+    padding: 0.2rem 1rem;
+    border: 2px solid transparent;
 }
 
 .back-link:hover {
-    color: var(--crayon-orange);
-    transform: translateX(-5px);
+    color: var(--crayon-red);
+    transform: translateX(-10px);
 }
 
-.back-link:hover::before {
-    transform: scale(1.2);
+.back-link::before {
+    content: '↩';
+    font-size: 2.5rem;
+    font-weight: bold;
 }
 
 /* Hand-drawn Tables */
