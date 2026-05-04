@@ -16,10 +16,10 @@ export async function loadConfig() {
 /* ---- Header ---- */
 export function renderHeader(activePage = '') {
     const links = [
-        { key: 'projects',   href: '/projects',   label: 'projects' },
-        { key: 'links',      href: '/linksilike',  label: 'links' },
-        { key: 'blog',       href: '/writing',     label: 'writing' },
-        { key: 'sponsor',    href: 'https://github.com/sponsors/jebin2', label: 'sponsor ↗' },
+        { key: 'projects', href: '/projects', label: 'projects' },
+        { key: 'links', href: '/linksilike', label: 'links' },
+        { key: 'blog', href: '/writing', label: 'writing' },
+        { key: 'sponsor', href: 'https://github.com/sponsors/jebin2', label: 'sponsor ↗' },
     ];
 
     const navItems = links.map(l =>
@@ -54,7 +54,7 @@ export function renderHeader(activePage = '') {
 
 /* ---- Footer ---- */
 export function renderFooter(config) {
-    const gh      = config?.github  || 'https://github.com/jebin2';
+    const gh = config?.github || 'https://github.com/jebin2';
     const sponsor = config?.sponsor || 'https://github.com/sponsors/jebin2';
     return `
         <footer class="site-footer">
@@ -79,14 +79,14 @@ export function renderFooter(config) {
 /* ---- Mobile nav toggle ---- */
 export function initNav() {
     const toggle = document.getElementById('navToggle');
-    const links  = document.getElementById('navLinks');
+    const links = document.getElementById('navLinks');
     if (!toggle || !links) return;
 
     toggle.addEventListener('click', (e) => {
         e.stopPropagation(); // Prevent document click from firing immediately
         const open = links.classList.toggle('open');
-        toggle.innerHTML = open 
-            ? '<span class="material-symbols-outlined">close</span>' 
+        toggle.innerHTML = open
+            ? '<span class="material-symbols-outlined">close</span>'
             : '<span class="material-symbols-outlined">menu</span>';
         toggle.setAttribute('aria-expanded', open);
     });
@@ -140,13 +140,14 @@ export function initTheme() {
     const getTheme = () => {
         const stored = localStorage.getItem('theme');
         if (stored) return stored;
-        return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+        // return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+        return 'light';
     };
 
     const setTheme = (theme) => {
         document.documentElement.setAttribute('data-theme', theme);
         localStorage.setItem('theme', theme);
-        
+
         const icon = theme === 'dark' ? 'light_mode' : 'dark_mode';
         toggle.querySelector('.material-symbols-outlined').textContent = icon;
     };
@@ -173,29 +174,29 @@ function initParallaxDoodles() {
     const symbols = ['star', 'favorite', 'cloud', 'lightbulb', 'brush', 'bolt', 'rocket', 'auto_awesome'];
     const container = document.createElement('div');
     container.style.cssText = 'position:fixed; inset:0; pointer-events:none; z-index:-5;';
-    
+
     for (let i = 0; i < 8; i++) {
         const span = document.createElement('span');
         span.className = 'material-symbols-outlined parallax-doodle';
         span.textContent = symbols[Math.floor(Math.random() * symbols.length)];
-        
+
         const top = Math.random() * 100;
         const left = Math.random() * 100;
         const speed = 0.05 + Math.random() * 0.1;
         const size = 24 + Math.random() * 48;
-        
+
         span.style.cssText = `
             top: ${top}%;
             left: ${left}%;
             font-size: ${size}px;
             transform: rotate(${Math.random() * 360}deg);
         `;
-        
+
         window.addEventListener('scroll', () => {
             const y = window.scrollY;
             span.style.transform = `translateY(${y * speed}px) rotate(${Math.random() * 5}deg)`;
         });
-        
+
         container.appendChild(span);
     }
     document.body.appendChild(container);
