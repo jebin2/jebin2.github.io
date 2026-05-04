@@ -1,6 +1,11 @@
 {
   "posts": [
     {
+      "title": "Drop a Video File, Get a YouTube-Ready Recap - My Fully Automated Python Pipeline",
+      "path": "AI/Drop a Video File, Get a YouTube-Ready Recap - My Fully Automated Python Pipeline/Drop a Video File, Get a YouTube-Ready Recap - My Fully Automated Python Pipeline.md",
+      "date": "2026-05-04 22:01:39 +0530"
+    },
+    {
       "title": "Pointer Arithmetic",
       "path": "C/Pointer Arithmetic/Pointer Arithmetic.md",
       "date": "2026-04-09 11:50:17 +0530"
