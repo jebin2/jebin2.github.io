@@ -1,6 +1,6 @@
 # Drop a Video File, Get a YouTube-Ready Recap - My Fully Automated Python Pipeline
 
-![header](AI/Drop a Video File, Get a YouTube-Ready Recap - My Fully Automated Python Pipeline/header.png)
+![header](header.png)
 
 I was spending hours editing recap videos by hand. Trimming, scripting, syncing subtitles, cropping for vertical all assembly line work. So I automated the entire thing.
 
