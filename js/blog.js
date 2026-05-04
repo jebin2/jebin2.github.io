@@ -184,8 +184,6 @@ function renderPost(mdText, meta, prevPost, nextPost, container) {
         </div>
 
         <article class="post-body bg-surface mb-12">
-            <div class="marginalia top-[15%]">note: keep it simple!</div>
-            <div class="marginalia bottom-[20%]">read & learn</div>
             ${htmlContent}
         </article>
 
