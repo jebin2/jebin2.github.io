@@ -33,5 +33,6 @@
     { "title": "Optical Toys",       "url": "https://optical.toys/",                          "emoji": "👓" },
     { "title": "Jackson Pollock",    "url": "https://jacksonpollock.org/",                    "emoji": "🎨" },
     { "title": "Drawing Garden",     "url": "https://drawing.garden/",                        "emoji": "🌸" },
-    { "title": "Slow Roads",         "url": "https://slowroads.io/",                          "emoji": "🛤️" }
+    { "title": "Slow Roads",         "url": "https://slowroads.io/",                          "emoji": "🛤️" },
+    { "title": "The Story of Mel, a Real Programmer","url": "https://users.cs.utah.edu/~elb/folklore/mel.html","emoji": "🖥️" }
 ]
