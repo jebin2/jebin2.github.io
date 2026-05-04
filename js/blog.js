@@ -208,6 +208,28 @@ function renderPost(mdText, meta, prevPost, nextPost, container) {
         </nav>
     `;
 
+    // Image zoom logic
+    let modal = document.querySelector('.image-zoom-modal');
+    if (!modal) {
+        modal = document.createElement('div');
+        modal.className = 'image-zoom-modal';
+        const modalImg = document.createElement('img');
+        modal.appendChild(modalImg);
+        document.body.appendChild(modal);
+
+        modal.addEventListener('click', () => {
+            modal.classList.remove('active');
+        });
+    }
+
+    container.querySelectorAll('.post-body img').forEach(img => {
+        img.addEventListener('click', () => {
+            const modalImg = modal.querySelector('img');
+            modalImg.src = img.src;
+            modal.classList.add('active');
+        });
+    });
+
     // Syntax-highlight all code blocks
     container.querySelectorAll('pre code').forEach(block => {
         window.hljs?.highlightElement(block);
