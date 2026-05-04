@@ -159,13 +159,14 @@ async function initPostView(postPath) {
 
 function renderPost(mdText, meta, prevPost, nextPost, container) {
     const cat = meta ? getCategory(meta.path) : '';
-    // Rewrite relative links/images to absolute raw GitHub URLs
+    const rawDir = meta ? getPostDir(meta.path) : '';
     const baseUrl = meta
-        ? `https://raw.githubusercontent.com/jebin2/blog/main/${getPostDir(meta.path)}/`
+        ? `https://raw.githubusercontent.com/jebin2/blog/main/${rawDir.split('/').map(encodeURIComponent).join('/')}/`
         : '';
+    const strippedMd = mdText.replace(/^#\s+.+\n*/m, '');
     const rewritten = baseUrl
-        ? mdText.replace(/\]\((?!https?:\/\/)([^)]+)\)/g, `](${baseUrl}$1)`)
-        : mdText;
+        ? strippedMd.replace(/\]\((?!https?:\/\/)([^)]+)\)/g, (_, p) => `](${baseUrl}${encodeURIComponent(p)})`)
+        : strippedMd;
     const htmlContent = sanitizeRenderedHTML(window.marked.parse(rewritten));
 
     container.innerHTML = `
