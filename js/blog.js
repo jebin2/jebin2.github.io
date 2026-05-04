@@ -165,7 +165,7 @@ function renderPost(mdText, meta, prevPost, nextPost, container) {
         : '';
     const strippedMd = mdText.replace(/^#\s+.+\n*/m, '');
     const rewritten = baseUrl
-        ? strippedMd.replace(/\]\((?!https?:\/\/)([^)]+)\)/g, (_, p) => `](${baseUrl}${encodeURIComponent(p)})`)
+        ? strippedMd.replace(/\]\((?!https?:\/\/)([^)]+)\)/g, (_, p) => `](${baseUrl}${p.split('/').map(encodeURIComponent).join('/')})`)
         : strippedMd;
     const htmlContent = sanitizeRenderedHTML(window.marked.parse(rewritten));
 
