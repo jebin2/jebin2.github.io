@@ -2,9 +2,8 @@
    Homepage
    ============================================ */
 
-import { initPage, renderSkeletonRows } from './shared.js';
+import { initPage } from './shared.js';
 import { fetchCached } from './cache.js';
-import { formatDateShort } from './utils.js';
 import { fetchSupabaseJson } from './supabase.js';
 
 async function fetchStats(view) {
@@ -38,8 +37,7 @@ function smartSort(items, recentCounts, allTimeCounts, labelKey) {
         // No recent data — sort all by all-time count
         return items
             .slice()
-            .sort((a, b) => (allTimeCounts[b[labelKey]] || 0) - (allTimeCounts[a[labelKey]] || 0))
-            .slice(0, 5);
+            .sort((a, b) => (allTimeCounts[b[labelKey]] || 0) - (allTimeCounts[a[labelKey]] || 0));
     }
 
     const top2 = recentItems.slice(0, 2);
@@ -47,8 +45,7 @@ function smartSort(items, recentCounts, allTimeCounts, labelKey) {
 
     const top3 = items
         .filter(item => !top2Labels.has(item[labelKey]))
-        .sort((a, b) => (allTimeCounts[b[labelKey]] || 0) - (allTimeCounts[a[labelKey]] || 0))
-        .slice(0, 3);
+        .sort((a, b) => (allTimeCounts[b[labelKey]] || 0) - (allTimeCounts[a[labelKey]] || 0));
 
     return [...top2, ...top3];
 }
@@ -56,68 +53,23 @@ function smartSort(items, recentCounts, allTimeCounts, labelKey) {
 async function init() {
     const config = await initPage('');
 
-    const featuredEl = document.getElementById('featured-list');
     const blogEl = document.getElementById('blog-list');
 
-    if (featuredEl) featuredEl.innerHTML = renderSkeletonRows(5);
-    if (blogEl) blogEl.innerHTML = renderSkeletonRows(3);
-
     try {
-        const [projects, manifest, projectStats, postStats, recentProjects, recentPosts] = await Promise.all([
-            fetchCached(config.projects),
+        const [manifest, postStats, recentPosts] = await Promise.all([
             fetchCached(config.blog_manifest).catch(() => ({ posts: [] })),
-            fetchStats('stats_project_clicks'),
             fetchStats('stats_post_reads'),
-            fetchRecentEvents('project_click'),
             fetchRecentEvents('post_read')
         ]);
-
-        // Build all-time lookup maps
-        const projectAllTime = {};
-        projectStats.forEach(r => { projectAllTime[r.project] = r.clicks; });
 
         const postAllTime = {};
         postStats.forEach(r => { postAllTime[r.post] = r.reads; });
 
-        renderFeatured(projects, featuredEl, recentProjects, projectAllTime);
         renderLatestPosts(manifest, blogEl, recentPosts, postAllTime);
     } catch (err) {
         console.error(err);
-        if (featuredEl) featuredEl.innerHTML = '<p class="state-msg">failed to load projects.</p>';
-        if (blogEl) blogEl.innerHTML = '<p class="state-msg">failed to load posts.</p>';
+        if (blogEl) blogEl.innerHTML = '<li><p>failed to load posts.</p></li>';
     }
-}
-
-function renderFeatured(projects, container, recentCounts, allTimeCounts) {
-    if (!container) return;
-
-    if (!projects.length) {
-        container.innerHTML = '<p class="state-msg">no projects.</p>';
-        return;
-    }
-
-    const sorted = smartSort(projects, recentCounts, allTimeCounts, 'title');
-
-    container.innerHTML = `
-        <div class="project-group-items">
-            ${sorted.map((p, i) => {
-                const rotate = (i % 2 === 0 ? 0.5 : -0.5) + (Math.random() * 0.4 - 0.2);
-                const tape = i === 0 ? '<div class="tape"></div>' : '';
-                return `
-                    <a class="project-row sketch-card bg-surface" href="${p.url}" target="_blank" rel="noopener noreferrer"
-                       title="${p.description}" style="--rotate: ${rotate}deg">
-                        ${tape}
-                        <span class="project-num">${String(i + 1).padStart(2, '0')}.</span>
-                        <div class="flex flex-col flex-grow">
-                            <span class="project-name">${p.title}</span>
-                            <span class="project-desc">${p.description}</span>
-                        </div>
-                        <span class="project-tag">${p.category}</span>
-                    </a>
-                `;
-            }).join('')}
-        </div>
-    `;
 }
 
 function renderLatestPosts(manifest, container, recentCounts, allTimeCounts) {
@@ -126,32 +78,42 @@ function renderLatestPosts(manifest, container, recentCounts, allTimeCounts) {
     const posts = manifest.posts || [];
 
     if (!posts.length) {
-        container.innerHTML = '<p class="state-msg">no posts yet.</p>';
+        container.innerHTML = '<li><p>no posts yet.</p></li>';
         return;
     }
 
     const sorted = smartSort(posts, recentCounts, allTimeCounts, 'title');
 
-    container.innerHTML = `
-        <div class="project-group-items">
-            ${sorted.map((p, i) => {
-                const slug = encodeURIComponent(p.path);
-                const rotate = (i % 2 === 0 ? -0.5 : 0.5) + (Math.random() * 0.4 - 0.2);
-                const tape = i === 1 ? '<div class="tape"></div>' : '';
-                return `
-                    <a class="project-row sketch-card bg-surface" href="/writing?post=${slug}" style="--rotate: ${rotate}deg">
-                        ${tape}
-                        <span class="project-num">${String(i + 1).padStart(2, '0')}.</span>
-                        <div class="flex flex-col flex-grow">
-                            <span class="project-name">${p.title}</span>
-                            <span class="blog-date text-sm opacity-60">${formatDateShort(p.date)}</span>
-                        </div>
-                        <span class="material-symbols-outlined text-crayon-purple">arrow_forward</span>
-                    </a>
-                `;
-            }).join('')}
-        </div>
-    `;
+    container.innerHTML = sorted.map((p, i) => {
+        const slug = encodeURIComponent(p.path);
+        const articleId = p.title.toLowerCase().replace(/\\W+/g, '-');
+        const dt = new Date(p.created_date);
+        
+        let datetimeStr = '';
+        let formattedDate = p.created_date;
+        if (!isNaN(dt.getTime())) {
+            datetimeStr = dt.toISOString();
+            formattedDate = dt.toLocaleDateString('en-US', {
+                month: 'long',
+                day: '2-digit',
+                year: 'numeric'
+            });
+        }
+        
+        return `
+            <li>
+                <article id="${articleId}">
+                    <a href="/writing?post=${slug}"><h2>${p.title}</h2></a>
+                    <time datetime="${datetimeStr}">${formattedDate}</time>
+                    <p>${p.description || ''}</p>
+                    <footer>
+                        <a href="/writing?post=${slug}">Read more about ${p.title}</a>
+                    </footer>
+                </article>
+            </li>
+        `;
+    }).join('');
 }
 
 init();
+

@@ -39,39 +39,24 @@ function render(links, container) {
     if (!container) return;
 
     if (!links.length) {
-        container.innerHTML = '<p class="state-msg">nothing here yet.</p>';
+        container.innerHTML = '<li><p>nothing here yet.</p></li>';
         return;
     }
 
-    container.innerHTML = `
-        <div class="flex flex-wrap gap-4 mt-8">
-            ${links.map((link, i) => {
-                const rotate = (Math.random() * 2 - 1).toFixed(1);
-                const colors = ['var(--crayon-blue)', 'var(--crayon-green)', 'var(--crayon-red)', 'var(--crayon-purple)', 'var(--crayon-orange)'];
-                const color = colors[i % colors.length];
-                return `
-                    <a class="crayon-button organic-shape px-4 py-2 bg-surface text-lg font-bold link-tag"
-                       href="${link.url}"
-                       target="_blank"
-                       rel="noopener noreferrer"
-                       style="--rotate: ${rotate}deg; border-color: ${color}; color: ${color};"
-                    >
-                        <span class="project-name">${link.emoji} ${link.title}</span>
-                    </a>
-                `;
-            }).join('')}
-        </div>
-    `;
+    container.innerHTML = links.map((link) => {
+        return `
+            <li>
+                <a class="link-box" href="${link.url}" target="_blank" rel="noopener noreferrer">
+                    <span class="emoji">${link.emoji}</span>
+                    <span class="title">${link.title}</span>
+                </a>
+            </li>
+        `;
+    }).join('');
 }
 
 function renderSkeleton() {
-    const widths = [90, 70, 110, 80, 100, 75, 95, 85, 120, 65, 105, 88];
-    return widths.map((w, i) => {
-        const sep = i < widths.length - 1
-            ? '<span class="tag-sep" aria-hidden="true">·</span>'
-            : '';
-        return `<span class="skeleton" style="width:${w}px; height:0.875rem; vertical-align:middle;"></span>${sep}`;
-    }).join('');
+    return '';
 }
 
 init();
