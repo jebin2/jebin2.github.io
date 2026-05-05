@@ -24,94 +24,110 @@ jobs:
 
       - name: Generate manifest.json
         run: |
-          import os
-          import json
-          import subprocess
-          from datetime import datetime
-          from collections import defaultdict
+            import os
+            import json
+            import subprocess
+            from datetime import datetime
+            from collections import defaultdict
 
-          # --- STEP 1: Get full git history in ONE call ---
-          result = subprocess.run(
-              ["git", "log", "--follow", "--name-only", "--format=%H|%ci"],
-              capture_output=True,
-              text=True
-          )
+            # --- STEP 1: FAST global history scan ---
+            result = subprocess.run(
+                ["git", "log", "--name-only", "--format=%H|%ci"],
+                capture_output=True,
+                text=True
+            )
 
-          lines = result.stdout.splitlines()
+            lines = result.stdout.splitlines()
 
-          file_history = defaultdict(list)
+            file_history = defaultdict(list)
+            current_date = None
 
-          current_date = None
+            for line in lines:
+                if "|" in line:
+                    _, current_date = line.split("|", 1)
+                elif line.strip() == "":
+                    continue
+                else:
+                    path = line.strip()
+                    file_history[path].append(current_date)
 
-          for line in lines:
-              if "|" in line:
-                  # Commit line
-                  _, current_date = line.split("|", 1)
-              elif line.strip() == "":
-                  continue
-              else:
-                  path = line.strip()
-                  file_history[path].append(current_date)
+            # --- STEP 2: helper for accurate fallback ---
+            def get_follow_history(path):
+                try:
+                    r = subprocess.run(
+                        ["git", "log", "--follow", "--format=%ci", "--", path],
+                        capture_output=True,
+                        text=True
+                    )
+                    dates = [d for d in r.stdout.strip().split("\n") if d]
+                    return dates
+                except:
+                    return []
 
-          # --- STEP 2: Build manifest ---
-          posts = []
-          svgs = []
+            # --- STEP 3: build manifest ---
+            posts = []
+            svgs = []
 
-          for root, dirs, files in os.walk("."):
-              for f in files:
-                  if f.startswith("__"):
-                      continue
+            def to_dt(d):
+                return datetime.strptime(d, "%Y-%m-%d %H:%M:%S %z") if d else datetime.min
 
-                  path = os.path.relpath(os.path.join(root, f), ".").replace("\\", "/")
+            for root, dirs, files in os.walk("."):
+                for f in files:
+                    if f.startswith("__"):
+                        continue
 
-                  history = file_history.get(path, [])
+                    path = os.path.relpath(os.path.join(root, f), ".").replace("\\", "/")
 
-                  if history:
-                      last_modified_date = history[0]   # latest
-                      created_date = history[-1]        # oldest
-                  else:
-                      created_date = None
-                      last_modified_date = None
+                    history = file_history.get(path, [])
 
-                  # Convert to datetime for safe sorting
-                  def to_dt(d):
-                      return datetime.strptime(d, "%Y-%m-%d %H:%M:%S %z") if d else datetime.min
+                    # --- HYBRID FIX ---
+                    if len(history) <= 1:
+                        follow_history = get_follow_history(path)
+                        if follow_history:
+                            history = follow_history
 
-                  if f.endswith(".md") and f not in ["README.md", "index.md", "manifest.json", "prompt.md"]:
-                      title = os.path.splitext(f)[0]
-                      parent_folder = os.path.basename(root)
+                    if history:
+                        last_modified_date = history[0]   # latest
+                        created_date = history[-1]        # oldest
+                    else:
+                        created_date = None
+                        last_modified_date = None
 
-                      if title != parent_folder:
-                          continue
+                    if f.endswith(".md") and f not in ["README.md", "index.md", "manifest.json", "prompt.md"]:
+                        title = os.path.splitext(f)[0]
+                        parent_folder = os.path.basename(root)
 
-                      posts.append({
-                          "title": title,
-                          "path": path,
-                          "created_date": created_date,
-                          "last_modified_date": last_modified_date,
-                          "_dt": to_dt(created_date)
-                      })
+                        if title != parent_folder:
+                            continue
 
-                  elif f.endswith(".svg"):
-                      svgs.append({
-                          "name": os.path.splitext(f)[0],
-                          "path": path,
-                          "created_date": created_date,
-                          "last_modified_date": last_modified_date,
-                          "_dt": to_dt(created_date)
-                      })
+                        posts.append({
+                            "title": title,
+                            "path": path,
+                            "created_date": created_date,
+                            "last_modified_date": last_modified_date,
+                            "_dt": to_dt(created_date)
+                        })
 
-          # --- STEP 3: Sort properly ---
-          posts.sort(key=lambda x: x["_dt"], reverse=True)
-          svgs.sort(key=lambda x: x["_dt"], reverse=True)
+                    elif f.endswith(".svg"):
+                        svgs.append({
+                            "name": os.path.splitext(f)[0],
+                            "path": path,
+                            "created_date": created_date,
+                            "last_modified_date": last_modified_date,
+                            "_dt": to_dt(created_date)
+                        })
 
-          # Remove internal field
-          for item in posts + svgs:
-              item.pop("_dt", None)
+            # --- STEP 4: sort ---
+            posts.sort(key=lambda x: x["_dt"], reverse=True)
+            svgs.sort(key=lambda x: x["_dt"], reverse=True)
 
-          # --- STEP 4: Write manifest ---
-          with open("manifest.json", "w") as f:
-              json.dump({"posts": posts, "svgs": svgs}, f, indent=2)
+            # cleanup
+            for item in posts + svgs:
+                item.pop("_dt", None)
+
+            # --- STEP 5: write ---
+            with open("manifest.json", "w") as f:
+                json.dump({"posts": posts, "svgs": svgs}, f, indent=2)
         shell: python
 
       - name: Commit and push manifest.json
