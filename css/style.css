@@ -100,10 +100,10 @@ body {
     padding-left: 24px;
     padding-right: 24px;
     font-size: 1rem;
+}
 
-    &>footer {
-        padding: var(--space-md) 0 0 0;
-    }
+body > footer {
+    padding: var(--space-md) 0 0 0;
 }
 
 h1,
@@ -128,6 +128,7 @@ h3 {
     letter-spacing: -.01em;
     font-size: 1.25rem;
     line-height: 120%;
+    color: var(--teal);
 }
 
 ul {
@@ -232,16 +233,19 @@ p,
 li {
     letter-spacing: .02rem;
     word-spacing: .1rem;
+}
 
-    &>code {
-        color: var(--cyan);
-        word-wrap: break-word
-    }
+p > code,
+li > code {
+    color: var(--cyan);
+    word-wrap: break-word;
+}
 
-    &>code:after,
-    &>code:before {
-        content: "\""
-    }
+p > code:after,
+p > code:before,
+li > code:after,
+li > code:before {
+    content: "\"";
 }
 
 code {
@@ -345,172 +349,170 @@ blockquote {
     }
 }
 
-main {
-    & header {
-        margin-bottom: var(--space-rg);
-        line-height: 1.25;
+main header {
+    margin-bottom: var(--space-rg);
+    line-height: 1.25;
+}
 
-        &>* {
-            display: block
-        }
+main header > * {
+    display: block;
+}
 
-        & span {
-            color: var(--fg-disabled);
-            font-size: .875rem;
-            line-height: 150%
-        }
-    }
+main header span {
+    color: var(--fg-disabled);
+    font-size: .875rem;
+    line-height: 150%;
+}
 
-    & ul {
-        padding-left: var(--space-sm)
-    }
+main ul {
+    padding-left: var(--space-sm);
+}
 
-    & h1 {
-        margin-bottom: .5rem
-    }
+main h1 {
+    margin-bottom: .5rem;
+}
 
-    & h2 {
-        margin-top: var(--space-md);
-        margin-bottom: 0
-    }
+main h2 {
+    margin-top: var(--space-md);
+    margin-bottom: 0;
+}
 
-    & h3 {
-        margin-top: var(--space-md);
-        margin-bottom: 0.5rem;
-        color: var(--teal);
-    }
+main h3 {
+    margin-top: var(--space-md);
+    margin-bottom: 0.5rem;
+    color: var(--teal);
+}
 
-    & address {
-        color: var(--green);
-        display: inline
-    }
+main address {
+    color: var(--green);
+    display: inline;
+}
 
-    &>ul {
-        margin: 0;
-        list-style: none;
-        padding-left: 0
-    }
+main > ul {
+    margin: 0;
+    list-style: none;
+    padding-left: 0;
+}
 
-    &>ul>li:not(:last-child) {
-        padding-top: var(--space-rg);
-        padding-bottom: var(--space-rg);
-        border-bottom: 1px solid var(--border)
-    }
+main > ul > li:not(:last-child) {
+    padding-top: var(--space-rg);
+    padding-bottom: var(--space-rg);
+    border-bottom: 1px solid var(--border);
+}
 
-    &>ul>li:last-child {
-        padding-top: var(--space-rg)
-    }
+main > ul > li:last-child {
+    padding-top: var(--space-rg);
+}
 
-    &>ul>li:first-child,
-    &>ul>li:only-child {
-        padding-top: var(--space-xs)
-    }
+main > ul > li:first-child,
+main > ul > li:only-child {
+    padding-top: var(--space-xs);
+}
 
-    & article>a {
-        display: block
-    }
+main article > a {
+    display: block;
+}
 
-    &>ul h2 {
-        margin: 0
-    }
+main > ul h2 {
+    margin: 0;
+}
 
-    & section ul,
-    & section ol {
-        padding-left: var(--space-md);
-        margin: var(--space-sm) 0;
-    }
+main section ul,
+main section ol {
+    padding-left: var(--space-md);
+    margin: var(--space-sm) 0;
+}
 
-    & section ul {
-        list-style-type: disc;
-    }
+main section ul {
+    list-style-type: disc;
+}
 
-    & section ol {
-        list-style-type: decimal;
-    }
+main section ol {
+    list-style-type: decimal;
+}
 
-    & section li {
-        padding: 0;
-        border: none;
-        margin: 0.5rem 0;
-    }
+main section li {
+    padding: 0;
+    border: none;
+    margin: 0.5rem 0;
+}
 
-    & section li::marker {
-        color: var(--accent);
-    }
+main section li::marker {
+    color: var(--accent);
+}
 
-    & section pre {
-        background-color: var(--bg2);
-        padding: var(--space-sm);
-        border-radius: var(--radius-sm);
-        border: 1px solid var(--border);
-        border-left: 4px solid var(--accent);
-        overflow-x: auto;
-        margin: var(--space-sm) 0;
-    }
+main section pre {
+    background-color: var(--bg2);
+    padding: var(--space-sm);
+    border-radius: var(--radius-sm);
+    border: 1px solid var(--border);
+    border-left: 4px solid var(--accent);
+    overflow-x: auto;
+    margin: var(--space-sm) 0;
+}
 
-    & section pre code {
-        color: var(--fg-body);
-        font-size: 0.875rem;
-    }
+main section pre code {
+    color: var(--fg-body);
+    font-size: 0.875rem;
+}
 
-    & section pre code:before,
-    & section pre code:after {
-        content: none;
-    }
+main section pre code:before,
+main section pre code:after {
+    content: none;
+}
 
-    & section hr {
-        border: none;
-        border-top: 1px dashed var(--stroke-divider);
-        margin: var(--space-lg) 0;
-    }
+main section hr {
+    border: none;
+    border-top: 1px dashed var(--stroke-divider);
+    margin: var(--space-lg) 0;
+}
 
-    /* Syntax highlighting */
-    .hljs-keyword,
-    .hljs-built_in,
-    .hljs-literal,
-    .hljs-name {
-        color: var(--magenta);
-    }
+/* Syntax highlighting */
+.hljs-keyword,
+.hljs-built_in,
+.hljs-literal,
+.hljs-name {
+    color: var(--magenta);
+}
 
-    .hljs-string,
-    .hljs-meta,
-    .hljs-attr {
-        color: var(--green);
-    }
+.hljs-string,
+.hljs-meta,
+.hljs-attr {
+    color: var(--green);
+}
 
-    .hljs-comment,
-    .hljs-deletion {
-        color: var(--comment);
-        font-style: italic;
-    }
+.hljs-comment,
+.hljs-deletion {
+    color: var(--comment);
+    font-style: italic;
+}
 
-    .hljs-number,
-    .hljs-regexp {
-        color: var(--pink);
-    }
+.hljs-number,
+.hljs-regexp {
+    color: var(--pink);
+}
 
-    .hljs-function,
-    .hljs-title,
-    .hljs-section,
-    .hljs-title.function_ {
-        color: var(--blue);
-    }
+.hljs-function,
+.hljs-title,
+.hljs-section,
+.hljs-title.function_ {
+    color: var(--blue);
+}
 
-    .hljs-type,
-    .hljs-class,
-    .hljs-tag {
-        color: var(--teal);
-    }
+.hljs-type,
+.hljs-class,
+.hljs-tag {
+    color: var(--teal);
+}
 
-    .hljs-variable,
-    .hljs-template-variable,
-    .hljs-attribute {
-        color: var(--cyan);
-    }
+.hljs-variable,
+.hljs-template-variable,
+.hljs-attribute {
+    color: var(--cyan);
+}
 
-    .hljs-addition {
-        color: var(--green-bright);
-    }
+.hljs-addition {
+    color: var(--green-bright);
 }
 
 /* Stats Page specific */
