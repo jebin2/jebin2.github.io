@@ -5,7 +5,7 @@
 
 import { initPage } from './shared.js';
 import { fetchCached, fetchTextCached } from './cache.js';
-import { sanitizeRenderedHTML } from './utils.js';
+import { sanitizeRenderedHTML, isAdmin } from './utils.js';
 import { trackEvent, trackPageView } from './analytics.js';
 
 async function init() {
@@ -158,6 +158,17 @@ function renderPost(mdText, meta, container) {
         : `Read: ${meta?.title || 'untitled'}\n\n${currentUrl}`;
     const xIntentUrl = `https://twitter.com/intent/tweet?text=${encodeURIComponent(tweetText)}`;
 
+    const shareButtons = isAdmin() ? `
+        <div style="margin-top: 1rem; display: flex; gap: 0.5rem; flex-wrap: wrap;">
+            <a href="${xIntentUrl}" target="_blank" rel="noopener noreferrer" style="display: inline-block; padding: 0.25rem 0.75rem; border: 1px solid currentColor; border-radius: 4px; text-decoration: none; font-size: 0.875rem; font-weight: 500;">
+                Share on X
+            </a>
+            <button id="prepare-x-article" style="display: inline-block; padding: 0.25rem 0.75rem; border: 1px solid var(--accent); color: var(--accent); background: transparent; border-radius: 4px; text-decoration: none; font-size: 0.875rem; font-weight: 500; cursor: pointer;">
+                Post as X Article
+            </button>
+        </div>
+    ` : '';
+
     container.innerHTML = `
         <article>
             <header>
@@ -165,14 +176,7 @@ function renderPost(mdText, meta, container) {
                 <span>Author: <address>jebin2</address></span>
                 <span>Published: <time datetime="${datetimeStr}" pubdate>${formattedDate}</time></span>
                 <span>Updated: <time datetime="${datetimeStrUpdated}">${formattedDateUpdated}</time></span>
-                <div style="margin-top: 1rem; display: flex; gap: 0.5rem; flex-wrap: wrap;">
-                    <a href="${xIntentUrl}" target="_blank" rel="noopener noreferrer" style="display: inline-block; padding: 0.25rem 0.75rem; border: 1px solid currentColor; border-radius: 4px; text-decoration: none; font-size: 0.875rem; font-weight: 500;">
-                        Share on X
-                    </a>
-                    <button id="prepare-x-article" style="display: inline-block; padding: 0.25rem 0.75rem; border: 1px solid var(--accent); color: var(--accent); background: transparent; border-radius: 4px; text-decoration: none; font-size: 0.875rem; font-weight: 500; cursor: pointer;">
-                        Post as X Article
-                    </button>
-                </div>
+                ${shareButtons}
             </header>
             <section>
                 ${htmlContent}

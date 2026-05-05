@@ -82,3 +82,9 @@ export function formatDateShort(dateStr) {
     if (isNaN(d)) return dateStr;
     return d.toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
 }
+
+export function isAdmin() {
+    return localStorage.getItem('blog_admin') === 'true' || 
+           window.location.hostname === 'localhost' || 
+           window.location.hostname === '127.0.0.1';
+}
