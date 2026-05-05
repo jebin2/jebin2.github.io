@@ -102,7 +102,7 @@ body {
     font-size: 1rem;
 }
 
-body > footer {
+body>footer {
     padding: var(--space-md) 0 0 0;
 }
 
@@ -235,16 +235,16 @@ li {
     word-spacing: .1rem;
 }
 
-p > code,
-li > code {
+p>code,
+li>code {
     color: var(--cyan);
     word-wrap: break-word;
 }
 
-p > code:after,
-p > code:before,
-li > code:after,
-li > code:before {
+p>code:after,
+p>code:before,
+li>code:after,
+li>code:before {
     content: "\"";
 }
 
@@ -354,7 +354,7 @@ main header {
     line-height: 1.25;
 }
 
-main header > * {
+main header>* {
     display: block;
 }
 
@@ -388,32 +388,32 @@ main address {
     display: inline;
 }
 
-main > ul {
+main>ul {
     margin: 0;
     list-style: none;
     padding-left: 0;
 }
 
-main > ul > li:not(:last-child) {
+main>ul>li:not(:last-child) {
     padding-top: var(--space-rg);
     padding-bottom: var(--space-rg);
     border-bottom: 1px solid var(--border);
 }
 
-main > ul > li:last-child {
+main>ul>li:last-child {
     padding-top: var(--space-rg);
 }
 
-main > ul > li:first-child,
-main > ul > li:only-child {
+main>ul>li:first-child,
+main>ul>li:only-child {
     padding-top: var(--space-xs);
 }
 
-main article > a {
+main article>a {
     display: block;
 }
 
-main > ul h2 {
+main>ul h2 {
     margin: 0;
 }
 
@@ -516,7 +516,7 @@ main section hr {
 }
 
 /* Stats Page specific */
-main > ul[id^="stats-"] {
+main>ul[id^="stats-"] {
     background-color: var(--bg2);
     padding: var(--space-sm);
     border-radius: var(--radius-sm);
@@ -525,7 +525,7 @@ main > ul[id^="stats-"] {
     margin: var(--space-xs) 0 var(--space-md);
 }
 
-main > ul[id^="stats-"] > li {
+main>ul[id^="stats-"]>li {
     padding: 0.25rem 0 !important;
     border: none !important;
     font-family: var(--font-mono);
@@ -533,7 +533,7 @@ main > ul[id^="stats-"] > li {
     color: var(--fg-body);
 }
 
-main > ul[id^="stats-"] > li .state-msg {
+main>ul[id^="stats-"]>li .state-msg {
     color: var(--error);
     font-family: var(--font-sans);
 }
@@ -584,4 +584,113 @@ main>#links-list>li {
     font-size: 0.95rem;
     font-weight: 500;
     line-height: 1.2;
+}
+
+/* Modal/Overlay for X Article Preparation */
+.x-modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.85);
+    display: none;
+    align-items: center;
+    justify-content: center;
+    z-index: var(--z-modal);
+    backdrop-filter: blur(4px);
+}
+
+.x-modal {
+    background: var(--bg1);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-md);
+    width: 90%;
+    max-width: 600px;
+    max-height: 80vh;
+    overflow-y: auto;
+    padding: var(--space-md);
+    box-shadow: var(--shadow-lg);
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+}
+
+.x-modal h2 {
+    margin: 0;
+    font-size: 1.5rem;
+    color: var(--fg0);
+}
+
+.x-modal-field {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.x-modal-field label {
+    font-size: 0.75rem;
+    color: var(--fg-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+
+.x-modal-field .field-row {
+    display: flex;
+    gap: 0.5rem;
+}
+
+.x-modal-field input,
+.x-modal-field textarea {
+    flex: 1;
+    background: var(--bg0);
+    border: 1px solid var(--border);
+    color: var(--fg1);
+    padding: 0.5rem;
+    border-radius: var(--radius-sm);
+    font-family: inherit;
+    font-size: 0.875rem;
+}
+
+.x-modal-field textarea {
+    height: 150px;
+    resize: vertical;
+}
+
+.x-btn {
+    padding: 0.5rem 1rem;
+    background: var(--bg3);
+    border: 1px solid var(--border);
+    color: var(--fg1);
+    border-radius: var(--radius-sm);
+    cursor: pointer;
+    font-size: 0.875rem;
+    font-weight: 500;
+    transition: var(--transition-fast);
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.x-btn:hover {
+    background: var(--bg4);
+    border-color: var(--accent);
+}
+
+.x-btn.primary {
+    background: var(--accent);
+    color: var(--bg0);
+    border: none;
+}
+
+.x-btn.primary:hover {
+    background: var(--blue-bright);
+}
+
+.x-modal-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 1rem;
+    margin-top: 1rem;
 }
