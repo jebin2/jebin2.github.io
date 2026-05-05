@@ -36,16 +36,18 @@ jobs:
                   if f.startswith("__"):
                       continue
 
-                  # Get creation date (first commit) from git history
+                  # Get creation date (first commit) and last modified date from git history
                   try:
                       result = subprocess.run(
                           ["git", "log", "--reverse", "--format=%ci", "--", path],
                           capture_output=True, text=True, check=True
                       )
                       dates = result.stdout.strip().split('\n')
-                      datetime_str = dates[0] if dates and dates[0] else "2025-09-22 00:00:00 +0000"
+                      created_date = dates[0] if dates and dates[0] else "2025-09-22 00:00:00 +0000"
+                      last_modified_date = dates[-1] if dates and dates[-1] else created_date
                   except:
-                      datetime_str = "2025-09-22 00:00:00 +0000"
+                      created_date = "2025-09-22 00:00:00 +0000"
+                      last_modified_date = "2025-09-22 00:00:00 +0000"
 
                   if f.endswith(".md") and f not in ["README.md", "index.md", "manifest.json", "prompt.md"]:
                       title = os.path.splitext(f)[0]
@@ -60,19 +62,21 @@ jobs:
                       posts.append({
                           "title": title,
                           "path": path,
-                          "date": datetime_str
+                          "created_date": created_date,
+                          "last_modified_date": last_modified_date
                       })
 
                   elif f.endswith(".svg"):
                       svgs.append({
                           "name": os.path.splitext(f)[0],
                           "path": path,
-                          "date": datetime_str
+                          "created_date": created_date,
+                          "last_modified_date": last_modified_date
                       })
 
           # Sort posts by date descending
-          posts.sort(key=lambda x: x["date"], reverse=True)
-          svgs.sort(key=lambda x: x["date"], reverse=True)
+          posts.sort(key=lambda x: x["created_date"], reverse=True)
+          svgs.sort(key=lambda x: x["created_date"], reverse=True)
 
           with open("manifest.json", "w") as f:
               json.dump({"posts": posts, "svgs": svgs}, f, indent=2)
