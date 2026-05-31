@@ -32,44 +32,25 @@ function setRange(r) {
     history.replaceState(null, '', url);
 }
 
-async function fetchView(view) {
-    return fetchSupabaseJson(`${view}?select=*`);
-}
-
 async function fetchStats() {
-    if (!activeRange.days) {
-        const [pages, projects, posts] = await Promise.all([
-            fetchView('stats_page_views'),
-            fetchView('stats_project_clicks'),
-            fetchView('stats_post_reads')
-        ]);
-        return { pages, projects, posts };
-    }
+    const since = activeRange.days
+        ? new Date(Date.now() - activeRange.days * 24 * 60 * 60 * 1000).toISOString()
+        : null;
 
-    const since = new Date();
-    since.setDate(since.getDate() - activeRange.days);
-    const isoDate = since.toISOString();
+    const qs = since ? `?since_date=${encodeURIComponent(since)}` : '';
+    const rows = await fetchSupabaseJson(`rpc/get_stats${qs}`);
 
-    const rows = await fetchSupabaseJson(
-        `events?select=event_type,label&created_at=gte.${isoDate}&limit=2000`
-    );
-
-    function agg(type, labelKey, valueKey) {
-        const counts = {};
-        for (const row of rows) {
-            if (row.event_type === type && row.label) {
-                counts[row.label] = (counts[row.label] || 0) + 1;
-            }
-        }
-        return Object.entries(counts)
-            .map(([name, count]) => ({ [labelKey]: name, [valueKey]: count }))
+    function extract(section, labelKey, valueKey) {
+        return rows
+            .filter(r => r.section === section)
+            .map(r => ({ [labelKey]: r.label, [valueKey]: Number(r.count) }))
             .sort((a, b) => b[valueKey] - a[valueKey]);
     }
 
     return {
-        pages:    agg('page_view',     'page',    'views'),
-        projects: agg('project_click', 'project', 'clicks'),
-        posts:    agg('post_read',     'post',    'reads'),
+        pages:    extract('page_view',     'page',    'views'),
+        projects: extract('project_click', 'project', 'clicks'),
+        posts:    extract('post_read',     'post',    'reads'),
     };
 }
 
