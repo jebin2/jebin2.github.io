@@ -34,10 +34,13 @@ async function initListingView() {
     let manifestData = [];
 
     try {
-        const [manifest, reads] = await Promise.all([
+        const [manifest, statsRows] = await Promise.all([
             fetchCached(config.blog_manifest),
-            fetchSupabaseJson('stats_post_reads?select=*').catch(() => [])
+            fetchSupabaseJson('rpc/get_stats').catch(() => [])
         ]);
+        const reads = statsRows
+            .filter(r => r.section === 'post_read')
+            .map(r => ({ post: r.label, reads: Number(r.count) }));
         manifestData = manifest.posts || [];
         renderListing(manifestData, document.getElementById('posts-list'), reads);
     } catch (err) {
