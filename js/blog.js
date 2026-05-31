@@ -53,7 +53,9 @@ async function initListingView() {
 // "2026-05-31 22:38:32 +0530" → "2026-05-31T22:38:32+05:30" (ISO 8601)
 function parsePostDate(str) {
     if (!str) return new Date(0);
-    const d = new Date(str.replace(' ', 'T').replace(/([+-]\d{2})(\d{2})$/, '$1:$2'));
+    const d = new Date(
+        str.replace(/^(\d{4}-\d{2}-\d{2}) (\d{2}:\d{2}:\d{2}) ([+-]\d{2})(\d{2})$/, '$1T$2$3:$4')
+    );
     return isNaN(d.getTime()) ? new Date(0) : d;
 }
 
