@@ -50,6 +50,13 @@ async function initListingView() {
     }
 }
 
+// "2026-05-31 22:38:32 +0530" → "2026-05-31T22:38:32+05:30" (ISO 8601)
+function parsePostDate(str) {
+    if (!str) return new Date(0);
+    const d = new Date(str.replace(' ', 'T').replace(/([+-]\d{2})(\d{2})$/, '$1:$2'));
+    return isNaN(d.getTime()) ? new Date(0) : d;
+}
+
 function renderListing(posts, container, reads = []) {
     if (!container) return;
 
@@ -60,25 +67,25 @@ function renderListing(posts, container, reads = []) {
 
     const readsMap = Object.fromEntries(reads.map(r => [r.post, r.reads]));
 
-    const now = new Date();
-    const thirtyDaysAgo = new Date(now - 30 * 24 * 60 * 60 * 1000);
-    const sevenDaysAgo  = new Date(now -  7 * 24 * 60 * 60 * 1000);
+    const now = Date.now();
+    const thirtyDaysAgo = now - 30 * 24 * 60 * 60 * 1000;
+    const sevenDaysAgo  = now -  7 * 24 * 60 * 60 * 1000;
 
-    const recent = posts.filter(p => new Date(p.created_date) >= thirtyDaysAgo);
-    const older  = posts.filter(p => new Date(p.created_date) <  thirtyDaysAgo);
+    const recent = posts.filter(p => parsePostDate(p.created_date).getTime() >= thirtyDaysAgo);
+    const older  = posts.filter(p => parsePostDate(p.created_date).getTime() <  thirtyDaysAgo);
 
-    recent.sort((a, b) => new Date(b.created_date) - new Date(a.created_date));
+    recent.sort((a, b) => parsePostDate(b.created_date).getTime() - parsePostDate(a.created_date).getTime());
     older.sort((a, b) => (readsMap[b.title] || 0) - (readsMap[a.title] || 0));
 
     function postItem(p) {
         const slug = encodeURIComponent(p.path);
         const articleId = p.title.toLowerCase().replace(/\\W+/g, '-');
-        const dt = new Date(p.created_date);
-        const isNew = dt >= sevenDaysAgo;
+        const dt = parsePostDate(p.created_date);
+        const isNew = dt.getTime() >= sevenDaysAgo;
 
         let datetimeStr = '';
         let formattedDate = p.created_date;
-        if (!isNaN(dt.getTime())) {
+        if (dt.getTime() !== 0) {
             datetimeStr = dt.toISOString();
             formattedDate = dt.toLocaleDateString('en-US', {
                 month: 'long',
