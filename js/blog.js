@@ -5,7 +5,7 @@
 
 import { initPage } from './shared.js';
 import { fetchCached, fetchTextCached } from './cache.js';
-import { sanitizeRenderedHTML, isAdmin } from './utils.js';
+import { sanitizeRenderedHTML, isAdmin, renderPostListing } from './utils.js';
 import { trackEvent, trackPageView } from './analytics.js';
 import { fetchSupabaseJson } from './supabase.js';
 
@@ -42,85 +42,13 @@ async function initListingView() {
             .filter(r => r.section === 'post_read')
             .map(r => ({ post: r.label, reads: Number(r.count) }));
         manifestData = manifest.posts || [];
-        renderListing(manifestData, document.getElementById('posts-list'), reads);
+        const readsMap = Object.fromEntries(reads.map(r => [r.post, r.reads]));
+        renderPostListing(manifestData, document.getElementById('posts-list'), readsMap);
     } catch (err) {
         console.error(err);
         document.getElementById('posts-list').innerHTML =
             '<li><p>failed to load posts.</p></li>';
     }
-}
-
-// "2026-05-31 22:38:32 +0530" → "2026-05-31T22:38:32+05:30" (ISO 8601)
-function parsePostDate(str) {
-    if (!str) return new Date(0);
-    const d = new Date(
-        str.replace(/^(\d{4}-\d{2}-\d{2}) (\d{2}:\d{2}:\d{2}) ([+-]\d{2})(\d{2})$/, '$1T$2$3:$4')
-    );
-    return isNaN(d.getTime()) ? new Date(0) : d;
-}
-
-function renderListing(posts, container, reads = []) {
-    if (!container) return;
-
-    if (!posts.length) {
-        container.innerHTML = '<li><p>no posts yet.</p></li>';
-        return;
-    }
-
-    const readsMap = Object.fromEntries(reads.map(r => [r.post, r.reads]));
-
-    const now = Date.now();
-    const thirtyDaysAgo = now - 30 * 24 * 60 * 60 * 1000;
-    const sevenDaysAgo  = now -  7 * 24 * 60 * 60 * 1000;
-
-    const recent = posts.filter(p => parsePostDate(p.created_date).getTime() >= thirtyDaysAgo);
-    const older  = posts.filter(p => parsePostDate(p.created_date).getTime() <  thirtyDaysAgo);
-
-    recent.sort((a, b) => parsePostDate(b.created_date).getTime() - parsePostDate(a.created_date).getTime());
-    older.sort((a, b) => (readsMap[b.title] || 0) - (readsMap[a.title] || 0));
-
-    function postItem(p) {
-        const slug = encodeURIComponent(p.path);
-        const articleId = p.title.toLowerCase().replace(/\\W+/g, '-');
-        const dt = parsePostDate(p.created_date);
-        const isNew = dt.getTime() >= sevenDaysAgo;
-
-        let datetimeStr = '';
-        let formattedDate = p.created_date;
-        if (dt.getTime() !== 0) {
-            datetimeStr = dt.toISOString();
-            formattedDate = dt.toLocaleDateString('en-US', {
-                month: 'long',
-                day: '2-digit',
-                year: 'numeric'
-            });
-        }
-
-        const newLabel = isNew ? `<span class="post-new-label">new</span>` : '';
-
-        return `
-            <li>
-                <article id="${articleId}">
-                    <a href="/writing?post=${slug}"><h2>${p.title}</h2></a>
-                    ${newLabel}
-                    <time datetime="${datetimeStr}">${formattedDate}</time>
-                    <p>${p.description || ''}</p>
-                    <footer>
-                        <a href="/writing?post=${slug}">Read more about ${p.title}</a>
-                    </footer>
-                </article>
-            </li>
-        `;
-    }
-
-    const divider = recent.length && older.length
-        ? `<li class="posts-section-divider" aria-hidden="true"></li>`
-        : '';
-
-    container.innerHTML =
-        recent.map(postItem).join('') +
-        divider +
-        older.map(postItem).join('');
 }
 
 /* ============================================
