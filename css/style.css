@@ -515,6 +515,36 @@ main section hr {
     color: var(--green-bright);
 }
 
+/* Stats filter buttons */
+#stats-filter {
+    display: flex;
+    gap: 0.5rem;
+    margin-bottom: var(--space-md);
+}
+
+.stats-range-btn {
+    background: var(--bg2);
+    border: 1px solid var(--border);
+    color: var(--fg-muted);
+    border-radius: var(--radius-sm);
+    padding: 0.25rem 0.75rem;
+    font-family: var(--font-mono);
+    font-size: 0.875rem;
+    cursor: pointer;
+    transition: var(--transition-fast);
+}
+
+.stats-range-btn:hover {
+    border-color: var(--accent);
+    color: var(--fg-default);
+}
+
+.stats-range-btn.stats-range-active {
+    background: var(--bg3);
+    border-color: var(--accent);
+    color: var(--accent);
+}
+
 /* Stats Page specific */
 main>ul[id^="stats-"] {
     background-color: var(--bg2);

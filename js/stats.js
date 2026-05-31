@@ -5,22 +5,94 @@
 import { initPage } from './shared.js';
 import { fetchSupabaseJson } from './supabase.js';
 
+const RANGES = [
+    { label: '7d',  days: 7 },
+    { label: '30d', days: 30 },
+    { label: '90d', days: 90 },
+    { label: 'all', days: null },
+];
+
+const PARAM_KEY = 'range';
+
+function getActiveRange() {
+    const param = new URLSearchParams(window.location.search).get(PARAM_KEY);
+    return RANGES.find(r => r.label === param) ?? RANGES[RANGES.length - 1];
+}
+
+let activeRange = getActiveRange();
+
+function setRange(r) {
+    activeRange = r;
+    const url = new URL(window.location.href);
+    if (r.days === null) {
+        url.searchParams.delete(PARAM_KEY);
+    } else {
+        url.searchParams.set(PARAM_KEY, r.label);
+    }
+    history.replaceState(null, '', url);
+}
+
 async function fetchView(view) {
     return fetchSupabaseJson(`${view}?select=*`);
 }
 
-async function init() {
-    await initPage('');
-
-    showSkeletons();
-
-    try {
+async function fetchStats() {
+    if (!activeRange.days) {
         const [pages, projects, posts] = await Promise.all([
             fetchView('stats_page_views'),
             fetchView('stats_project_clicks'),
             fetchView('stats_post_reads')
         ]);
+        return { pages, projects, posts };
+    }
 
+    const since = new Date();
+    since.setDate(since.getDate() - activeRange.days);
+    const isoDate = since.toISOString();
+
+    const rows = await fetchSupabaseJson(
+        `events?select=event_type,label&created_at=gte.${isoDate}&limit=2000`
+    );
+
+    function agg(type, labelKey, valueKey) {
+        const counts = {};
+        for (const row of rows) {
+            if (row.event_type === type && row.label) {
+                counts[row.label] = (counts[row.label] || 0) + 1;
+            }
+        }
+        return Object.entries(counts)
+            .map(([name, count]) => ({ [labelKey]: name, [valueKey]: count }))
+            .sort((a, b) => b[valueKey] - a[valueKey]);
+    }
+
+    return {
+        pages:    agg('page_view',     'page',    'views'),
+        projects: agg('project_click', 'project', 'clicks'),
+        posts:    agg('post_read',     'post',    'reads'),
+    };
+}
+
+function renderFilters() {
+    const el = document.getElementById('stats-filter');
+    if (!el) return;
+    el.innerHTML = RANGES.map(r => {
+        const active = r === activeRange ? ' stats-range-active' : '';
+        return `<button class="stats-range-btn${active}" data-label="${r.label}">${r.label}</button>`;
+    }).join('');
+    el.querySelectorAll('.stats-range-btn').forEach(btn => {
+        btn.addEventListener('click', () => {
+            setRange(RANGES.find(r => r.label === btn.dataset.label) ?? RANGES[RANGES.length - 1]);
+            loadStats();
+        });
+    });
+}
+
+async function loadStats() {
+    renderFilters();
+
+    try {
+        const { pages, projects, posts } = await fetchStats();
         renderSummary(pages, projects, posts);
         renderRows('stats-pages',    pages,    'page',    'views');
         renderRows('stats-projects', projects, 'project', 'clicks');
@@ -69,9 +141,9 @@ function renderRows(containerId, rows, labelKey, valueKey) {
     }).join('');
 }
 
-/* ---- Skeleton while loading ---- */
-function showSkeletons() {
-    // Left empty for wwj.dev style
+async function init() {
+    await initPage('');
+    loadStats();
 }
 
 init();
