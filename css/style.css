@@ -515,6 +515,27 @@ main section hr {
     color: var(--green-bright);
 }
 
+/* Blog listing */
+.post-new-label {
+    display: inline-block;
+    font-size: 0.625rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--green);
+    border: 1px solid var(--green-dim);
+    border-radius: var(--radius-full);
+    padding: 0.125rem 0.5rem;
+    font-family: var(--font-mono);
+    margin-bottom: 0.25rem;
+}
+
+li.posts-section-divider {
+    padding: 0 !important;
+    border-bottom: 1px dashed var(--stroke-divider) !important;
+    margin: 0;
+}
+
 /* Stats filter buttons */
 #stats-filter {
     display: flex;

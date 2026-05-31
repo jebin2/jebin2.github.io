@@ -7,6 +7,7 @@ import { initPage } from './shared.js';
 import { fetchCached, fetchTextCached } from './cache.js';
 import { sanitizeRenderedHTML, isAdmin } from './utils.js';
 import { trackEvent, trackPageView } from './analytics.js';
+import { fetchSupabaseJson } from './supabase.js';
 
 async function init() {
     const params = new URLSearchParams(window.location.search);
@@ -33,9 +34,12 @@ async function initListingView() {
     let manifestData = [];
 
     try {
-        const manifest = await fetchCached(config.blog_manifest);
+        const [manifest, reads] = await Promise.all([
+            fetchCached(config.blog_manifest),
+            fetchSupabaseJson('stats_post_reads?select=*').catch(() => [])
+        ]);
         manifestData = manifest.posts || [];
-        renderListing(manifestData, document.getElementById('posts-list'));
+        renderListing(manifestData, document.getElementById('posts-list'), reads);
     } catch (err) {
         console.error(err);
         document.getElementById('posts-list').innerHTML =
@@ -43,7 +47,7 @@ async function initListingView() {
     }
 }
 
-function renderListing(posts, container) {
+function renderListing(posts, container, reads = []) {
     if (!container) return;
 
     if (!posts.length) {
@@ -51,13 +55,23 @@ function renderListing(posts, container) {
         return;
     }
 
-    // Sort newest first
-    const sorted = posts.slice().sort((a, b) => new Date(b.created_date) - new Date(a.created_date));
+    const readsMap = Object.fromEntries(reads.map(r => [r.post, r.reads]));
 
-    container.innerHTML = sorted.map((p, i) => {
+    const now = new Date();
+    const thirtyDaysAgo = new Date(now - 30 * 24 * 60 * 60 * 1000);
+    const sevenDaysAgo  = new Date(now -  7 * 24 * 60 * 60 * 1000);
+
+    const recent = posts.filter(p => new Date(p.created_date) >= thirtyDaysAgo);
+    const older  = posts.filter(p => new Date(p.created_date) <  thirtyDaysAgo);
+
+    recent.sort((a, b) => new Date(b.created_date) - new Date(a.created_date));
+    older.sort((a, b) => (readsMap[b.title] || 0) - (readsMap[a.title] || 0));
+
+    function postItem(p) {
         const slug = encodeURIComponent(p.path);
         const articleId = p.title.toLowerCase().replace(/\\W+/g, '-');
         const dt = new Date(p.created_date);
+        const isNew = dt >= sevenDaysAgo;
 
         let datetimeStr = '';
         let formattedDate = p.created_date;
@@ -70,10 +84,13 @@ function renderListing(posts, container) {
             });
         }
 
+        const newLabel = isNew ? `<span class="post-new-label">new</span>` : '';
+
         return `
             <li>
                 <article id="${articleId}">
                     <a href="/writing?post=${slug}"><h2>${p.title}</h2></a>
+                    ${newLabel}
                     <time datetime="${datetimeStr}">${formattedDate}</time>
                     <p>${p.description || ''}</p>
                     <footer>
@@ -82,7 +99,16 @@ function renderListing(posts, container) {
                 </article>
             </li>
         `;
-    }).join('');
+    }
+
+    const divider = recent.length && older.length
+        ? `<li class="posts-section-divider" aria-hidden="true"></li>`
+        : '';
+
+    container.innerHTML =
+        recent.map(postItem).join('') +
+        divider +
+        older.map(postItem).join('');
 }
 
 /* ============================================
