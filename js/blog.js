@@ -197,6 +197,45 @@ function renderPost(mdText, meta, container) {
 
 
 /* ---- X Article Modal Logic ---- */
+function prepareXArticleHtml(html) {
+    const div = document.createElement('div');
+    div.innerHTML = html;
+
+    // Strip images — they don't paste into X's article editor
+    div.querySelectorAll('img').forEach(el => el.remove());
+
+    // Replace <pre><code> with a single <p> using <br> between lines.
+    // One <p> per code block avoids the double-blank-line X adds between
+    // adjacent block elements (heading -> multiple <p>s = two gaps).
+    div.querySelectorAll('pre').forEach(pre => {
+        const code = pre.querySelector('code');
+        const text = (code ? code.textContent : pre.textContent).trim();
+        const p = document.createElement('p');
+        p.style.fontFamily = 'monospace';
+        const lines = text.split('\n').map(line => {
+            const s = document.createElement('span');
+            s.textContent = line || ' ';
+            return s.innerHTML;
+        });
+        p.innerHTML = lines.join('<br>');
+        pre.replaceWith(p);
+    });
+
+    // Demote h1 → h2 so the post title isn't duplicated (X sets title separately)
+    div.querySelectorAll('h1').forEach(el => {
+        const h2 = document.createElement('h2');
+        h2.innerHTML = el.innerHTML;
+        el.replaceWith(h2);
+    });
+
+    // Strip any empty paragraphs left behind
+    div.querySelectorAll('p').forEach(el => {
+        if (!el.innerHTML.trim()) el.remove();
+    });
+
+    return div.innerHTML;
+}
+
 function showXArticleModal(title, bodyHtml, bodyMarkdown) {
     let overlay = document.querySelector('.x-modal-overlay');
     if (!overlay) {
@@ -205,13 +244,15 @@ function showXArticleModal(title, bodyHtml, bodyMarkdown) {
         document.body.appendChild(overlay);
     }
 
+    const xReadyHtml = prepareXArticleHtml(bodyHtml);
+
     overlay.innerHTML = `
         <div class="x-modal">
             <h2>Prepare X Article</h2>
             <p style="font-size: 0.875rem; color: var(--fg-muted); margin: 0;">
                 Copy the title and body below. The body is copied as <b>Rich Text</b> to preserve formatting (headers, bold, etc.) when pasting into X.
             </p>
-            
+
             <div class="x-modal-field">
                 <label>1. Article Title</label>
                 <div class="field-row">
@@ -223,8 +264,8 @@ function showXArticleModal(title, bodyHtml, bodyMarkdown) {
             <div class="x-modal-field">
                 <label>2. Article Body</label>
                 <div class="field-row" style="flex-direction: column; align-items: flex-start; gap: 1rem;">
-                    <div id="x-body-preview" style="width: 100%; height: 100px; overflow-y: auto; background: var(--bg0); border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 0.5rem; font-size: 0.75rem; color: var(--fg-muted);">
-                        ${bodyHtml}
+                    <div id="x-body-preview" style="width: 100%; height: 300px; overflow-y: auto; background: var(--bg0); border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 0.75rem; font-size: 0.8rem; color: var(--fg1); line-height: 1.6;">
+                        ${xReadyHtml}
                     </div>
                     <button class="x-btn primary" id="copy-rich-btn" style="width: 100%;">Copy Body (Rich Text)</button>
                 </div>
@@ -242,9 +283,7 @@ function showXArticleModal(title, bodyHtml, bodyMarkdown) {
     document.getElementById('copy-rich-btn').addEventListener('click', async (e) => {
         const btn = e.currentTarget;
         try {
-            // Create a temporary div to hold the HTML for copying
-            // We want to make sure it's clean for X's editor
-            const blob = new Blob([bodyHtml], { type: 'text/html' });
+            const blob = new Blob([xReadyHtml], { type: 'text/html' });
             const plainBlob = new Blob([bodyMarkdown], { type: 'text/plain' });
             const data = [new ClipboardItem({ 
                 'text/html': blob,
