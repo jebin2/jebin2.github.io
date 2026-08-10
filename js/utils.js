@@ -149,12 +149,12 @@ export function renderPostListing(posts, container, readsMap = {}, dailyReadsMap
         return `
             <li>
                 <article id="${escapeHTML(articleId)}">
-                    <a href="/writing?post=${slug}"><h2>${title}${dailyLabel}</h2></a>
+                    <a href="/writing/?post=${slug}"><h2>${title}${dailyLabel}</h2></a>
                     ${newLabel}
                     <time datetime="${escapeHTML(datetimeStr)}">${escapeHTML(formattedDate)}</time>
                     <p>${escapeHTML(p.description || '')}</p>
                     <footer>
-                        <a href="/writing?post=${slug}">Read more about ${title}</a>
+                        <a href="/writing/?post=${slug}">Read more about ${title}</a>
                     </footer>
                 </article>
             </li>

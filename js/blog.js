@@ -24,7 +24,7 @@ async function init() {
    Listing view  (/blog/)
    ============================================ */
 async function initListingView() {
-    setPageMeta({ title: 'Writing | jebin2', path: '/writing' });
+    setPageMeta({ title: 'Writing | jebin2', path: '/writing/' });
     const config = await initPage('blog', { skipTrackPageView: true });
     trackPageView('writing');
 
@@ -74,7 +74,7 @@ async function initPostView(postPath) {
         setPageMeta({
             title: meta ? `${meta.title} | jebin2` : 'Writing | jebin2',
             description: meta?.description,
-            path: `/writing?post=${encodeURIComponent(postPath)}`,
+            path: `/writing/?post=${encodeURIComponent(postPath)}`,
             type: 'article',
         });
         trackPageView(meta?.title || 'writing');

@@ -20,7 +20,7 @@ const SITE = 'https://www.voidall.com';
 const STATIC_PAGES = [
     { loc: '/',            file: 'index.html',      changefreq: 'weekly',  priority: '1.0' },
     { loc: '/projects',    file: 'projects.html',   changefreq: 'weekly',  priority: '0.9' },
-    { loc: '/writing',     file: 'writing/index.html', changefreq: 'weekly',  priority: '0.8' },
+    { loc: '/writing/',    file: 'writing/index.html', changefreq: 'weekly',  priority: '0.8' },
     { loc: '/linksilike',  file: 'linksilike.html', changefreq: 'monthly', priority: '0.7' },
 ];
 
@@ -99,7 +99,7 @@ async function main() {
             priority: p.priority,
         })),
         ...posts.map(p => ({
-            loc: `${SITE}/writing?post=${encodeURIComponent(p.path)}`,
+            loc: `${SITE}/writing/?post=${encodeURIComponent(p.path)}`,
             lastmod: manifestDate(p.last_modified_date || p.created_date),
             changefreq: 'monthly',
             priority: '0.6',
