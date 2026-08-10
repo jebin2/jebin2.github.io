@@ -24,6 +24,16 @@ export function escapeURL(value) {
     return isSafeUrl(url) ? escapeHTML(url) : '';
 }
 
+// Post title -> URL slug. Shared by the browser and the prerender script, so
+// /writing/<slug>/ resolves to the file the build wrote. Changing this rule
+// changes every post URL.
+export function slugifyTitle(title) {
+    return String(title ?? '')
+        .toLowerCase()
+        .replace(/\W+/g, '-')
+        .replace(/^-+|-+$/g, '');
+}
+
 export function sanitizeRenderedHTML(html) {
     const template = document.createElement('template');
     template.innerHTML = html;
@@ -121,8 +131,8 @@ export function renderPostListing(posts, container, readsMap = {}, dailyReadsMap
     older.sort((a, b) => (readsMap[b.title] || 0) - (readsMap[a.title] || 0));
 
     function postItem(p) {
-        const slug = encodeURIComponent(p.path);
-        const articleId = p.title.toLowerCase().replace(/\W+/g, '-');
+        const slug = slugifyTitle(p.title);
+        const articleId = slug;
         const dt = parsePostDate(p.created_date);
         const isNew = dt.getTime() >= sevenDaysAgo;
 
@@ -149,12 +159,12 @@ export function renderPostListing(posts, container, readsMap = {}, dailyReadsMap
         return `
             <li>
                 <article id="${escapeHTML(articleId)}">
-                    <a href="/writing/?post=${slug}"><h2>${title}${dailyLabel}</h2></a>
+                    <a href="/writing/${slug}/"><h2>${title}${dailyLabel}</h2></a>
                     ${newLabel}
                     <time datetime="${escapeHTML(datetimeStr)}">${escapeHTML(formattedDate)}</time>
                     <p>${escapeHTML(p.description || '')}</p>
                     <footer>
-                        <a href="/writing/?post=${slug}">Read more about ${title}</a>
+                        <a href="/writing/${slug}/">Read more about ${title}</a>
                     </footer>
                 </article>
             </li>

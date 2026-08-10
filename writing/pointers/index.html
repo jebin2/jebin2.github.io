@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>pointers | jebin2</title>
+    <meta name="author" content="jebin2">
+    <meta name="description" content="Every variable in C has an address.">
+    <link rel="canonical" href="https://www.voidall.com/writing/pointers/">
+
+    <meta property="og:type" content="article">
+    <meta property="og:site_name" content="jebin2">
+    <meta property="og:url" content="https://www.voidall.com/writing/pointers/">
+    <meta property="og:title" content="pointers">
+    <meta property="og:description" content="Every variable in C has an address.">
+    <meta property="og:image" content="https://www.voidall.com/assets/icons/android-chrome-512x512.png">
+    <meta property="article:published_time" content="2025-09-22T05:53:33.000Z">
+    <meta property="article:modified_time" content="2026-04-09T06:20:17.000Z">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="pointers">
+    <meta name="twitter:description" content="Every variable in C has an address.">
+    <meta name="twitter:image" content="https://www.voidall.com/assets/icons/android-chrome-512x512.png">
+
+    <link rel="icon" type="image/png" sizes="32x32" href="/assets/icons/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/assets/icons/favicon-16x16.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="/assets/icons/apple-touch-icon.png">
+    <link rel="manifest" href="/manifest.json">
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+    <header></header>
+    <main>
+        <article data-post-path="C/pointers/pointers.md" data-post-title="pointers" data-post-description="Every variable in C has an address.">
+            <header>
+                <a href="/#pointers" id="pointers"><h1>pointers</h1></a>
+                <span>Author: <address>jebin2</address></span>
+                <span>Published: <time datetime="2025-09-22T05:53:33.000Z" pubdate>September 22, 2025</time></span>
+                <span>Updated: <time datetime="2026-04-09T06:20:17.000Z">April 09, 2026</time></span>
+            </header>
+            <section>
+<p>Every variable in C has an <strong>address</strong>.</p>
+<p>A <strong>pointer</strong> is just a variable that stores the address of another variable.</p>
+<p>Example:</p>
+<pre><code class="language-c">int a = 10;    // normal variable
+int *b = &amp;a;   // pointer storing address of a
+</code></pre>
+<ul>
+<li><code>&amp;a</code> → gives the <strong>address of <code>a</code></strong>.</li>
+<li><code>&amp;b</code> → gives the <strong>address of the pointer <code>b</code> itself</strong>.</li>
+</ul>
+<p>To get the value stored at the address, we <strong>dereference</strong> the pointer:</p>
+<pre><code class="language-c">*b  // this gives 10, the value of a
+</code></pre>
+<p>You can also change the value of <code>a</code> through the pointer:</p>
+<pre><code class="language-c">*b = 20;  // now a is 20
+</code></pre>
+<p>So basically, pointers = addresses, and <code>*</code> lets you reach the value at that address.</p>
+<hr>
+<p>Pointers are <strong>super important for arrays</strong> too.</p>
+<p>Example:</p>
+<pre><code class="language-c">int nums[] = {1, 2, 3, 4, 5};
+</code></pre>
+<p>If we pass <code>nums</code> to a function, it actually <strong>sends the address of the first element</strong>:</p>
+<pre><code class="language-c">void display(int* nums, int nums_size) {
+    for (int i = 0; i &lt; nums_size; i++) {
+        printf(&quot;%d&quot;, nums[i]);
+    }
+}
+</code></pre>
+<p>These two calls are <strong>equivalent</strong>:</p>
+<pre><code class="language-c">display(nums, nums_size);
+display(&amp;nums[0], nums_size);
+</code></pre>
+<p><strong>Output:</strong></p>
+<pre><code>12345
+12345
+</code></pre>
+<p>So yeah, arrays and pointers are basically best friends in C. Passing an array to a function is just passing a pointer to its first element</p>
+
+            </section>
+        </article>
+    </main>
+    <footer></footer>
+
+    <script src="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@11.9.0/build/highlight.min.js"
+            integrity="sha384-F/bZzf7p3Joyp5psL90p/p89AZJsndkSoGwRpXcZhleCWhd8SnRuoYo4d0yirjJp"
+            crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script type="module" src="/js/post.js"></script>
+    <!-- source: https://cdn.jsdelivr.net/gh/jebin2/blog@main/C/pointers/pointers.md -->
+</body>
+</html>

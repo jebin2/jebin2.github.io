@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Floating Point Standard | jebin2</title>
+    <meta name="author" content="jebin2">
+    <meta name="description" content="so if you print a float as int in C does it give random value? ignore decimal? error? garbage?">
+    <link rel="canonical" href="https://www.voidall.com/writing/floating-point-standard/">
+
+    <meta property="og:type" content="article">
+    <meta property="og:site_name" content="jebin2">
+    <meta property="og:url" content="https://www.voidall.com/writing/floating-point-standard/">
+    <meta property="og:title" content="Floating Point Standard">
+    <meta property="og:description" content="so if you print a float as int in C does it give random value? ignore decimal? error? garbage?">
+    <meta property="og:image" content="https://www.voidall.com/assets/icons/android-chrome-512x512.png">
+    <meta property="article:published_time" content="2025-09-08T12:58:53.000Z">
+    <meta property="article:modified_time" content="2026-04-09T06:20:17.000Z">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Floating Point Standard">
+    <meta name="twitter:description" content="so if you print a float as int in C does it give random value? ignore decimal? error? garbage?">
+    <meta name="twitter:image" content="https://www.voidall.com/assets/icons/android-chrome-512x512.png">
+
+    <link rel="icon" type="image/png" sizes="32x32" href="/assets/icons/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/assets/icons/favicon-16x16.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="/assets/icons/apple-touch-icon.png">
+    <link rel="manifest" href="/manifest.json">
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+    <header></header>
+    <main>
+        <article data-post-path="C/Floating Point Standard/Floating Point Standard.md" data-post-title="Floating Point Standard" data-post-description="so if you print a float as int in C does it give random value? ignore decimal? error? garbage?">
+            <header>
+                <a href="/#floating-point-standard" id="floating-point-standard"><h1>Floating Point Standard</h1></a>
+                <span>Author: <address>jebin2</address></span>
+                <span>Published: <time datetime="2025-09-08T12:58:53.000Z" pubdate>September 08, 2025</time></span>
+                <span>Updated: <time datetime="2026-04-09T06:20:17.000Z">April 09, 2026</time></span>
+            </header>
+            <section>
+<p>so if you print a float as int in C<br>does it give random value?<br>ignore decimal?<br>error? garbage?  </p>
+<hr>
+<h2>how float is stored in C</h2>
+<p>floats are stored in <strong>IEEE 754</strong> format.  </p>
+<p>wait what is IEEE 754??  </p>
+<p>basically it’s a standard way to represent floating point numbers in binary.<br>it splits the 32 bits into:  </p>
+<ul>
+<li>1 bit for sign  </li>
+<li>8 bits for exponent  </li>
+<li>23 bits for fraction (mantissa)</li>
+</ul>
+<p><a href="https://larrylu.dev/why-01-02-03-a-deep-dive-into-ieee-754-and-floating-point-arithmetic">Detailed IEEE 754 Explaination</a></p>
+<hr>
+<h2>why not just follow int way?</h2>
+<p>computer only understands 0s and 1s.  </p>
+<p>with 32 bits, an <code>unsigned int</code> can store from <code>0</code> to <code>2^32 - 1 = 4294967295</code>.  </p>
+<p>but floats are trickier — between 1 and 10 alone, there are <em>infinite</em> decimal numbers.<br>we can’t just shove them into int slots.  </p>
+<p>so IEEE 754 came in and said:<br>&quot;yo, let’s use scientific notation in binary (like <code>1.xxx * 2^n</code>) so we can cover a huge range, not just whole numbers.&quot;  </p>
+<hr>
+<h2>example</h2>
+<pre><code class="language-c">#include &lt;stdio.h&gt;
+
+int main() {
+  printf(&quot;Hello World\n&quot;);
+  float radius;
+  scanf(&quot;%f&quot;, &amp;radius);
+  printf(&quot;%i&quot;, radius);   // printing float as int
+  return 0;
+}
+</code></pre>
+<h3>output</h3>
+<pre><code>Hello World
+3.14
+1078523331
+</code></pre>
+<hr>
+<h2>why that weird number?</h2>
+<ul>
+<li><p><code>3.14</code> as a float is stored in memory as:
+👉 <code>0x4048F5C3</code> (check <a href="https://float.exposed/0x4048f5c3">here</a>)</p>
+</li>
+<li><p>when you do <code>printf(&quot;%i&quot;, radius)</code>,
+<code>printf</code> thinks it’s an <code>int</code> and just reinterprets those raw 32 bits.</p>
+</li>
+<li><p><code>0x4048F5C3</code> in decimal = <code>1078523331</code>
+(check <a href="https://www.rapidtables.com/convert/number/hex-to-decimal.html?x=4048F5C3">hex to decimal</a>)</p>
+</li>
+</ul>
+<p>so nope, it’s not random. it’s just the float’s <strong>bit pattern</strong> being read as an int.</p>
+<hr>
+<h2>conclusion</h2>
+<p>printing float as int doesn’t give garbage,
+it gives the integer value of the float’s IEEE 754 raw bits.</p>
+<p>use:</p>
+<ul>
+<li><code>%f</code> → float</li>
+<li><code>%lf</code> → double</li>
+<li><code>%i</code> or <code>%d</code> → int</li>
+</ul>
+<p>otherwise, you’ll get numbers like <code>1078523331</code> popping up 😅</p>
+
+            </section>
+        </article>
+    </main>
+    <footer></footer>
+
+    <script src="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@11.9.0/build/highlight.min.js"
+            integrity="sha384-F/bZzf7p3Joyp5psL90p/p89AZJsndkSoGwRpXcZhleCWhd8SnRuoYo4d0yirjJp"
+            crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script type="module" src="/js/post.js"></script>
+    <!-- source: https://cdn.jsdelivr.net/gh/jebin2/blog@main/C/Floating%20Point%20Standard/Floating%20Point%20Standard.md -->
+</body>
+</html>

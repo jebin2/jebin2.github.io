@@ -14,6 +14,8 @@ import { execFileSync } from 'node:child_process';
 import { fileURLToPath } from 'node:url';
 import { dirname, join } from 'node:path';
 
+import { slugifyTitle } from '../js/utils.js';
+
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), '..');
 const SITE = 'https://www.voidall.com';
 
@@ -99,7 +101,7 @@ async function main() {
             priority: p.priority,
         })),
         ...posts.map(p => ({
-            loc: `${SITE}/writing/?post=${encodeURIComponent(p.path)}`,
+            loc: `${SITE}/writing/${slugifyTitle(p.title)}/`,
             lastmod: manifestDate(p.last_modified_date || p.created_date),
             changefreq: 'monthly',
             priority: '0.6',

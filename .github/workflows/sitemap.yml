@@ -1,7 +1,8 @@
-name: Update sitemap
+name: Build site
 
-# Posts live in the blog repo, so the sitemap can go stale without anything
-# changing here. Rebuild daily, on demand, and whenever the site shell changes.
+# Posts live in the blog repo, so prerendered pages and the sitemap go stale
+# without anything changing here. Rebuild daily, on demand, and whenever the
+# build inputs change.
 on:
   schedule:
     - cron: '0 3 * * *'
@@ -10,14 +11,15 @@ on:
     branches: [main]
     paths:
       - 'config.json'
-      - 'scripts/generate-sitemap.mjs'
+      - 'js/utils.js'          # slug rule — changing it moves every post URL
+      - 'scripts/**'
       - '.github/workflows/sitemap.yml'
 
 permissions:
   contents: write
 
 concurrency:
-  group: sitemap
+  group: build-site
   cancel-in-progress: true
 
 jobs:
@@ -33,16 +35,24 @@ jobs:
         with:
           node-version: '20'
 
-      - run: node scripts/generate-sitemap.mjs
+      # Pinned to the same version the browser loads, so build-time and
+      # client-side rendering of the same markdown agree.
+      - run: npm install --no-save marked@9.1.6
+
+      - name: Prerender posts
+        run: node scripts/prerender.mjs
+
+      - name: Generate sitemap
+        run: node scripts/generate-sitemap.mjs
 
       - name: Commit if changed
         run: |
-          if git diff --quiet -- sitemap.xml; then
-            echo "sitemap.xml unchanged"
+          if git diff --quiet -- sitemap.xml writing/ && [ -z "$(git status --porcelain writing/)" ]; then
+            echo "nothing changed"
             exit 0
           fi
           git config user.name  "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add sitemap.xml
-          git commit -m "chore: regenerate sitemap"
+          git add -A sitemap.xml writing/
+          git commit -m "chore: rebuild prerendered posts and sitemap"
           git push

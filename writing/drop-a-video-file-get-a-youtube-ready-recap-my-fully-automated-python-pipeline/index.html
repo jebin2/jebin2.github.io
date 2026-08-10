@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Drop a Video File, Get a YouTube-Ready Recap - My Fully Automated Python Pipeline | jebin2</title>
+    <meta name="author" content="jebin2">
+    <meta name="description" content="I was spending hours editing recap videos by hand. Trimming, scripting, syncing subtitles, cropping for vertical all assembly line work. So I automated the…">
+    <link rel="canonical" href="https://www.voidall.com/writing/drop-a-video-file-get-a-youtube-ready-recap-my-fully-automated-python-pipeline/">
+
+    <meta property="og:type" content="article">
+    <meta property="og:site_name" content="jebin2">
+    <meta property="og:url" content="https://www.voidall.com/writing/drop-a-video-file-get-a-youtube-ready-recap-my-fully-automated-python-pipeline/">
+    <meta property="og:title" content="Drop a Video File, Get a YouTube-Ready Recap - My Fully Automated Python Pipeline">
+    <meta property="og:description" content="I was spending hours editing recap videos by hand. Trimming, scripting, syncing subtitles, cropping for vertical all assembly line work. So I automated the…">
+    <meta property="og:image" content="https://cdn.jsdelivr.net/gh/jebin2/blog@main/AI/Drop%20a%20Video%20File%2C%20Get%20a%20YouTube-Ready%20Recap%20-%20My%20Fully%20Automated%20Python%20Pipeline/header.png">
+    <meta property="article:published_time" content="2026-05-04T16:32:55.000Z">
+    <meta property="article:modified_time" content="2026-05-05T04:27:05.000Z">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Drop a Video File, Get a YouTube-Ready Recap - My Fully Automated Python Pipeline">
+    <meta name="twitter:description" content="I was spending hours editing recap videos by hand. Trimming, scripting, syncing subtitles, cropping for vertical all assembly line work. So I automated the…">
+    <meta name="twitter:image" content="https://cdn.jsdelivr.net/gh/jebin2/blog@main/AI/Drop%20a%20Video%20File%2C%20Get%20a%20YouTube-Ready%20Recap%20-%20My%20Fully%20Automated%20Python%20Pipeline/header.png">
+
+    <link rel="icon" type="image/png" sizes="32x32" href="/assets/icons/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/assets/icons/favicon-16x16.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="/assets/icons/apple-touch-icon.png">
+    <link rel="manifest" href="/manifest.json">
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+    <header></header>
+    <main>
+        <article data-post-path="AI/Drop a Video File, Get a YouTube-Ready Recap - My Fully Automated Python Pipeline/Drop a Video File, Get a YouTube-Ready Recap - My Fully Automated Python Pipeline.md" data-post-title="Drop a Video File, Get a YouTube-Ready Recap - My Fully Automated Python Pipeline" data-post-description="I was spending hours editing recap videos by hand. Trimming, scripting, syncing subtitles, cropping for vertical all assembly line work. So I automated the…">
+            <header>
+                <a href="/#drop-a-video-file-get-a-youtube-ready-recap-my-fully-automated-python-pipeline" id="drop-a-video-file-get-a-youtube-ready-recap-my-fully-automated-python-pipeline"><h1>Drop a Video File, Get a YouTube-Ready Recap - My Fully Automated Python Pipeline</h1></a>
+                <span>Author: <address>jebin2</address></span>
+                <span>Published: <time datetime="2026-05-04T16:32:55.000Z" pubdate>May 04, 2026</time></span>
+                <span>Updated: <time datetime="2026-05-05T04:27:05.000Z">May 05, 2026</time></span>
+            </header>
+            <section>
+<p><img src="https://cdn.jsdelivr.net/gh/jebin2/blog@main/AI/Drop%20a%20Video%20File%2C%20Get%20a%20YouTube-Ready%20Recap%20-%20My%20Fully%20Automated%20Python%20Pipeline/header.png" alt="header"></p>
+<p>I was spending hours editing recap videos by hand. Trimming, scripting, syncing subtitles, cropping for vertical all assembly line work. So I automated the entire thing.</p>
+<p>I built ReelForge a Python pipeline where you drop in a raw video file (movie, anime episode, whatever) and get back two publish ready videos: a 9:16 short reel and a 16:9 long-form video. Narration, subtitles, animations, transitions. I don&#39;t touch a video editor at any point.</p>
+<h2>Preparing the video for AI</h2>
+<p>The original file could be gigabytes. I can&#39;t throw that at an LLM. So the pipeline creates a tiny compressed copy 480p, 2 FPS, under 50MB. Sounds absurd, but Gemini doesn&#39;t need smooth playback. It just needs to see what&#39;s happening.</p>
+<p>Audio gets extracted separately from the original (full quality, not the compressed copy) and run through my self-hosted STT service. I get back word-level timestamps for every spoken word these drive everything downstream: credit detection, dialogue mapping, and the word-by-word subtitle animations in the final video.</p>
+<h2>Detecting scenes and extracting the best frames</h2>
+<p>First, I skip intros and outros automatically. The first/last 300 seconds of transcription go to Gemini it spots song lyrics, musical patterns, credits and marks them as off-limits.</p>
+<p>Then TransNetV2 (a neural net for shot boundary detection) finds every scene change. No dumb fixed-interval extraction.</p>
+<p>For each scene, I sample up to 5 frames and filter hard: reject black frames, reject duplicates (using DINO embeddings for visual similarity), optionally require a person in frame. What survives gets scored on five sharpness metrics - Laplacian, Sobel, Tenengrad, edge density, local contrast. Sharpest frame wins. Capped at 700 total.</p>
+<h2>Building the scene metadata</h2>
+<p>Each scene gets matched with its dialogue based on timestamp overlap, creating a scene-dialogue map. Then I caption every frame using three Free AI search engines in parallel Google, Brave, DuckDuckGo each analyzing the image with content context.</p>
+<p>So now every frame has: its visual description, its spoken dialogue, and its timestamps. This is what makes the narration-to-scene matching actually work.</p>
+<h2>Writing and matching the recap</h2>
+<p>Gemini generates the narration script from content-specific prompts anime recaps get fan energy with cliffhanger endings, movie recaps get a cinematic tone. The script gets split into individual sentences, each becoming one clip.</p>
+<p>Matching each sentence to the right frame is probably the trickiest part. I do it in two passes: Gemini pairs sentences to scene captions first (no reuse allowed), then a SentenceTransformer model refines the matches using cosine similarity in embedding space. The two-pass approach was necessary cause the LLM alone makes reasonable but not great picks, and the embeddings catch better visual matches.</p>
+<h2>Generating speech and cutting clips</h2>
+<p>Each sentence goes through my self-hosted TTS service, gets trimmed and speed-adjusted. Then I feed each audio file back through STT because I need word-level timestamps for the generated speech, not the original. These timings make the subtitles animate one word at a time. It makes a huge difference.</p>
+<p>Video clips are cut from the original full-quality source, centered on each matched frame&#39;s timestamp. For short-form, FaceTagger auto-crops every clip to 9:16, keeping detected faces and characters centered way better than a dumb center-crop.</p>
+<h2>Animations, rendering, and final output</h2>
+<p>Gemini picks camera animations (15 types &quot;burst&quot; for impacts, &quot;ken_burns&quot; for emotion, &quot;heartbeat&quot; for suspense) and transitions (cuts, fades, slides, wipes, flips, tosses) based on what the narration is saying. Rules prevent repetition.</p>
+<p>The final video is rendered with Remotion, a React-based programmatic video framework. It reads a manifest JSON with all clip paths, audio, word timings, animations, and transitions and produces the complete video.</p>
+<p>The whole pipeline runs a second time for the 16:9 long-form version with a more detailed script but it reuses the scene data from the first run, so the expensive work doesn&#39;t repeat.</p>
+<p>Two videos from one input file. Fully automated.</p>
+<h2>Tech stack</h2>
+<p>Python 3.10+ · FFmpeg · OpenCV · TransNetV2 · DINO embeddings · Google Gemini · SentenceTransformer · Remotion · Self-hosted STT/TTS on HF Spaces · HEVC optimization</p>
+<p>Code is here: <a href="https://github.com/jebin2/reelforge">github.com/jebin2/reelforge</a></p>
+<p>TTS Service: <a href="https://jebin2-tts.hf.space/">https://jebin2-tts.hf.space/</a></p>
+<p>STT Service: <a href="https://jebin2-stt.hf.space/">https://jebin2-stt.hf.space/</a></p>
+
+            </section>
+        </article>
+    </main>
+    <footer></footer>
+
+    <script src="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@11.9.0/build/highlight.min.js"
+            integrity="sha384-F/bZzf7p3Joyp5psL90p/p89AZJsndkSoGwRpXcZhleCWhd8SnRuoYo4d0yirjJp"
+            crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script type="module" src="/js/post.js"></script>
+    <!-- source: https://cdn.jsdelivr.net/gh/jebin2/blog@main/AI/Drop%20a%20Video%20File%2C%20Get%20a%20YouTube-Ready%20Recap%20-%20My%20Fully%20Automated%20Python%20Pipeline/Drop%20a%20Video%20File%2C%20Get%20a%20YouTube-Ready%20Recap%20-%20My%20Fully%20Automated%20Python%20Pipeline.md -->
+</body>
+</html>

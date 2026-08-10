@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>How I Built an Unlimited-Access AI Chatbot API on a Free VPS | jebin2</title>
+    <meta name="author" content="jebin2">
+    <meta name="description" content="My other projects kept calling OpenAI and the credits kept disappearing. I didn&#39;t want to keep paying per token for something I&#39;m running a hundred times a day…">
+    <link rel="canonical" href="https://www.voidall.com/writing/how-i-built-an-unlimited-access-ai-chatbot-api-on-a-free-vps/">
+
+    <meta property="og:type" content="article">
+    <meta property="og:site_name" content="jebin2">
+    <meta property="og:url" content="https://www.voidall.com/writing/how-i-built-an-unlimited-access-ai-chatbot-api-on-a-free-vps/">
+    <meta property="og:title" content="How I Built an Unlimited-Access AI Chatbot API on a Free VPS">
+    <meta property="og:description" content="My other projects kept calling OpenAI and the credits kept disappearing. I didn&#39;t want to keep paying per token for something I&#39;m running a hundred times a day…">
+    <meta property="og:image" content="https://cdn.jsdelivr.net/gh/jebin2/blog@main/AI/How%20I%20Built%20an%20Unlimited-Access%20AI%20Chatbot%20API%20on%20a%20Free%20VPS/header.png">
+    <meta property="article:published_time" content="2026-05-31T17:08:32.000Z">
+    <meta property="article:modified_time" content="2026-05-31T17:08:32.000Z">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="How I Built an Unlimited-Access AI Chatbot API on a Free VPS">
+    <meta name="twitter:description" content="My other projects kept calling OpenAI and the credits kept disappearing. I didn&#39;t want to keep paying per token for something I&#39;m running a hundred times a day…">
+    <meta name="twitter:image" content="https://cdn.jsdelivr.net/gh/jebin2/blog@main/AI/How%20I%20Built%20an%20Unlimited-Access%20AI%20Chatbot%20API%20on%20a%20Free%20VPS/header.png">
+
+    <link rel="icon" type="image/png" sizes="32x32" href="/assets/icons/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/assets/icons/favicon-16x16.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="/assets/icons/apple-touch-icon.png">
+    <link rel="manifest" href="/manifest.json">
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+    <header></header>
+    <main>
+        <article data-post-path="AI/How I Built an Unlimited-Access AI Chatbot API on a Free VPS/How I Built an Unlimited-Access AI Chatbot API on a Free VPS.md" data-post-title="How I Built an Unlimited-Access AI Chatbot API on a Free VPS" data-post-description="My other projects kept calling OpenAI and the credits kept disappearing. I didn&#39;t want to keep paying per token for something I&#39;m running a hundred times a day…">
+            <header>
+                <a href="/#how-i-built-an-unlimited-access-ai-chatbot-api-on-a-free-vps" id="how-i-built-an-unlimited-access-ai-chatbot-api-on-a-free-vps"><h1>How I Built an Unlimited-Access AI Chatbot API on a Free VPS</h1></a>
+                <span>Author: <address>jebin2</address></span>
+                <span>Published: <time datetime="2026-05-31T17:08:32.000Z" pubdate>May 31, 2026</time></span>
+                <span>Updated: <time datetime="2026-05-31T17:08:32.000Z">May 31, 2026</time></span>
+            </header>
+            <section>
+<p><img src="https://cdn.jsdelivr.net/gh/jebin2/blog@main/AI/How%20I%20Built%20an%20Unlimited-Access%20AI%20Chatbot%20API%20on%20a%20Free%20VPS/header.png" alt="header"></p>
+<p>My other projects kept calling OpenAI and the credits kept disappearing. I didn&#39;t want to keep paying per token for something I&#39;m running a hundred times a day testing pipelines. So I stopped and built a replacement that costs nothing.</p>
+<p>Oracle Cloud has a free tier that gives you a permanent ARM VM — 4 OCPUs, 24 GB RAM, no expiry. That&#39;s enough to run a 4B model locally without a GPU. Or you can just run it on your own laptop, or throw it on a Hugging Face Docker Space for free. Either way, same setup.</p>
+<h2>The idea</h2>
+<p>Wrap a model behind a simple async API. You POST a prompt, get a task ID, poll until it&#39;s done. Nothing fancy. The point is it works like any other AI API so dropping it into an existing project is trivial — swap the endpoint, done.</p>
+<p>The backend is FastAPI with a SQLite task queue. One worker processes tasks in order. Multiple requests queue up fine.</p>
+<h2>Two ways to generate</h2>
+<p>The interesting part is you get to choose the model per request.</p>
+<p><code>qwen</code> runs locally via HuggingFace Transformers. Loaded once, reused for every task. Pick the size based on your RAM — 4B works on 8 GB, 7B needs ~16 GB. Fully offline, no external calls.</p>
+<p><code>opencode</code> is the real unlock. opencode is an AI coding terminal with a generous free tier. The worker just shells out: <code>opencode run --print-logs --model opencode/big-pickle &lt;prompt&gt;</code>. If it&#39;s not installed, it auto-installs on first run. You get quality output and zero API costs. This is what I use for anything I&#39;m running repeatedly.</p>
+<h2>Running it</h2>
+<pre><code class="language-bash">git clone https://github.com/jebin2/TTT
+cd TTT/hf_backend
+docker build -t ttt-backend .
+docker run -p 7860:7860 ttt-backend
+</code></pre>
+<p>For HF Spaces: upload the <code>hf_backend</code> folder as a Docker space, port 7860, done.</p>
+<p>Two endpoints you actually need:</p>
+<p><code>POST /api/submit</code> — send your prompt and model choice, get back a task ID.</p>
+<p><code>GET /api/tasks/&lt;id&gt;</code> — poll this until <code>status</code> is <code>completed</code>. Result is in the response.</p>
+<p>Full API docs are in the repo README.</p>
+<h2>That&#39;s it</h2>
+<p>Deploy it once, point your projects at it, never think about token limits again. I use it as the AI layer in several other things I&#39;m building. The opencode backend in particular — free, decent quality, handles everything I&#39;ve thrown at it.</p>
+<p>Code: <a href="https://github.com/jebin2/TTT">github.com/jebin2/TTT</a></p>
+
+            </section>
+        </article>
+    </main>
+    <footer></footer>
+
+    <script src="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@11.9.0/build/highlight.min.js"
+            integrity="sha384-F/bZzf7p3Joyp5psL90p/p89AZJsndkSoGwRpXcZhleCWhd8SnRuoYo4d0yirjJp"
+            crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script type="module" src="/js/post.js"></script>
+    <!-- source: https://cdn.jsdelivr.net/gh/jebin2/blog@main/AI/How%20I%20Built%20an%20Unlimited-Access%20AI%20Chatbot%20API%20on%20a%20Free%20VPS/How%20I%20Built%20an%20Unlimited-Access%20AI%20Chatbot%20API%20on%20a%20Free%20VPS.md -->
+</body>
+</html>

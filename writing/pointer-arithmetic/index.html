@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pointer Arithmetic | jebin2</title>
+    <meta name="author" content="jebin2">
+    <meta name="description" content="We’ll see what happens if we add or subtract to a pointer address.">
+    <link rel="canonical" href="https://www.voidall.com/writing/pointer-arithmetic/">
+
+    <meta property="og:type" content="article">
+    <meta property="og:site_name" content="jebin2">
+    <meta property="og:url" content="https://www.voidall.com/writing/pointer-arithmetic/">
+    <meta property="og:title" content="Pointer Arithmetic">
+    <meta property="og:description" content="We’ll see what happens if we add or subtract to a pointer address.">
+    <meta property="og:image" content="https://www.voidall.com/assets/icons/android-chrome-512x512.png">
+    <meta property="article:published_time" content="2025-09-22T09:35:23.000Z">
+    <meta property="article:modified_time" content="2026-04-09T06:20:17.000Z">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Pointer Arithmetic">
+    <meta name="twitter:description" content="We’ll see what happens if we add or subtract to a pointer address.">
+    <meta name="twitter:image" content="https://www.voidall.com/assets/icons/android-chrome-512x512.png">
+
+    <link rel="icon" type="image/png" sizes="32x32" href="/assets/icons/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/assets/icons/favicon-16x16.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="/assets/icons/apple-touch-icon.png">
+    <link rel="manifest" href="/manifest.json">
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+    <header></header>
+    <main>
+        <article data-post-path="C/Pointer Arithmetic/Pointer Arithmetic.md" data-post-title="Pointer Arithmetic" data-post-description="We’ll see what happens if we add or subtract to a pointer address.">
+            <header>
+                <a href="/#pointer-arithmetic" id="pointer-arithmetic"><h1>Pointer Arithmetic</h1></a>
+                <span>Author: <address>jebin2</address></span>
+                <span>Published: <time datetime="2025-09-22T09:35:23.000Z" pubdate>September 22, 2025</time></span>
+                <span>Updated: <time datetime="2026-04-09T06:20:17.000Z">April 09, 2026</time></span>
+            </header>
+            <section>
+<p>We’ll see what happens if we add or subtract to a pointer address.</p>
+<p>To understand this, let’s take a simple 1D array example:</p>
+<pre><code class="language-c">int *matrix = malloc(rows * sizeof(int));
+</code></pre>
+<p>When we allocate a 1D array of length <code>rows</code> with <code>sizeof(int)</code>, it creates memory in a continuous block.</p>
+<hr>
+<p>Let’s say:</p>
+<pre><code class="language-c">int *temp_mat = malloc(rows * sizeof(int));
+
+temp_mat[0] = 0;
+temp_mat[1] = 1123;
+</code></pre>
+<p>Just assigning some sample values.</p>
+<p>Now check this:</p>
+<pre><code class="language-c">printf(&quot;temp_mat: %d&quot;, *(&amp;temp_mat[0] + 1));
+</code></pre>
+<hr>
+<h3>🔎 What’s happening step by step</h3>
+<ul>
+<li><code>&amp;temp_mat[0]</code> → gets the address of the first element</li>
+<li><code>+ 1</code> → moves the pointer forward by one element (not just 1 byte, but <code>sizeof(int)</code> bytes)</li>
+<li><code>*</code> → dereferences it, so we get the value at the next index</li>
+</ul>
+<hr>
+<h3>📦 Memory Diagram</h3>
+<p>Suppose <code>rows = 4</code>, memory might look like this:</p>
+<pre><code>Index   Value
+-----------------
+[0]     0
+[1]     1123
+[2]     (garbage / uninitialized)
+[3]     (garbage / uninitialized)
+</code></pre>
+<p>Now:</p>
+<ul>
+<li><code>&amp;temp_mat[0]</code> → points to index <strong>0</strong></li>
+<li><code>(&amp;temp_mat[0] + 1)</code> → points to index <strong>1</strong></li>
+<li><code>*(&amp;temp_mat[0] + 1)</code> → gives value at index <strong>1</strong> → <code>1123</code></li>
+</ul>
+<h3>The Magic Formula</h3>
+<pre><code>Final_Address = Base_Address + (Index * sizeof(DataType))
+
+Operation       Backend Calculation              Result
+arr + 0      →  0x1008 + (0 * 4) = 0x1008 + 0x0  = 0x1008
+arr + 1      →  0x1008 + (1 * 4) = 0x1008 + 0x4  = 0x100C  
+arr + 2      →  0x1008 + (2 * 4) = 0x1008 + 0x8  = 0x1010
+arr + 5      →  0x1008 + (5 * 4) = 0x1008 + 0x14 = 0x101C
+
+
+Base address:    0x1008
+Offset (3*4):   +0x0004
+                -------
+Result:          0x100C
+8 + 4 = 12 which is `C` in Hex
+</code></pre>
+<hr>
+<p>That’s basically <strong>pointer arithmetic</strong> — we can do math on pointers to move around memory, and then dereference to get the value.</p>
+
+            </section>
+        </article>
+    </main>
+    <footer></footer>
+
+    <script src="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@11.9.0/build/highlight.min.js"
+            integrity="sha384-F/bZzf7p3Joyp5psL90p/p89AZJsndkSoGwRpXcZhleCWhd8SnRuoYo4d0yirjJp"
+            crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script type="module" src="/js/post.js"></script>
+    <!-- source: https://cdn.jsdelivr.net/gh/jebin2/blog@main/C/Pointer%20Arithmetic/Pointer%20Arithmetic.md -->
+</body>
+</html>

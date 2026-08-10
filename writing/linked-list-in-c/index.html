@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Linked List in C | jebin2</title>
+    <meta name="author" content="jebin2">
+    <meta name="description" content="value → stores the data next → stores the address of the next node">
+    <link rel="canonical" href="https://www.voidall.com/writing/linked-list-in-c/">
+
+    <meta property="og:type" content="article">
+    <meta property="og:site_name" content="jebin2">
+    <meta property="og:url" content="https://www.voidall.com/writing/linked-list-in-c/">
+    <meta property="og:title" content="Linked List in C">
+    <meta property="og:description" content="value → stores the data next → stores the address of the next node">
+    <meta property="og:image" content="https://www.voidall.com/assets/icons/android-chrome-512x512.png">
+    <meta property="article:published_time" content="2025-10-02T03:25:10.000Z">
+    <meta property="article:modified_time" content="2026-04-09T06:20:17.000Z">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Linked List in C">
+    <meta name="twitter:description" content="value → stores the data next → stores the address of the next node">
+    <meta name="twitter:image" content="https://www.voidall.com/assets/icons/android-chrome-512x512.png">
+
+    <link rel="icon" type="image/png" sizes="32x32" href="/assets/icons/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/assets/icons/favicon-16x16.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="/assets/icons/apple-touch-icon.png">
+    <link rel="manifest" href="/manifest.json">
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+    <header></header>
+    <main>
+        <article data-post-path="C/Linked List in C/Linked List in C.md" data-post-title="Linked List in C" data-post-description="value → stores the data next → stores the address of the next node">
+            <header>
+                <a href="/#linked-list-in-c" id="linked-list-in-c"><h1>Linked List in C</h1></a>
+                <span>Author: <address>jebin2</address></span>
+                <span>Published: <time datetime="2025-10-02T03:25:10.000Z" pubdate>October 02, 2025</time></span>
+                <span>Updated: <time datetime="2026-04-09T06:20:17.000Z">April 09, 2026</time></span>
+            </header>
+            <section>
+<h3>Step 1) Define struct</h3>
+<pre><code class="language-c">typedef struct linked_list_node {
+    int value;
+    struct linked_list_node *next;
+} linked_list;
+</code></pre>
+<ul>
+<li><code>value</code> → stores the data</li>
+<li><code>*next</code> → stores the address of the next node</li>
+</ul>
+<hr>
+<h3>Step 2) Setup head and current node</h3>
+<p>We need a <strong>head</strong> node to keep track of the beginning:</p>
+<pre><code class="language-c">linked_list *head = NULL;
+</code></pre>
+<p>Now let’s define a <strong>current node</strong> using <code>malloc</code>:</p>
+<pre><code class="language-c">linked_list *current_node = (linked_list*) malloc(sizeof(linked_list));
+</code></pre>
+<hr>
+<h3>Step 3) Insert values</h3>
+<p>Now we can ask for linked list length and iterate.</p>
+<p>On the <strong>first iteration</strong>, after getting the first value, store it in head:</p>
+<pre><code class="language-c">scanf(&quot;%d&quot;, &amp;current_node-&gt;value);
+if (head == NULL) head = current_node;
+</code></pre>
+<p>Now create a <strong>new node</strong>, store its address, and move the current pointer:</p>
+<pre><code class="language-c">linked_list *newNode = (linked_list*) malloc(sizeof(linked_list));
+current_node-&gt;next = newNode;
+current_node = newNode;
+</code></pre>
+<p>Atlast set the last node’s <code>next</code> to <code>NULL</code>(Better to have know value then garbage value):</p>
+<pre><code class="language-c">current_node-&gt;next = NULL;
+</code></pre>
+<hr>
+<h3>Step 4) Print the result</h3>
+<p>Just pass the head variable where we stored the first value.
+Iterate until <code>next</code> is <code>NULL</code>:</p>
+<pre><code class="language-c">void display(linked_list *ll) {
+    while (ll != NULL) { // check until end of list
+        printf(&quot;%d\n&quot;, ll-&gt;value);
+        ll = ll-&gt;next; // move to next node
+    }
+}
+</code></pre>
+<h3>Full Working Code</h3>
+<pre><code class="language-c">#include &lt;stdio.h&gt;
+#include &lt;stdlib.h&gt;
+
+typedef struct linked_list_node {
+    int value; // 4 byte
+    struct linked_list_node *next; // 8 byte
+} linked_list;
+
+void display(linked_list *ll) {
+    while(ll != NULL) { 
+        printf(&quot;%d\n&quot;, ll-&gt;value);
+        ll = ll-&gt;next; 
+    }
+}
+
+void reverse_display(linked_list *ll) {
+    if(ll != NULL) {
+        int old_value = ll-&gt;value;
+        ll = ll-&gt;next;
+        reverse_display(ll);
+        printf(&quot;%d\n&quot;, old_value);
+    }
+}
+
+void free_mem(linked_list *ll) {
+    linked_list *temp;
+    while(ll != NULL) {
+        temp = ll-&gt;next;
+        free(ll);
+        ll = temp;
+    }
+}
+
+int main() {
+    int list_len;
+    printf(&quot;Struct size %zu\n&quot;, sizeof(linked_list));
+    printf(&quot;Enter list size::&quot;);
+    scanf(&quot;%d&quot;, &amp;list_len);
+
+    linked_list *head = NULL;
+    linked_list *current_node = (linked_list*) malloc(sizeof(linked_list));
+
+    for(int i=0; i&lt;list_len; i++) {
+        printf(&quot;Enter %dth element::&quot;, i);
+        scanf(&quot;%d&quot;, &amp;current_node-&gt;value);
+
+        if (head == NULL) head = current_node;
+
+        if (i &lt; list_len-1){
+            linked_list *newNode = (linked_list*) malloc(sizeof(linked_list));
+            current_node-&gt;next = newNode;
+            current_node = newNode;
+        } else {
+            current_node-&gt;next = NULL;
+        }
+    }
+
+    display(head);
+    reverse_display(head);
+    free_mem(head);
+
+    return 0;
+}
+</code></pre>
+
+            </section>
+        </article>
+    </main>
+    <footer></footer>
+
+    <script src="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@11.9.0/build/highlight.min.js"
+            integrity="sha384-F/bZzf7p3Joyp5psL90p/p89AZJsndkSoGwRpXcZhleCWhd8SnRuoYo4d0yirjJp"
+            crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script type="module" src="/js/post.js"></script>
+    <!-- source: https://cdn.jsdelivr.net/gh/jebin2/blog@main/C/Linked%20List%20in%20C/Linked%20List%20in%20C.md -->
+</body>
+</html>
