@@ -1,7 +1,7 @@
 /* ============================================
    Post prerenderer
 
-   Writes writing/<slug>/index.html for every post in the blog manifest, with
+   Writes writing/<slug>/index.html for every post in content/manifest.json, with
    the markdown already rendered and real per-post metadata in <head>. Social
    unfurlers and non-JS crawlers read the raw HTML, so this is the only way
    they see anything post-specific.

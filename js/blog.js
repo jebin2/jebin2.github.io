@@ -1,6 +1,6 @@
 /* ============================================
-   Blog — listing + post view
-   Lives in main site, loaded by blog repo's index.html
+   Blog — writing listing, plus the client-side post renderer used as a
+   fallback (404.html and legacy ?post= URLs). Prerendered pages use post.js.
    ============================================ */
 
 import { initPage, setPageMeta } from './shared.js';
