@@ -4,13 +4,12 @@
 
 import { initPage } from './shared.js';
 import { fetchCached } from './cache.js';
+import { escapeHTML, escapeURL } from './utils.js';
 
 async function init() {
     const config  = await initPage('links');
     const listEl  = document.getElementById('links-list');
     const searchEl = document.getElementById('links-search');
-
-    if (listEl) listEl.innerHTML = renderSkeleton();
 
     try {
         const links = await fetchCached(config.links);
@@ -46,17 +45,13 @@ function render(links, container) {
     container.innerHTML = links.map((link) => {
         return `
             <li>
-                <a class="link-box" href="${link.url}" target="_blank" rel="noopener noreferrer">
-                    <span class="emoji">${link.emoji}</span>
-                    <span class="title">${link.title}</span>
+                <a class="link-box" href="${escapeURL(link.url)}" target="_blank" rel="noopener noreferrer">
+                    <span class="emoji">${escapeHTML(link.emoji)}</span>
+                    <span class="title">${escapeHTML(link.title)}</span>
                 </a>
             </li>
         `;
     }).join('');
-}
-
-function renderSkeleton() {
-    return '';
 }
 
 init();

@@ -2,18 +2,26 @@
    Utils
    ============================================ */
 
-export function debounce(fn, wait = 300) {
-    let t;
-    return (...args) => {
-        clearTimeout(t);
-        t = setTimeout(() => fn(...args), wait);
-    };
+// Escape for interpolation into markup, including quoted attribute values.
+// (textContent/innerHTML round-tripping does NOT escape quotes, so it is unsafe
+// for attributes — hence the explicit map.)
+const HTML_ESCAPES = {
+    '&': '&amp;',
+    '<': '&lt;',
+    '>': '&gt;',
+    '"': '&quot;',
+    "'": '&#39;'
+};
+
+export function escapeHTML(value) {
+    return String(value ?? '').replace(/[&<>"']/g, ch => HTML_ESCAPES[ch]);
 }
 
-export function sanitizeHTML(str) {
-    const el = document.createElement('div');
-    el.textContent = str;
-    return el.innerHTML;
+// Escape a URL for an href/src attribute, dropping anything that isn't a
+// plain http(s)/relative/anchor link (blocks javascript:, data:, etc.)
+export function escapeURL(value) {
+    const url = String(value ?? '').trim();
+    return isSafeUrl(url) ? escapeHTML(url) : '';
 }
 
 export function sanitizeRenderedHTML(html) {
@@ -69,18 +77,6 @@ export function sanitizeRenderedHTML(html) {
 
 function isSafeUrl(value) {
     return /^(https?:\/\/|\/|#|\.\.?\/)/i.test(value);
-}
-
-export function formatDate(dateStr) {
-    const d = new Date(dateStr);
-    if (isNaN(d)) return dateStr;
-    return d.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
-}
-
-export function formatDateShort(dateStr) {
-    const d = new Date(dateStr);
-    if (isNaN(d)) return dateStr;
-    return d.toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
 }
 
 // "2026-05-31 22:38:32 +0530" → "2026-05-31T22:38:32+05:30" (ISO 8601)
@@ -148,15 +144,17 @@ export function renderPostListing(posts, container, readsMap = {}, dailyReadsMap
             ? ` <span class="post-daily-reads" title="${daily} reads in the last 24h"><span class="post-trend" aria-hidden="true">↑</span>${daily}</span>`
             : '';
 
+        const title = escapeHTML(p.title);
+
         return `
             <li>
-                <article id="${articleId}">
-                    <a href="/writing?post=${slug}"><h2>${p.title}${dailyLabel}</h2></a>
+                <article id="${escapeHTML(articleId)}">
+                    <a href="/writing?post=${slug}"><h2>${title}${dailyLabel}</h2></a>
                     ${newLabel}
-                    <time datetime="${datetimeStr}">${formattedDate}</time>
-                    <p>${p.description || ''}</p>
+                    <time datetime="${escapeHTML(datetimeStr)}">${escapeHTML(formattedDate)}</time>
+                    <p>${escapeHTML(p.description || '')}</p>
                     <footer>
-                        <a href="/writing?post=${slug}">Read more about ${p.title}</a>
+                        <a href="/writing?post=${slug}">Read more about ${title}</a>
                     </footer>
                 </article>
             </li>

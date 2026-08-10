@@ -5,7 +5,7 @@
 
 import { initPage } from './shared.js';
 import { fetchCached, fetchTextCached } from './cache.js';
-import { sanitizeRenderedHTML, isAdmin, renderPostListing, buildReadsMap, dailyStatsQuery } from './utils.js';
+import { sanitizeRenderedHTML, isAdmin, renderPostListing, buildReadsMap, dailyStatsQuery, escapeHTML } from './utils.js';
 import { trackEvent, trackPageView } from './analytics.js';
 import { fetchSupabaseJson } from './supabase.js';
 
@@ -140,10 +140,10 @@ function renderPost(mdText, meta, container) {
     container.innerHTML = `
         <article>
             <header>
-                <a href="/#${articleId}" id="${articleId}"><h1>${meta?.title || 'untitled'}</h1></a>
+                <a href="/#${escapeHTML(articleId)}" id="${escapeHTML(articleId)}"><h1>${escapeHTML(meta?.title || 'untitled')}</h1></a>
                 <span>Author: <address>jebin2</address></span>
-                <span>Published: <time datetime="${datetimeStr}" pubdate>${formattedDate}</time></span>
-                <span>Updated: <time datetime="${datetimeStrUpdated}">${formattedDateUpdated}</time></span>
+                <span>Published: <time datetime="${escapeHTML(datetimeStr)}" pubdate>${escapeHTML(formattedDate)}</time></span>
+                <span>Updated: <time datetime="${escapeHTML(datetimeStrUpdated)}">${escapeHTML(formattedDateUpdated)}</time></span>
                 ${shareButtons}
             </header>
             <section>
@@ -224,7 +224,7 @@ function showXArticleModal(title, bodyHtml, bodyMarkdown) {
             <div class="x-modal-field">
                 <label>1. Article Title</label>
                 <div class="field-row">
-                    <input type="text" id="x-title" value="${title}" readonly>
+                    <input type="text" id="x-title" value="${escapeHTML(title)}" readonly>
                     <button class="x-btn" onclick="copyField('x-title')">Copy Title</button>
                 </div>
             </div>

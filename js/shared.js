@@ -30,7 +30,7 @@ export function renderHeader(activePage = '', config = {}) {
 }
 
 /* ---- Footer ---- */
-export function renderFooter(config) {
+export function renderFooter() {
     return `
         <p style="text-align: center; font-size: 0.875rem; color: var(--fg-muted); margin: 0;">
             theme from <a href="https://wwj.dev" target="_blank" rel="noopener noreferrer" style="color: inherit; text-decoration: underline;">wwj.dev</a>
@@ -38,17 +38,7 @@ export function renderFooter(config) {
     `;
 }
 
-/* ---- Mobile nav toggle ---- */
-export function initNav() {
-    // No mobile nav logic in wwj.dev
-}
-
-/* ---- Skeleton rows ---- */
-export function renderSkeletonRows(count = 3) {
-    return ``; // Remove skeleton as it breaks wwj list styling
-}
-
-/* ---- Inject header + footer and init nav ---- */
+/* ---- Inject header + footer ---- */
 export async function initPage(activePage = '', options = {}) {
     const config = await loadConfig();
     const { skipTrackPageView = false } = options;
@@ -57,13 +47,8 @@ export async function initPage(activePage = '', options = {}) {
     const footerEl = document.querySelector('footer');
 
     if (headerEl) headerEl.innerHTML = renderHeader(activePage, config);
-    if (footerEl) footerEl.innerHTML = renderFooter(config);
+    if (footerEl) footerEl.innerHTML = renderFooter();
 
     if (!skipTrackPageView) trackPageView();
     return config;
-}
-
-/* ---- Theme Toggle ---- */
-export function initTheme() {
-    // Disabled, wwj.dev relies entirely on color-scheme: dark
 }

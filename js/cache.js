@@ -4,19 +4,21 @@
 
 const TTL = 5 * 60 * 1000; // 5 minutes
 
-export function getCache(key) {
+// Returns the stored entry regardless of age, or null. Expired entries are
+// deliberately kept so they can serve as a fallback when the network fails.
+function getEntry(key) {
     try {
         const raw = sessionStorage.getItem(key);
-        if (!raw) return null;
-        const { data, ts } = JSON.parse(raw);
-        if (Date.now() - ts > TTL) {
-            sessionStorage.removeItem(key);
-            return null;
-        }
-        return data;
+        return raw ? JSON.parse(raw) : null;
     } catch {
         return null;
     }
+}
+
+export function getCache(key) {
+    const entry = getEntry(key);
+    if (!entry) return null;
+    return Date.now() - entry.ts > TTL ? null : entry.data;
 }
 
 export function setCache(key, data) {
@@ -27,22 +29,32 @@ export function setCache(key, data) {
     }
 }
 
-export async function fetchCached(url) {
+// Fresh cache → network → stale cache. Serving a stale post beats an error
+// page when the upstream content host is unreachable.
+async function fetchWithFallback(url, parse) {
     const cached = getCache(url);
     if (cached) return cached;
-    const res = await fetch(url);
-    if (!res.ok) throw new Error(`fetch ${url} → ${res.status}`);
-    const data = await res.json();
-    setCache(url, data);
-    return data;
+
+    try {
+        const res = await fetch(url);
+        if (!res.ok) throw new Error(`fetch ${url} → ${res.status}`);
+        const data = await parse(res);
+        setCache(url, data);
+        return data;
+    } catch (err) {
+        const stale = getEntry(url);
+        if (stale) {
+            console.warn(`${url} unreachable — serving stale cache`, err);
+            return stale.data;
+        }
+        throw err;
+    }
 }
 
-export async function fetchTextCached(url) {
-    const cached = getCache(url);
-    if (cached) return cached;
-    const res = await fetch(url);
-    if (!res.ok) throw new Error(`fetch ${url} → ${res.status}`);
-    const text = await res.text();
-    setCache(url, text);
-    return text;
+export function fetchCached(url) {
+    return fetchWithFallback(url, res => res.json());
+}
+
+export function fetchTextCached(url) {
+    return fetchWithFallback(url, res => res.text());
 }
