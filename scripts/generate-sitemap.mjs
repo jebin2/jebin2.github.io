@@ -62,6 +62,17 @@ function manifestDate(str) {
     return isNaN(d.getTime()) ? today() : d.toISOString().slice(0, 10);
 }
 
+// The site reads content through jsDelivr for CDN caching, but jsDelivr holds
+// branch refs for ~12h. This runs once a day and wants the newest manifest, so
+// read the same file straight from the origin instead.
+//   cdn.jsdelivr.net/gh/user/repo@ref/path -> raw.githubusercontent.com/user/repo/ref/path
+function uncachedUrl(url) {
+    return url.replace(
+        /^https:\/\/cdn\.jsdelivr\.net\/gh\/([^/]+)\/([^/@]+)@([^/]+)\//,
+        'https://raw.githubusercontent.com/$1/$2/$3/'
+    );
+}
+
 function urlEntry({ loc, lastmod, changefreq, priority }) {
     return [
         '    <url>',
@@ -76,7 +87,7 @@ function urlEntry({ loc, lastmod, changefreq, priority }) {
 async function main() {
     const config = JSON.parse(readFileSync(join(ROOT, 'config.json'), 'utf8'));
 
-    const res = await fetch(config.blog_manifest);
+    const res = await fetch(uncachedUrl(config.blog_manifest));
     if (!res.ok) throw new Error(`manifest fetch failed → ${res.status}`);
     const posts = (await res.json()).posts || [];
 

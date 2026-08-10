@@ -80,17 +80,20 @@ async function initPostView(postPath) {
         trackPageView(meta?.title || 'writing');
         if (meta?.title) trackEvent('post_read', meta.title);
 
-        renderPost(mdText, meta, main);
+        renderPost(mdText, meta, main, config.blog_base_url);
     } catch (err) {
         console.error(err);
         main.innerHTML = '<p>failed to load post.</p>';
     }
 }
 
-function renderPost(mdText, meta, container) {
+// contentBaseUrl comes from config.blog_base_url so the content host is
+// configured in one place; relative asset links in the markdown resolve
+// against the post's own directory there.
+function renderPost(mdText, meta, container, contentBaseUrl = '') {
     const rawDir = meta ? getPostDir(meta.path) : '';
     const baseUrl = meta
-        ? `https://raw.githubusercontent.com/jebin2/blog/main/${rawDir.split('/').map(encodeURIComponent).join('/')}/`
+        ? `${contentBaseUrl}${rawDir.split('/').map(encodeURIComponent).join('/')}/`
         : '';
     const strippedMd = mdText.replace(/^#\s+.+\n*/m, '');
     const rewritten = baseUrl
