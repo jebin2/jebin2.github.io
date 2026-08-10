@@ -7,6 +7,10 @@ on:
   schedule:
     - cron: '0 3 * * *'
   workflow_dispatch:
+  # Sent by the blog repo right after it publishes, so a new post is
+  # prerendered in about a minute instead of waiting for the daily run.
+  repository_dispatch:
+    types: [content-updated]
   push:
     branches: [main]
     paths:
