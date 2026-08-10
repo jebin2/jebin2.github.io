@@ -4,6 +4,9 @@ on:
   push:
     branches:
       - main
+  # Manual re-run: regenerate the manifest, purge the CDN and rebuild the site
+  # without needing a content change to push.
+  workflow_dispatch:
 
 jobs:
   update-manifest:
