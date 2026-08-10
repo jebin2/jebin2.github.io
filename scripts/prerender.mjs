@@ -18,17 +18,10 @@ import { escapeHTML, slugifyTitle } from '../js/utils.js';
 
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), '..');
 const OUT_DIR = join(ROOT, 'writing');
+const CONTENT = join(ROOT, 'content');
 const SITE = 'https://www.voidall.com';
 const DEFAULT_IMAGE = `${SITE}/assets/icons/android-chrome-512x512.png`;
 const MAX_DESCRIPTION = 160;
-
-// jsDelivr caches branch refs for ~12h; the build wants the newest content.
-function uncachedUrl(url) {
-    return url.replace(
-        /^https:\/\/cdn\.jsdelivr\.net\/gh\/([^/]+)\/([^/@]+)@([^/]+)\//,
-        'https://raw.githubusercontent.com/$1/$2/$3/'
-    );
-}
 
 function encodePath(path) {
     return path.split('/').map(encodeURIComponent).join('/');
@@ -81,11 +74,15 @@ function extractDescription(md) {
     return (lastSpace > 60 ? cut.slice(0, lastSpace) : cut).trimEnd() + '…';
 }
 
+// Social unfurlers need an absolute URL, so site-relative asset paths get the
+// domain prefixed back on.
 function extractFirstImage(md, baseUrl) {
     const m = md.match(/!\[[^\]]*\]\(([^)\s]+)/);
     if (!m) return DEFAULT_IMAGE;
     const src = m[1];
-    return /^https?:\/\//i.test(src) ? src : baseUrl + encodePath(src);
+    if (/^https?:\/\//i.test(src)) return src;
+    const rel = baseUrl + encodePath(src);
+    return rel.startsWith('/') ? SITE + rel : rel;
 }
 
 function renderPage({ meta, slug, html, description, image, markdownUrl }) {
@@ -164,12 +161,9 @@ function pruneStale(keepSlugs) {
     }
 }
 
-async function main() {
+function main() {
     const config = JSON.parse(readFileSync(join(ROOT, 'config.json'), 'utf8'));
-
-    const res = await fetch(uncachedUrl(config.blog_manifest));
-    if (!res.ok) throw new Error(`manifest fetch failed → ${res.status}`);
-    const posts = (await res.json()).posts || [];
+    const posts = JSON.parse(readFileSync(join(CONTENT, 'manifest.json'), 'utf8')).posts || [];
 
     // Slugs must be unique — the browser derives them from the title alone, so
     // a collision would make two posts resolve to one page. Fail loudly.
@@ -190,12 +184,12 @@ async function main() {
 
     for (const [slug, meta] of bySlug) {
         const mdUrl = config.blog_base_url + encodePath(meta.path);
-        const mdRes = await fetch(uncachedUrl(mdUrl));
-        if (!mdRes.ok) {
-            console.warn(`  skipped ${meta.path} → ${mdRes.status}`);
+        const mdFile = join(CONTENT, meta.path);
+        if (!existsSync(mdFile)) {
+            console.warn(`  skipped ${meta.path} — file missing`);
             continue;
         }
-        const md = await mdRes.text();
+        const md = readFileSync(mdFile, 'utf8');
 
         // Same transform as the client: drop the duplicated title heading and
         // resolve relative asset links against the post's directory on the CDN.
@@ -225,7 +219,9 @@ async function main() {
     console.log(`prerendered ${slugs.size} post(s)`);
 }
 
-main().catch(err => {
+try {
+    main();
+} catch (err) {
     console.error(err);
     process.exit(1);
-});
+}

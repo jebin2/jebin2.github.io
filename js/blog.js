@@ -21,8 +21,12 @@ async function init() {
         await initPostView(p => p.path === decodeURIComponent(postPath));
     } else if (slug) {
         await initPostView(p => slugifyTitle(p.title) === slug);
-    } else {
+    } else if (/^\/writing\/?$/.test(window.location.pathname)) {
         await initListingView();
+    } else {
+        // 404.html loads this module for any unknown URL — don't answer a dead
+        // link with a full post listing as if nothing were wrong.
+        renderNotFound();
     }
 }
 
@@ -59,6 +63,13 @@ async function initListingView() {
     }
 }
 
+async function renderNotFound() {
+    await initPage('blog', { skipTrackPageView: true });
+    setPageMeta({ title: 'Not found | jebin2', path: '/writing/' });
+    const main = document.querySelector('main');
+    if (main) main.innerHTML = '<p>page not found. <a href="/">back to posts</a></p>';
+}
+
 /* ============================================
    Post view — resolves a post from the manifest, then renders it client-side.
    Reached via /writing/?post=<path> or as the 404 fallback for a
@@ -75,8 +86,7 @@ async function initPostView(matchPost) {
         const meta = (manifest.posts || []).find(matchPost);
 
         if (!meta) {
-            setPageMeta({ title: 'Not found | jebin2', path: '/writing/' });
-            main.innerHTML = '<p>post not found. <a href="/">back to posts</a></p>';
+            renderNotFound();
             return;
         }
 

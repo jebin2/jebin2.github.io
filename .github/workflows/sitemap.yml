@@ -1,19 +1,13 @@
 name: Build site
 
-# Posts live in the blog repo, so prerendered pages and the sitemap go stale
-# without anything changing here. Rebuild daily, on demand, and whenever the
-# build inputs change.
+# Content lives in this repo now, so a push is the only thing that can change
+# the built output. No cron, no cross-repo trigger.
 on:
-  schedule:
-    - cron: '0 3 * * *'
   workflow_dispatch:
-  # Sent by the blog repo right after it publishes, so a new post is
-  # prerendered in about a minute instead of waiting for the daily run.
-  repository_dispatch:
-    types: [content-updated]
   push:
     branches: [main]
     paths:
+      - 'content/**'
       - 'config.json'
       - 'js/utils.js'          # slug rule — changing it moves every post URL
       - 'scripts/**'
@@ -32,7 +26,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
         with:
-          # Full history so lastmod can come from each page's last commit
+          # Full history: post dates come from each file's commits
           fetch-depth: 0
 
       - uses: actions/setup-node@v4
@@ -43,6 +37,9 @@ jobs:
       # client-side rendering of the same markdown agree.
       - run: npm install --no-save marked@9.1.6
 
+      - name: Index posts
+        run: node scripts/generate-manifest.mjs
+
       - name: Prerender posts
         run: node scripts/prerender.mjs
 
@@ -51,12 +48,12 @@ jobs:
 
       - name: Commit if changed
         run: |
-          if git diff --quiet -- sitemap.xml writing/ && [ -z "$(git status --porcelain writing/)" ]; then
+          if [ -z "$(git status --porcelain content/manifest.json writing/ sitemap.xml)" ]; then
             echo "nothing changed"
             exit 0
           fi
           git config user.name  "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add -A sitemap.xml writing/
-          git commit -m "chore: rebuild prerendered posts and sitemap"
+          git add -A content/manifest.json writing/ sitemap.xml
+          git commit -m "chore: rebuild manifest, post pages and sitemap"
           git push

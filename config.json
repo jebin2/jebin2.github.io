@@ -2,8 +2,8 @@
     "name": "jebin2",
     "github": "https://github.com/jebin2",
     "sponsor": "https://github.com/sponsors/jebin2",
-    "projects": "https://cdn.jsdelivr.net/gh/jebin2/blog@main/data/projects.json",
-    "links": "https://cdn.jsdelivr.net/gh/jebin2/blog@main/data/links.json",
-    "blog_manifest": "https://cdn.jsdelivr.net/gh/jebin2/blog@main/manifest.json",
-    "blog_base_url": "https://cdn.jsdelivr.net/gh/jebin2/blog@main/"
+    "projects": "/content/data/projects.json",
+    "links": "/content/data/links.json",
+    "blog_manifest": "/content/manifest.json",
+    "blog_base_url": "/content/"
 }
