@@ -1,0 +1,48 @@
+name: Update sitemap
+
+# Posts live in the blog repo, so the sitemap can go stale without anything
+# changing here. Rebuild daily, on demand, and whenever the site shell changes.
+on:
+  schedule:
+    - cron: '0 3 * * *'
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths:
+      - 'config.json'
+      - 'scripts/generate-sitemap.mjs'
+      - '.github/workflows/sitemap.yml'
+
+permissions:
+  contents: write
+
+concurrency:
+  group: sitemap
+  cancel-in-progress: true
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          # Full history so lastmod can come from each page's last commit
+          fetch-depth: 0
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - run: node scripts/generate-sitemap.mjs
+
+      - name: Commit if changed
+        run: |
+          if git diff --quiet -- sitemap.xml; then
+            echo "sitemap.xml unchanged"
+            exit 0
+          fi
+          git config user.name  "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add sitemap.xml
+          git commit -m "chore: regenerate sitemap"
+          git push

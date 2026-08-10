@@ -38,6 +38,39 @@ export function renderFooter() {
     `;
 }
 
+/* ---- Per-view metadata ----
+   Only helps crawlers that execute JS (Googlebot does). Social unfurlers
+   read the raw HTML, so they still see writing/index.html's defaults —
+   fixing that properly needs prerendered pages per post. */
+const SITE_URL = 'https://www.voidall.com';
+
+function setAttr(selector, attr, value) {
+    const el = document.querySelector(selector);
+    if (el) el.setAttribute(attr, value);
+}
+
+export function setPageMeta({ title, description, path, type = 'website' }) {
+    if (title) {
+        document.title = title;
+        setAttr('meta[property="og:title"]', 'content', title);
+        setAttr('meta[name="twitter:title"]', 'content', title);
+    }
+
+    if (description) {
+        setAttr('meta[name="description"]', 'content', description);
+        setAttr('meta[property="og:description"]', 'content', description);
+        setAttr('meta[name="twitter:description"]', 'content', description);
+    }
+
+    if (path) {
+        const url = SITE_URL + path;
+        setAttr('link[rel="canonical"]', 'href', url);
+        setAttr('meta[property="og:url"]', 'content', url);
+    }
+
+    setAttr('meta[property="og:type"]', 'content', type);
+}
+
 /* ---- Inject header + footer ---- */
 export async function initPage(activePage = '', options = {}) {
     const config = await loadConfig();

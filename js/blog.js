@@ -3,7 +3,7 @@
    Lives in main site, loaded by blog repo's index.html
    ============================================ */
 
-import { initPage } from './shared.js';
+import { initPage, setPageMeta } from './shared.js';
 import { fetchCached, fetchTextCached } from './cache.js';
 import { sanitizeRenderedHTML, isAdmin, renderPostListing, buildReadsMap, dailyStatsQuery, escapeHTML } from './utils.js';
 import { trackEvent, trackPageView } from './analytics.js';
@@ -24,7 +24,7 @@ async function init() {
    Listing view  (/blog/)
    ============================================ */
 async function initListingView() {
-    document.title = 'jebin2 — writing';
+    setPageMeta({ title: 'Writing | jebin2', path: '/writing' });
     const config = await initPage('blog', { skipTrackPageView: true });
     trackPageView('writing');
 
@@ -71,7 +71,12 @@ async function initPostView(postPath) {
         const posts = manifest.posts || [];
         const meta = posts.find(p => p.path === postPath);
 
-        document.title = meta ? `${meta.title} | jebin2` : 'Writing | jebin2';
+        setPageMeta({
+            title: meta ? `${meta.title} | jebin2` : 'Writing | jebin2',
+            description: meta?.description,
+            path: `/writing?post=${encodeURIComponent(postPath)}`,
+            type: 'article',
+        });
         trackPageView(meta?.title || 'writing');
         if (meta?.title) trackEvent('post_read', meta.title);
 
