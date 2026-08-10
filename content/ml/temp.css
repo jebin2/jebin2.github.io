@@ -1,0 +1,363 @@
+<style>
+  :root {
+    --bg-primary: #f9fafb;
+    --text-primary: #1f2937;
+    --text-secondary: #374151;
+    --border-color: #6b7280;
+    --accent-primary: #3b82f6;
+    --accent-secondary: #10b981;
+    --accent-tertiary: #6366f1;
+    --code-bg: #f3f4f6;
+    --white: #ffffff;
+    --shadow-subtle: rgba(0, 0, 0, 0.1);
+    --shadow-medium: rgba(0, 0, 0, 0.15);
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    scroll-behavior: smooth;
+}
+
+body {
+    font-family: 'Inter', 'San Francisco', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+    line-height: 1.6;
+    background-color: var(--bg-primary);
+    color: var(--text-primary);
+    padding: 2rem;
+}
+
+.jp-Notebook {
+    max-width: 70vw;
+    margin: 2rem auto;
+    background-color: var(--white);
+    border: 1px solid var(--border-color);
+    border-radius: 12px;
+    box-shadow: 
+        0 25px 50px -12px var(--shadow-subtle),
+        0 10px 15px -3px var(--shadow-medium);
+    padding: 2.5rem;
+    position: relative;
+    /* overflow: hidden; */
+}
+
+/* .jp-Notebook::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: linear-gradient(
+        135deg, 
+        transparent 0%, 
+        rgba(59, 130, 246, 0.05) 50%, 
+        transparent 100%
+    );
+    transform: rotate(-45deg);
+    z-index: 1;
+} */
+
+/* Markdown Cell Styling */
+.jp-MarkdownCell {
+    margin-bottom: 2rem;
+    padding: 1.5rem;
+    border-left: 4px solid var(--accent-primary);
+    background-color: var(--white);
+    position: relative;
+}
+
+.jp-MarkdownCell h1 {
+    font-size: 2.5rem;
+    font-weight: 900;
+    color: var(--text-primary);
+    margin-bottom: 1.5rem;
+    position: relative;
+    padding-bottom: 0.75rem;
+}
+
+.jp-MarkdownCell h1::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 70px;
+    height: 4px;
+    background: linear-gradient(to right, var(--accent-primary), var(--accent-secondary));
+}
+
+.jp-MarkdownCell h2 {
+    font-size: 1.8rem;
+    font-weight: 700;
+    color: var(--text-secondary);
+    margin-top: 2rem;
+    position: relative;
+    padding-left: 15px;
+}
+
+.jp-MarkdownCell h2::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 5px;
+    width: 6px;
+    height: 80%;
+    background: linear-gradient(to bottom, var(--accent-primary), var(--accent-secondary));
+    border-radius: 3px;
+}
+
+.jp-MarkdownCell h3 {
+    font-size: 1.4rem;
+    font-weight: 600;
+    color: var(--text-secondary);
+    margin-top: 1.5rem;
+    border-bottom: 2px solid var(--border-color);
+    padding-bottom: 0.5rem;
+}
+
+.jp-MarkdownCell p {
+    margin-bottom: 1.25rem;
+    line-height: 1.8;
+    color: var(--text-primary);
+}
+
+/* Links */
+.jp-MarkdownCell a {
+    color: var(--accent-primary);
+    text-decoration: none;
+    font-weight: 600;
+    position: relative;
+    transition: all 0.3s ease;
+}
+
+.jp-MarkdownCell a::after {
+    content: '';
+    position: absolute;
+    width: 100%;
+    height: 2px;
+    bottom: -2px;
+    left: 0;
+    background-color: var(--accent-primary);
+    transform: scaleX(0);
+    transition: transform 0.3s ease;
+}
+
+.jp-MarkdownCell a:hover::after {
+    transform: scaleX(1);
+}
+
+/* Code Styling */
+.jp-CodeCell {
+    background-color: var(--code-bg);
+    border: 1px solid var(--border-color);
+    margin: 1.5rem 0;
+    padding: 1.25rem;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px -1px var(--shadow-subtle);
+}
+
+.jp-CodeCell .jp-CodeMirror {
+    font-family: 'Cascadia Code', 'Fira Code', Consolas, monospace;
+    font-size: 0.9rem;
+}
+
+.jp-MarkdownCell code {
+    background-color: var(--code-bg);
+    border: 1px solid var(--border-color);
+    padding: 0.2em 0.4em;
+    font-family: 'Cascadia Code', 'Fira Code', Consolas, monospace;
+    font-size: 0.9em;
+    border-radius: 4px;
+    color: var(--accent-tertiary);
+}
+
+/* Blockquotes */
+.jp-MarkdownCell blockquote {
+    border-left: 4px solid var(--accent-secondary);
+    padding: 1rem;
+    background-color: var(--code-bg);
+    font-style: italic;
+    margin: 1.5rem 0;
+    border-radius: 8px;
+    position: relative;
+}
+
+.jp-MarkdownCell blockquote::before {
+    content: '"';
+    position: absolute;
+    top: -10px;
+    left: 15px;
+    font-size: 3rem;
+    color: var(--accent-secondary);
+    opacity: 0.2;
+}
+
+/* Tables */
+.jp-RenderedHTMLCommon table {
+    width: 100%;
+    margin-bottom: 1.5rem;
+    border-collapse: separate;
+    border-spacing: 0;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 10px 15px -3px var(--shadow-subtle);
+}
+
+.jp-RenderedHTMLCommon th {
+    background-color: var(--accent-primary);
+    color: var(--white);
+    padding: 1rem;
+    text-align: left;
+    font-weight: 700;
+}
+
+.jp-RenderedHTMLCommon td {
+    padding: 1rem;
+    border-bottom: 1px solid var(--border-color);
+}
+
+.jp-RenderedHTMLCommon tr:last-child td {
+    border-bottom: none;
+}
+
+.jp-RenderedHTMLCommon tr:nth-child(even) {
+    background-color: var(--code-bg);
+}
+
+/* Lists */
+.jp-MarkdownCell ul, 
+.jp-MarkdownCell ol {
+    margin-left: 2rem;
+    margin-bottom: 1.5rem;
+}
+
+.jp-MarkdownCell li {
+    margin-bottom: 0.75rem;
+    position: relative;
+    padding-left: 1rem;
+}
+
+.jp-MarkdownCell li::before {
+    content: '•';
+    color: var(--accent-secondary);
+    position: absolute;
+    left: -1.25rem;
+    font-weight: bold;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .jp-Notebook {
+        padding: 1.5rem;
+        margin: 1rem;
+    }
+
+    .jp-MarkdownCell h1 {
+        font-size: 2rem;
+    }
+
+    .jp-MarkdownCell h2 {
+        font-size: 1.5rem;
+    }
+}
+
+/* Syntax Highlighting */
+.cm-s-ipython .cm-keyword { color: #3b82f6; font-weight: bold; }
+.cm-s-ipython .cm-variable { color: #1f2937; }
+.cm-s-ipython .cm-string { color: #10b981; }
+.cm-s-ipython .cm-comment { color: #6b7280; font-style: italic; }
+.cm-s-ipython .cm-builtin { color: #6366f1; }
+.cm-s-ipython .cm-number { color: #3b82f6; }
+
+:root {
+    --bg-primary: #f9fafb;
+    --text-primary: #1f2937;
+    --text-secondary: #374151;
+    --border-color: #6b7280;
+    --accent-primary: #3b82f6;
+    --accent-secondary: #10b981;
+    --accent-tertiary: #6366f1;
+    --code-bg: #f3f4f6;
+    --white: #ffffff;
+    --shadow-subtle: rgba(0, 0, 0, 0.1);
+    --shadow-medium: rgba(0, 0, 0, 0.15);
+}
+
+/* Existing styles from previous design... */
+
+/* Pure CSS Scroll Progress Bar */
+body {
+    scroll-timeline: --page-scroll y;
+}
+
+@keyframes progress {
+    from {
+        transform: scaleX(0);
+    }
+    to {
+        transform: scaleX(1);
+    }
+}
+
+.scroll-progress {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 4px;
+    background: transparent;
+    z-index: 1000;
+}
+
+.scroll-progress::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(to right, var(--accent-primary), var(--accent-secondary));
+    transform-origin: left;
+    animation: progress linear;
+    animation-timeline: --page-scroll;
+}
+
+/* Fallback for browsers that don't support scroll timeline */
+@supports not (animation-timeline: --page-scroll) {
+    .scroll-progress::before {
+        display: none;
+    }
+}
+
+/* Mobile Responsiveness */
+@media (max-width: 768px) {
+    .scroll-progress {
+        height: 3px;
+    }
+}
+.scroll-progress {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 0;
+    height: 4px;
+    background: linear-gradient(to right, var(--accent-primary), var(--accent-secondary));
+    z-index: 1000;
+    transition: width 0.2s ease;
+}
+</style>
+<div class="scroll-progress"></div>
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+      const progressBar = document.querySelector('.scroll-progress');
+      
+      window.addEventListener('scroll', () => {
+          const winScroll = document.body.scrollTop || document.documentElement.scrollTop;
+          const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+          const scrolled = (winScroll / height) * 100;
+          
+          progressBar.style.width = scrolled + '%';
+      });
+  });
+  </script>

@@ -1,0 +1,161 @@
+<svg viewBox="0 0 1400 900" xmlns="http://www.w3.org/2000/svg">
+  <!-- Background -->
+  <rect width="1400" height="900" fill="#1a1a2e"/>
+  
+  <!-- Title -->
+  <text x="700" y="50" font-family="Arial, sans-serif" font-size="32" font-weight="bold" fill="#00d9ff" text-anchor="middle">
+    Assembly Language Status Flags
+  </text>
+  
+  <!-- ZF - Zero Flag -->
+  <g>
+    <!-- Left side - explanation -->
+    <rect x="50" y="100" width="620" height="160" fill="#16213e" stroke="#00d9ff" stroke-width="2" rx="10"/>
+    <text x="70" y="135" font-family="Arial, sans-serif" font-size="28" font-weight="bold" fill="#00d9ff">
+      ZF - Zero Flag
+    </text>
+    <text x="70" y="170" font-family="Arial, sans-serif" font-size="18" fill="#e0e0e0">
+      Value: 1 (set) when result = 0
+    </text>
+    <text x="70" y="195" font-family="Arial, sans-serif" font-size="18" fill="#e0e0e0">
+      Value: 0 (clear) when result ≠ 0
+    </text>
+    <text x="70" y="230" font-family="Arial, sans-serif" font-size="16" fill="#a0a0a0" font-style="italic">
+      Indicates if operation result is zero
+    </text>
+    
+    <!-- Right side - examples -->
+    <rect x="690" y="100" width="660" height="160" fill="#1e293b" stroke="#00d9ff" stroke-width="2" rx="10"/>
+    <text x="710" y="135" font-family="Arial, sans-serif" font-size="22" font-weight="bold" fill="#ffd700">
+      Examples:
+    </text>
+    <text x="730" y="170" font-family="Courier New, monospace" font-size="17" fill="#4ade80">
+      5 - 5 = 0 → ZF=1 / Z=1
+    </text>
+    <text x="730" y="200" font-family="Courier New, monospace" font-size="17" fill="#f87171">
+      5 - 3 = 2 → ZF=0 / Z=0
+    </text>
+    <text x="730" y="235" font-family="Arial, sans-serif" font-size="15" fill="#94a3b8" font-style="italic">
+      (x86: ZF, ARM: Z)
+    </text>
+  </g>
+  
+  <!-- SF - Sign Flag -->
+  <g>
+    <!-- Left side - explanation -->
+    <rect x="50" y="280" width="620" height="160" fill="#16213e" stroke="#ff6b6b" stroke-width="2" rx="10"/>
+    <text x="70" y="315" font-family="Arial, sans-serif" font-size="28" font-weight="bold" fill="#ff6b6b">
+      SF - Sign Flag
+    </text>
+    <text x="70" y="350" font-family="Arial, sans-serif" font-size="18" fill="#e0e0e0">
+      Value: 1 (set) when result is negative (MSB = 1)
+    </text>
+    <text x="70" y="375" font-family="Arial, sans-serif" font-size="18" fill="#e0e0e0">
+      Value: 0 (clear) when result is positive (MSB = 0)
+    </text>
+    <text x="70" y="410" font-family="Arial, sans-serif" font-size="16" fill="#a0a0a0" font-style="italic">
+      Indicates if result is negative (signed)
+    </text>
+    
+    <!-- Right side - examples -->
+    <rect x="690" y="280" width="660" height="160" fill="#1e293b" stroke="#ff6b6b" stroke-width="2" rx="10"/>
+    <text x="710" y="315" font-family="Arial, sans-serif" font-size="22" font-weight="bold" fill="#ffd700">
+      Examples (8-bit signed):
+    </text>
+    <text x="730" y="350" font-family="Courier New, monospace" font-size="17" fill="#4ade80">
+      3 - 5 = -2 → SF=1 / N=1
+    </text>
+    <text x="730" y="380" font-family="Courier New, monospace" font-size="17" fill="#f87171">
+      5 - 3 = 2  → SF=0 / N=0
+    </text>
+    <text x="730" y="415" font-family="Arial, sans-serif" font-size="15" fill="#94a3b8" font-style="italic">
+      (x86: SF, ARM: N)
+    </text>
+  </g>
+  
+  <!-- CF - Carry Flag -->
+  <g>
+    <!-- Left side - explanation -->
+    <rect x="50" y="460" width="620" height="180" fill="#16213e" stroke="#4ecdc4" stroke-width="2" rx="10"/>
+    <text x="70" y="495" font-family="Arial, sans-serif" font-size="28" font-weight="bold" fill="#4ecdc4">
+      CF - Carry Flag
+    </text>
+    <text x="70" y="530" font-family="Arial, sans-serif" font-size="18" fill="#e0e0e0">
+      Value: 1 (set) when unsigned borrow (dst &lt; src)
+    </text>
+    <text x="70" y="555" font-family="Arial, sans-serif" font-size="18" fill="#e0e0e0">
+      Value: 0 (clear) when no borrow (dst ≥ src)
+    </text>
+    <text x="70" y="590" font-family="Arial, sans-serif" font-size="16" fill="#a0a0a0" font-style="italic">
+      Indicates unsigned carry/borrow
+    </text>
+    <text x="70" y="615" font-family="Arial, sans-serif" font-size="16" fill="#a0a0a0" font-style="italic">
+      Used for unsigned arithmetic overflow
+    </text>
+    
+    <!-- Right side - examples -->
+    <rect x="690" y="460" width="660" height="180" fill="#1e293b" stroke="#4ecdc4" stroke-width="2" rx="10"/>
+    <text x="710" y="495" font-family="Arial, sans-serif" font-size="22" font-weight="bold" fill="#ffd700">
+      Examples (unsigned 8-bit):
+    </text>
+    <text x="730" y="530" font-family="Courier New, monospace" font-size="17" fill="#4ade80">
+      3 - 5 → borrow needed → CF=1 / C=1
+    </text>
+    <text x="730" y="560" font-family="Courier New, monospace" font-size="17" fill="#f87171">
+      5 - 3 → no borrow → CF=0 / C=0
+    </text>
+    <text x="730" y="595" font-family="Arial, sans-serif" font-size="15" fill="#94a3b8" font-style="italic">
+      (x86: CF, ARM: C)
+    </text>
+    <text x="730" y="620" font-family="Arial, sans-serif" font-size="14" fill="#94a3b8">
+      For subtraction: CF=1 means dst &lt; src
+    </text>
+  </g>
+  
+  <!-- OF - Overflow Flag -->
+  <g>
+    <!-- Left side - explanation -->
+    <rect x="50" y="660" width="620" height="200" fill="#16213e" stroke="#a8e6cf" stroke-width="2" rx="10"/>
+    <text x="70" y="695" font-family="Arial, sans-serif" font-size="28" font-weight="bold" fill="#a8e6cf">
+      OF - Overflow Flag
+    </text>
+    <text x="70" y="730" font-family="Arial, sans-serif" font-size="18" fill="#e0e0e0">
+      Value: 1 (set) when signed arithmetic overflow
+    </text>
+    <text x="70" y="755" font-family="Arial, sans-serif" font-size="18" fill="#e0e0e0">
+      Value: 0 (clear) when no signed overflow
+    </text>
+    <text x="70" y="790" font-family="Arial, sans-serif" font-size="16" fill="#a0a0a0" font-style="italic">
+      Result doesn't fit in signed range
+    </text>
+    <text x="70" y="815" font-family="Arial, sans-serif" font-size="15" fill="#a0a0a0" font-style="italic">
+      Pos - Neg → Neg OR Neg - Pos → Pos
+    </text>
+    <text x="70" y="840" font-family="Arial, sans-serif" font-size="16" fill="#a0a0a0" font-style="italic">
+      Used for signed arithmetic overflow
+    </text>
+    
+    <!-- Right side - examples -->
+    <rect x="690" y="660" width="660" height="200" fill="#1e293b" stroke="#a8e6cf" stroke-width="2" rx="10"/>
+    <text x="710" y="695" font-family="Arial, sans-serif" font-size="22" font-weight="bold" fill="#ffd700">
+      Examples (8-bit signed):
+    </text>
+    <text x="730" y="730" font-family="Courier New, monospace" font-size="16" fill="#4ade80">
+      127 - (-1) = 128 → wraps to -128 → OF=1
+    </text>
+    <text x="730" y="760" font-family="Courier New, monospace" font-size="16" fill="#4ade80">
+      -128 - 1 = -129 → wraps to 127 → OF=1
+    </text>
+    <text x="730" y="790" font-family="Courier New, monospace" font-size="16" fill="#f87171">
+      3 - 5 = -2 → no overflow → OF=0
+    </text>
+    <text x="730" y="820" font-family="Arial, sans-serif" font-size="15" fill="#94a3b8" font-style="italic">
+      (x86: OF, ARM: V)
+    </text>
+  </g>
+  
+  <!-- Footer note -->
+  <text x="700" y="885" font-family="Arial, sans-serif" font-size="14" fill="#888" text-anchor="middle">
+    Flags are set automatically by CPU after arithmetic/logic operations
+  </text>
+</svg>

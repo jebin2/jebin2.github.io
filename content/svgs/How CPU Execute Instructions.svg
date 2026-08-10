@@ -1,0 +1,138 @@
+<svg viewBox="0 0 1200 900" xmlns="http://www.w3.org/2000/svg">
+  <!-- Title -->
+  <text x="600" y="30" font-size="24" font-weight="bold" text-anchor="middle" fill="#2c3e50">
+    How CPU Executes Instructions: Fetch → Decode → Execute
+  </text>
+  
+  <!-- Memory Section -->
+  <g id="memory">
+    <rect x="50" y="80" width="250" height="320" fill="#e8f4f8" stroke="#3498db" stroke-width="3" rx="8"/>
+    <text x="175" y="110" font-size="18" font-weight="bold" text-anchor="middle" fill="#2980b9">Memory (RAM)</text>
+    
+    <!-- Memory addresses with instructions -->
+    <rect x="70" y="130" width="210" height="50" fill="#fff" stroke="#3498db" stroke-width="2"/>
+    <text x="80" y="152" font-size="14" font-family="monospace" fill="#34495e">0x1000:</text>
+    <text x="80" y="170" font-size="12" font-family="monospace" fill="#e74c3c">PUSH {r11, lr}</text>
+    
+    <rect x="70" y="190" width="210" height="50" fill="#fff" stroke="#3498db" stroke-width="2"/>
+    <text x="80" y="212" font-size="14" font-family="monospace" fill="#34495e">0x1004:</text>
+    <text x="80" y="230" font-size="12" font-family="monospace" fill="#27ae60">MOV r0, #1</text>
+    
+    <rect x="70" y="250" width="210" height="50" fill="#fff" stroke="#3498db" stroke-width="2"/>
+    <text x="80" y="272" font-size="14" font-family="monospace" fill="#34495e">0x1008:</text>
+    <text x="80" y="290" font-size="12" font-family="monospace" fill="#8e44ad">MOV r1, #2</text>
+    
+    <rect x="70" y="310" width="210" height="50" fill="#fff" stroke="#3498db" stroke-width="2"/>
+    <text x="80" y="332" font-size="14" font-family="monospace" fill="#34495e">0x100C:</text>
+    <text x="80" y="350" font-size="12" font-family="monospace" fill="#d35400">BL max</text>
+  </g>
+  
+  <!-- Stage 1: FETCH -->
+  <g id="fetch">
+    <rect x="400" y="80" width="300" height="220" fill="#fff9e6" stroke="#f39c12" stroke-width="3" rx="8"/>
+    <text x="550" y="110" font-size="18" font-weight="bold" text-anchor="middle" fill="#e67e22">① FETCH</text>
+    
+    <!-- Info text -->
+    <text x="550" y="135" font-size="11" text-anchor="middle" fill="#d35400" font-style="italic">CPU uses PC address to fetch 32 bits from memory into IR</text>
+    
+    <!-- PC Register -->
+    <rect x="420" y="150" width="260" height="40" fill="#fff" stroke="#f39c12" stroke-width="2" rx="4"/>
+    <text x="430" y="175" font-size="14" font-weight="bold" fill="#d35400">PC (Program Counter):</text>
+    <text x="620" y="175" font-size="14" font-family="monospace" fill="#e74c3c">0x1000</text>
+    
+    <!-- Arrow showing fetch -->
+    <path d="M 300 155 L 420 170" stroke="#e74c3c" stroke-width="3" fill="none" marker-end="url(#arrowred)"/>
+    <text x="303" y="145" font-size="12" fill="#e74c3c" font-weight="bold">Read instruction</text>
+    
+    <!-- Instruction Register -->
+    <rect x="420" y="210" width="260" height="50" fill="#ffe6e6" stroke="#e74c3c" stroke-width="2" rx="4"/>
+    <text x="430" y="232" font-size="14" font-weight="bold" fill="#c0392b">IR (Instruction Register):</text>
+    <text x="430" y="250" font-size="12" font-family="monospace" fill="#e74c3c">PUSH {r11, lr}</text>
+    
+    <!-- Additional info -->
+    <text x="550" y="280" font-size="10" text-anchor="middle" fill="#d35400">Then PC = PC + 4 → 0x1004</text>
+  </g>
+  
+  <!-- Stage 2: DECODE -->
+  <g id="decode">
+    <rect x="750" y="80" width="400" height="220" fill="#e8f8f5" stroke="#16a085" stroke-width="3" rx="8"/>
+    <text x="950" y="110" font-size="18" font-weight="bold" text-anchor="middle" fill="#16a085">② DECODE</text>
+    
+    <!-- Info text -->
+    <text x="950" y="135" font-size="11" text-anchor="middle" fill="#117864" font-style="italic">Hardware decoder analyzes instruction bits and prepares signals</text>
+    
+    <text x="770" y="165" font-size="14" fill="#117864">Decoder figures out:</text>
+    
+    <rect x="770" y="180" width="360" height="30" fill="#fff" stroke="#16a085" stroke-width="1" rx="4"/>
+    <text x="780" y="200" font-size="12" fill="#34495e">• Operation: <tspan font-weight="bold" fill="#e74c3c">PUSH</tspan></text>
+    
+    <rect x="770" y="215" width="360" height="30" fill="#fff" stroke="#16a085" stroke-width="1" rx="4"/>
+    <text x="780" y="235" font-size="12" fill="#34495e">• Registers: <tspan font-weight="bold" fill="#e74c3c">r11, lr</tspan></text>
+    
+    <rect x="770" y="250" width="360" height="30" fill="#fff" stroke="#16a085" stroke-width="1" rx="4"/>
+    <text x="780" y="270" font-size="12" fill="#34495e">• Memory operations needed</text>
+    
+    <text x="950" y="292" font-size="10" text-anchor="middle" fill="#117864">Control signals ready → Execute!</text>
+  </g>
+  
+  <!-- Arrow from fetch to decode -->
+  <path d="M 700 190 L 750 190" stroke="#7f8c8d" stroke-width="3" fill="none" marker-end="url(#arrowgray)"/>
+  
+  <!-- Stage 3: EXECUTE -->
+  <g id="execute">
+    <rect x="400" y="360" width="750" height="220" fill="#fef5e7" stroke="#d35400" stroke-width="3" rx="8"/>
+    <text x="775" y="390" font-size="18" font-weight="bold" text-anchor="middle" fill="#d35400">③ EXECUTE</text>
+    
+    <!-- Info text -->
+    <text x="775" y="415" font-size="11" text-anchor="middle" fill="#c0392b" font-style="italic">ALU and registers perform the actual operation using control signals</text>
+    
+    <!-- CPU Registers -->
+    <rect x="420" y="430" width="330" height="130" fill="#fff" stroke="#d35400" stroke-width="2" rx="4"/>
+    <text x="585" y="450" font-size="14" font-weight="bold" text-anchor="middle" fill="#c0392b">CPU Registers</text>
+    
+    <text x="440" y="475" font-size="13" font-family="monospace" fill="#2c3e50">r11 = 0xBFFF1234</text>
+    <text x="440" y="495" font-size="13" font-family="monospace" fill="#2c3e50">lr  = 0x00001050</text>
+    <text x="440" y="515" font-size="13" font-family="monospace" fill="#2c3e50">sp  = 0xBFFF2000</text>
+    <text x="440" y="540" font-size="12" fill="#e74c3c" font-weight="bold">↓ Push to stack (write to memory at sp)</text>
+    
+    <!-- ALU -->
+    <rect x="780" y="430" width="350" height="130" fill="#fff" stroke="#d35400" stroke-width="2" rx="4"/>
+    <text x="955" y="450" font-size="14" font-weight="bold" text-anchor="middle" fill="#c0392b">ALU (Execution Unit)</text>
+    
+    <text x="800" y="480" font-size="12" fill="#34495e">• Reads r11, lr values</text>
+    <text x="800" y="505" font-size="12" fill="#34495e">• Writes to memory at [sp]</text>
+    <text x="800" y="530" font-size="12" fill="#34495e">• Updates sp = sp - 8</text>
+    <text x="800" y="550" font-size="11" fill="#27ae60" font-weight="bold">✓ Instruction complete!</text>
+  </g>
+  
+  <!-- Arrow from decode to execute -->
+  <path d="M 950 300 L 950 360" stroke="#7f8c8d" stroke-width="3" fill="none" marker-end="url(#arrowgray)"/>
+  
+  <!-- Stage 4: Next Instruction -->
+  <g id="next">
+    <rect x="50" y="620" width="1100" height="120" fill="#ecf0f1" stroke="#95a5a6" stroke-width="3" rx="8"/>
+    <text x="600" y="650" font-size="18" font-weight="bold" text-anchor="middle" fill="#34495e">④ REPEAT: PC updates to next instruction</text>
+    
+    <!-- Info text -->
+    <text x="600" y="672" font-size="11" text-anchor="middle" fill="#2c3e50" font-style="italic">This cycle repeats billions of times per second!</text>
+    
+    <rect x="250" y="685" width="700" height="35" fill="#fff" stroke="#3498db" stroke-width="2" rx="4"/>
+    <text x="270" y="708" font-size="14" fill="#2c3e50">PC = PC + 4 = <tspan font-weight="bold" fill="#e74c3c">0x1004</tspan> → Fetch next instruction: <tspan font-weight="bold" fill="#27ae60">MOV r0, #1</tspan></text>
+  </g>
+  
+  <!-- Key Concept Box -->
+  <rect x="50" y="770" width="1100" height="100" fill="#d5f4e6" stroke="#16a085" stroke-width="3" rx="8"/>
+  <text x="600" y="800" font-size="16" font-weight="bold" text-anchor="middle" fill="#117864">🔑 KEY CONCEPT</text>
+  <text x="600" y="825" font-size="14" text-anchor="middle" fill="#2c3e50">Instructions live in MEMORY but execute inside the CPU.</text>
+  <text x="600" y="842" font-size="14" text-anchor="middle" fill="#2c3e50">The CPU fetches → decodes → executes one instruction at a time in a loop.</text>
+  
+  <!-- Arrow markers -->
+  <defs>
+    <marker id="arrowred" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L0,6 L9,3 z" fill="#e74c3c"/>
+    </marker>
+    <marker id="arrowgray" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L0,6 L9,3 z" fill="#7f8c8d"/>
+    </marker>
+  </defs>
+</svg>
