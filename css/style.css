@@ -516,6 +516,17 @@ main section hr {
 }
 
 /* Blog listing */
+.post-daily-reads {
+    display: inline-block;
+    font-size: 0.625rem;
+    font-weight: 500;
+    font-family: var(--font-mono);
+    color: var(--fg-disabled);
+    vertical-align: super;
+    line-height: 1;
+    margin-left: 0.125rem;
+}
+
 .post-new-label {
     display: inline-block;
     font-size: 0.625rem;

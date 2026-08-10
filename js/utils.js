@@ -92,7 +92,21 @@ export function parsePostDate(str) {
     return isNaN(d.getTime()) ? new Date(0) : d;
 }
 
-export function renderPostListing(posts, container, readsMap = {}) {
+// Query string for get_stats scoped to the last 24 hours
+export function dailyStatsQuery() {
+    const since = new Date(Date.now() - 24 * 60 * 60 * 1000).toISOString();
+    return `?since_date=${encodeURIComponent(since)}`;
+}
+
+export function buildReadsMap(statsRows) {
+    const map = {};
+    statsRows
+        .filter(r => r.section === 'post_read')
+        .forEach(r => { map[r.label] = Number(r.count); });
+    return map;
+}
+
+export function renderPostListing(posts, container, readsMap = {}, dailyReadsMap = {}) {
     if (!container) return;
 
     if (!posts.length) {
@@ -129,10 +143,15 @@ export function renderPostListing(posts, container, readsMap = {}) {
 
         const newLabel = isNew ? `<span class="post-new-label">new</span>` : '';
 
+        const daily = dailyReadsMap[p.title] || 0;
+        const dailyLabel = daily
+            ? ` <span class="post-daily-reads" title="${daily} reads in the last 24h">${daily}</span>`
+            : '';
+
         return `
             <li>
                 <article id="${articleId}">
-                    <a href="/writing?post=${slug}"><h2>${p.title}</h2></a>
+                    <a href="/writing?post=${slug}"><h2>${p.title}${dailyLabel}</h2></a>
                     ${newLabel}
                     <time datetime="${datetimeStr}">${formattedDate}</time>
                     <p>${p.description || ''}</p>

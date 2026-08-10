@@ -5,7 +5,7 @@
 
 import { initPage } from './shared.js';
 import { fetchCached, fetchTextCached } from './cache.js';
-import { sanitizeRenderedHTML, isAdmin, renderPostListing } from './utils.js';
+import { sanitizeRenderedHTML, isAdmin, renderPostListing, buildReadsMap, dailyStatsQuery } from './utils.js';
 import { trackEvent, trackPageView } from './analytics.js';
 import { fetchSupabaseJson } from './supabase.js';
 
@@ -34,16 +34,18 @@ async function initListingView() {
     let manifestData = [];
 
     try {
-        const [manifest, statsRows] = await Promise.all([
+        const [manifest, statsRows, dailyRows] = await Promise.all([
             fetchCached(config.blog_manifest),
-            fetchSupabaseJson('rpc/get_stats').catch(() => [])
+            fetchSupabaseJson('rpc/get_stats').catch(() => []),
+            fetchSupabaseJson(`rpc/get_stats${dailyStatsQuery()}`).catch(() => [])
         ]);
-        const reads = statsRows
-            .filter(r => r.section === 'post_read')
-            .map(r => ({ post: r.label, reads: Number(r.count) }));
         manifestData = manifest.posts || [];
-        const readsMap = Object.fromEntries(reads.map(r => [r.post, r.reads]));
-        renderPostListing(manifestData, document.getElementById('posts-list'), readsMap);
+        renderPostListing(
+            manifestData,
+            document.getElementById('posts-list'),
+            buildReadsMap(statsRows),
+            buildReadsMap(dailyRows)
+        );
     } catch (err) {
         console.error(err);
         document.getElementById('posts-list').innerHTML =
