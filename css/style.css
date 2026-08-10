@@ -527,6 +527,11 @@ main section hr {
     margin-left: 0.125rem;
 }
 
+.post-trend {
+    color: var(--green);
+    margin-right: 0.125em;
+}
+
 .post-new-label {
     display: inline-block;
     font-size: 0.625rem;

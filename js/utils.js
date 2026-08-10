@@ -145,7 +145,7 @@ export function renderPostListing(posts, container, readsMap = {}, dailyReadsMap
 
         const daily = dailyReadsMap[p.title] || 0;
         const dailyLabel = daily
-            ? ` <span class="post-daily-reads" title="${daily} reads in the last 24h">${daily}</span>`
+            ? ` <span class="post-daily-reads" title="${daily} reads in the last 24h"><span class="post-trend" aria-hidden="true">▲</span>${daily}</span>`
             : '';
 
         return `
