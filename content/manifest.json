@@ -69,12 +69,6 @@
       "last_modified_date": "2025-10-08 23:31:05 +0530"
     },
     {
-      "name": "Assembly Language Status Flags",
-      "path": "svgs/Assembly Language Status Flags.svg",
-      "created_date": "2025-10-08 21:52:56 +0530",
-      "last_modified_date": "2025-10-08 21:52:56 +0530"
-    },
-    {
       "name": "CPU Excute",
       "path": "svgs/CPU Excute.svg",
       "created_date": "2025-10-08 21:52:56 +0530",
@@ -83,6 +77,12 @@
     {
       "name": "CPU INSTRUCTION CYCLE",
       "path": "svgs/CPU INSTRUCTION CYCLE.svg",
+      "created_date": "2025-10-08 21:52:56 +0530",
+      "last_modified_date": "2025-10-08 21:52:56 +0530"
+    },
+    {
+      "name": "Assembly Language Status Flags",
+      "path": "svgs/Assembly Language Status Flags.svg",
       "created_date": "2025-10-08 21:52:56 +0530",
       "last_modified_date": "2025-10-08 21:52:56 +0530"
     },
